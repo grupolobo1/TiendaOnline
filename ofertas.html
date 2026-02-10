@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ofertas - Catálogo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 pb-24">
+
+  <header class="bg-[#5C7DA3] text-white text-center py-5 text-2xl font-bold shadow-md">
+    Catálogo de Productos
+  </header>
+
+  <section id="ofertas" class="p-6 max-w-3xl mx-auto">
+    <h2 class="text-2xl font-bold mb-4 text-[#007A33]">Ofertas Especiales</h2>
+    <div class="space-y-4">
+
+      <div class="flex items-center gap-4 py-3 border-b" data-id="ofer-huevo" data-nombre="Huevo Fresco (por kg)" data-precio="43.00" data-oferta-precio="38.00" data-oferta-cantidad="15">
+        <img src="img/ofe/ofe1.jpg" alt="Huevo Fresco" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+        <div class="flex-grow">
+          <p class="font-semibold text-gray-800">Huevo Fresco (por kg)</p>
+          <p class="text-sm text-gray-600">$43.00</p>
+          <p class="text-xs text-blue-600">A partir de 1/2 caja (15kg) a $38.00 c/kg</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4 py-3 border-b" data-id="ofer-azucar" data-nombre="Azúcar Estándar (por kg)" data-precio="17.00" data-oferta-precio="16.80" data-oferta-cantidad="10">
+        <img src="img/ofe/ofe2.jpg" alt="Azúcar Estándar" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+        <div class="flex-grow">
+          <p class="font-semibold text-gray-800">Azúcar Estándar (por kg)</p>
+          <p class="text-sm text-gray-600">$17.00</p>
+          <p class="text-xs text-blue-600">A partir de 10kg a $16.80 c/kg</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4 py-3 border-b" data-id="ofer-coca" data-nombre="Coca-Cola 600ml (Charola 24pz)" data-precio="415.00">
+        <img src="img/ofe/ofe3.jpg" alt="Coca-Cola 600ml" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+        <div class="flex-grow">
+          <p class="font-semibold text-gray-800">Coca-Cola 600ml (Charola 24pz)</p>
+          <p class="text-sm text-gray-600">$415.00</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-4 py-3 border-b" data-id="ofer-gancito-pza" data-nombre="Mini Gancito (Pieza)" data-precio="6.00">
+        <img src="img/ofe/ofe4.jpg" alt="Mini Gancito" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+        <div class="flex-grow">
+          <p class="font-semibold text-gray-800">Mini Gancito (Pieza)</p>
+          <p class="text-sm text-gray-600">$6.00</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4 py-3 border-b" data-id="ofer-gancito-exh" data-nombre="Mini Gancito (Exhibidor 12pz)" data-precio="65.00">
+        <img src="img/ofe/ofe4.jpg" alt="Mini Gancito" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+        <div class="flex-grow">
+          <p class="font-semibold text-gray-800">Mini Gancito (Exhibidor 12pz)</p>
+          <p class="text-sm text-gray-600">$65.00</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+        </div>
+      </div>
+
+    </div>
+    <a href="index.html" class="mt-8 block w-full text-center bg-gray-300 px-4 py-2 rounded shadow">Regresar al Menú</a>
+  </section>
+
+  <div id="boton-carrito" onclick="mostrarCarrito()" class="fixed bottom-5 right-5 bg-green-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center cursor-pointer z-50">
+    <span class="text-3xl">🛒</span>
+    <span id="contador-carrito" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">0</span>
+  </div>
+  <div id="modal-carrito" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+      <div class="flex justify-between items-center p-4 border-b"><h3 class="text-2xl font-bold">Tu Pedido</h3><button onclick="ocultarCarrito()" class="text-2xl">&times;</button></div>
+      <div id="carrito-items" class="p-4 max-h-64 overflow-y-auto"></div>
+      <div class="p-4 border-t">
+        <div id="carrito-total" class="text-xl font-bold text-right mb-4">Total: $0.00</div>
+        <button onclick="enviarPedido()" class="w-full bg-green-500 text-white font-bold py-3 rounded-lg shadow-lg hover:bg-green-600 transition">Confirmar Pedido por WhatsApp</button>
+      </div>
+    </div>
+  </div>
+  <script src="carrito.js"></script>
+</body>
+</html>

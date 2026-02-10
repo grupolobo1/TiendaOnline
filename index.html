@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catálogo - Tienda</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="bg-gray-100 pb-24">
+
+  <header class="bg-[#5C7DA3] text-white py-4 shadow-md">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <img src="logo1.png" alt="Logo Grupo Lobo" class="h-20 w-auto">
+        </div>
+        
+        <nav class="hidden md:flex space-x-8">
+          <a href="#inicio" class="text-white hover:text-yellow-300 transition duration-300 font-semibold text-lg">Inicio</a>
+          <a href="#productos" class="text-white hover:text-yellow-300 transition duration-300 font-semibold text-lg">Productos</a>
+          <a href="#nosotros" class="text-white hover:text-yellow-300 transition duration-300 font-semibold text-lg">Nosotros</a>
+        </nav>
+        
+        <button id="menu-mobile" class="md:hidden text-white text-2xl">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+      
+      <div id="menu-mobile-content" class="hidden md:hidden mt-4 pb-4">
+        <div class="flex flex-col space-y-4">
+          <a href="#inicio" class="text-white hover:text-yellow-300 transition duration-300 font-semibold">Inicio</a>
+          <a href="#productos" class="text-white hover:text-yellow-300 transition duration-300 font-semibold">Productos</a>
+          <a href="#nosotros" class="text-white hover:text-yellow-300 transition duration-300 font-semibold">Nosotros</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="inicio" class="max-w-6xl mx-auto px-6 pt-6">
+    <div class="swiper mySwiper rounded-lg shadow-lg" style="height: 500px;">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide bg-gray-200"><img src="promociones1.png" alt="Promociones" class="w-full h-full object-contain"/></div>
+        <div class="swiper-slide bg-gray-200"><img src="b22.png" alt="Nuevos Productos" class="w-full h-full object-contain"/></div>
+        <div class="swiper-slide bg-gray-200"><img src="b5.png" alt="Nuevos Productos" class="w-full h-full object-contain"/></div>
+      </div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-next text-[#5C7DA3]"></div>
+      <div class="swiper-button-prev text-[#5C7DA3]"></div>
+    </div>
+  </section>
+
+  <section id="productos" class="max-w-6xl mx-auto px-6 py-8">
+    <h2 class="text-3xl font-bold text-[#5C7DA3] text-center mb-8">Nuestros Productos</h2>
+    
+    <main id="menu" class="grid grid-cols-2 gap-6 p-6 max-w-3xl mx-auto">
+      <a href="limpieza.html" class="block bg-cyan-200 rounded-xl shadow-lg hover:shadow-2xl transition p-6 text-center">
+        <div class="text-4xl mb-2">🧽</div>
+        <h2 class="text-xl font-bold text-cyan-800">Limpieza</h2>
+      </a>
+      <a href="abarrotes.html" class="block bg-amber-200 rounded-xl shadow-lg hover:shadow-2xl transition p-6 text-center">
+        <div class="text-4xl mb-2">🛒</div>
+        <h2 class="text-xl font-bold text-amber-800">Abarrotes</h2>
+      </a>
+      <a href="ofertas.html" class="block bg-rose-200 rounded-xl shadow-lg hover:shadow-2xl transition p-6 text-center">
+        <div class="text-4xl mb-2">🔥</div>
+        <h2 class="text-xl font-bold text-rose-800">Ofertas</h2>
+      </a>
+      <a href="cigarros.html" class="block bg-slate-200 rounded-xl shadow-lg hover:shadow-2xl transition p-6 text-center">
+        <div class="text-4xl mb-2">🚬</div>
+        <h2 class="text-xl font-bold text-slate-800">Cigarros</h2>
+      </a>
+      <a href="alcohol.html" class="col-span-2 block bg-purple-200 rounded-xl shadow-lg hover:shadow-2xl transition p-6 text-center">
+        <div class="text-4xl mb-2">🍷</div>
+        <h2 class="text-xl font-bold text-purple-800">Vinos y Licores</h2>
+      </a>
+    </main>
+  </section>
+
+  <section id="nosotros" class="max-w-6xl mx-auto px-6 mb-6">
+    <div class="bg-white rounded-xl shadow-lg p-8">
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold text-[#5C7DA3] mb-2 text-center">Nuestra Misión</h2>
+        <p class="text-gray-700 text-center italic">"Conectar con cada cliente a través de precios justos, productos esenciales y atención rápida, como si fuéramos parte de su familia."</p>
+      </div>
+      <div>
+        <h2 class="text-2xl font-bold text-[#5C7DA3] mb-2 text-center">Nuestra Visión</h2>
+        <p class="text-gray-700 text-center italic">"Hacer de Grupo Lobo la opción número uno en la región, creciendo junto a nuestra comunidad paso a paso."</p>
+      </div>
+    </div>
+  </section>
+  
+  <footer class="bg-[#2C3E50] text-white">
+    <div class="max-w-6xl mx-auto px-6 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        
+        <div class="space-y-4">
+          <div class="flex items-center">
+            <img src="logo1.png" alt="Logo Grupo Lobo" class="h-12 w-auto">
+            <span class="text-xl font-bold ml-3">Grupo Lobo</span>
+          </div>
+          <p class="text-gray-300 text-sm leading-relaxed">
+            Tu tienda de confianza con los mejores precios y productos de calidad. 
+            Conectamos con cada cliente como parte de la familia.
+          </p>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-lg font-semibold text-[#F39C12]">Enlaces Rápidos</h3>
+          <ul class="space-y-2">
+            <li><a href="#inicio" class="text-gray-300 hover:text-white transition duration-300">Inicio</a></li>
+            <li><a href="#productos" class="text-gray-300 hover:text-white transition duration-300">Productos</a></li>
+            <li><a href="#nosotros" class="text-gray-300 hover:text-white transition duration-300">Nosotros</a></li>
+            <li><a href="ofertas.html" class="text-gray-300 hover:text-white transition duration-300">Ofertas</a></li>
+          </ul>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-lg font-semibold text-[#F39C12]">Categorías</h3>
+          <ul class="space-y-2">
+            <li><a href="limpieza.html" class="text-gray-300 hover:text-white transition duration-300">Limpieza</a></li>
+            <li><a href="abarrotes.html" class="text-gray-300 hover:text-white transition duration-300">Abarrotes</a></li>
+            <li><a href="cigarros.html" class="text-gray-300 hover:text-white transition duration-300">Cigarros</a></li>
+            <li><a href="alcohol.html" class="text-gray-300 hover:text-white transition duration-300">Alcohol y Licor</a></li>
+          </ul>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-lg font-semibold text-[#F39C12]">Contáctanos</h3>
+          <div class="space-y-3">
+            <div class="flex items-center space-x-3">
+              <i class="fas fa-phone text-[#F39C12]"></i>
+              <span class="text-gray-300 text-sm">+52 248 200 0310</span>
+            </div>
+            <div class="flex items-center space-x-3">
+              <i class="fas fa-envelope text-[#F39C12]"></i>
+              <span class="text-gray-300 text-sm">grupolobog@gmail.com</span>
+            </div>
+            <div class="flex items-center space-x-3">
+              <i class="fas fa-map-marker-alt text-[#F39C12]"></i>
+              <span class="text-gray-300 text-sm">San martin, Puebla</span>
+            </div>
+          </div>
+          
+          <div class="pt-4">
+            <h4 class="text-sm font-semibold text-[#F39C12] mb-3">Síguenos</h4>
+            <div class="flex space-x-4">
+              <a href="https://www.facebook.com/share/17QQDG9Q4a/" target="_blank" class="text-gray-400 hover:text-blue-500 transition duration-300 text-xl"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" target="_blank" class="text-gray-400 hover:text-pink-500 transition duration-300 text-xl"><i class="fab fa-instagram"></i></a>
+              <a href="#" target="_blank" class="text-gray-400 hover:text-black transition duration-300 text-xl"><i class="fab fa-tiktok"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div id="boton-carrito" onclick="mostrarCarrito()" class="fixed bottom-5 right-5 bg-green-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center cursor-pointer z-50">
+    <span class="text-3xl">🛒</span>
+    <span id="contador-carrito" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">0</span>
+  </div>
+  <div id="modal-carrito" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+      <div class="flex justify-between items-center p-4 border-b"><h3 class="text-2xl font-bold">Tu Pedido</h3><button onclick="ocultarCarrito()" class="text-2xl">&times;</button></div>
+      <div id="carrito-items" class="p-4 max-h-64 overflow-y-auto"></div>
+      <div class="p-4 border-t">
+        <div id="carrito-total" class="text-xl font-bold text-right mb-4">Total: $0.00</div>
+        <button onclick="enviarPedido()" class="w-full bg-green-500 text-white font-bold py-3 rounded-lg shadow-lg hover:bg-green-600 transition">Confirmar Pedido por WhatsApp</button>
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script src="carrito.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      
+      // Inicia el carrusel de imágenes
+      var swiper = new Swiper(".mySwiper", { 
+        spaceBetween: 30, 
+        centeredSlides: true, 
+        loop: true, 
+        autoplay: { 
+          delay: 3000, 
+          disableOnInteraction: false 
+        }, 
+        pagination: { 
+          el: ".swiper-pagination", 
+          clickable: true 
+        }, 
+        navigation: { 
+          nextEl: ".swiper-button-next", 
+          prevEl: ".swiper-button-prev" 
+        } 
+      });
+      
+      // Lógica para el menú móvil
+      document.getElementById('menu-mobile').addEventListener('click', function() {
+        const menuContent = document.getElementById('menu-mobile-content');
+        menuContent.classList.toggle('hidden');
+      });
+      
+      // Lógica para el scroll suave
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+            // Cierra el menú móvil si está abierto al hacer clic en un enlace
+            document.getElementById('menu-mobile-content').classList.add('hidden');
+          }
+        });
+      });
+
+    });
+  </script>
+</body>
+</html>
