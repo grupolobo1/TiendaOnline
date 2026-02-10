@@ -8,15 +8,43 @@
 </head>
 <body class="bg-gray-100 pb-24">
 
-  <header class="bg-[#5C7DA3] text-white text-center py-5 text-2xl font-bold shadow-md">
-    Catálogo de Productos
-  </header>
+<header class="bg-[#5C7DA3] text-white text-center py-5 text-2xl font-bold shadow-md sticky top-0 z-40 relative">
+  Catálogo de Productos
+
+  <!-- MENÚ DESPLEGABLE -->
+  <div class="mt-4 flex justify-center">
+    <div class="relative">
+      <button id="menuBtnCigarros" onclick="toggleMenuCigarros()" class="bg-white text-[#5C7DA3] px-6 py-2 rounded-full font-semibold shadow hover:bg-gray-200 transition">
+        Menú ▾
+      </button>
+
+      <div id="menuDropdownCigarros" class="hidden absolute left-1/2 transform -translate-x-1/2 mt-2 w-72 bg-white text-[#5C7DA3] rounded-xl shadow-lg overflow-hidden z-50 text-sm">
+        <a href="#paquete-marlboro" onclick="toggleMenuCigarros()" class="block px-4 py-3 hover:bg-gray-100 font-semibold">
+          🚬 Paquete Marlboro
+        </a>
+        <a href="#familia-vista" onclick="toggleMenuCigarros()" class="block px-4 py-3 hover:bg-gray-100 font-semibold">
+          🌿 Familia Marlboro Vista
+        </a>
+        <a href="#familia-pallmall" onclick="toggleMenuCigarros()" class="block px-4 py-3 hover:bg-gray-100 font-semibold">
+          🟦 Familia Pall Mall
+        </a>
+        <a href="#individuales" onclick="toggleMenuCigarros()" class="block px-4 py-3 hover:bg-gray-100 font-semibold">
+          🔥 Cigarros Individuales
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
 
   <section id="cigarros" class="p-6 max-w-3xl mx-auto">
     <h2 class="text-2xl font-bold mb-4 text-[#D32F2F]">Cigarros</h2>
     
     <div class="mt-6">
-        <h3 class="text-xl font-bold mb-2 text-gray-800 border-b-2 pb-2">Paquete Marlboro</h3>
+        <h3 id="paquete-marlboro" class="text-xl font-bold mb-2 text-gray-800 border-b-2 pb-2">
+  Paquete Marlboro
+</h3>
+
         <p class="text-sm text-gray-600 bg-blue-100 p-3 rounded-lg my-4"><strong>Oferta:</strong> 1 cajetilla a $85.00. ¡Llevando 5 o más de esta familia, cada una a $81.50!</p>
         <div class="space-y-4">
             <div class="flex items-center gap-4 py-3 border-b" data-id="ciga-mr-01" data-nombre="Marlboros de 20's" data-precio="85.00" data-family="marlboro-rojo"><img src="img/malboro20.jpg" alt="Marlboro Rojo" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Marlboros de 20's</p><p class="text-sm text-gray-600">$85.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
@@ -27,7 +55,10 @@
     </div>
 
     <div class="mt-8">
-        <h3 class="text-xl font-bold mb-2 text-gray-800 border-b-2 pb-2">Familia Marlboro Vista</h3>
+        <h3 id="familia-vista" class="text-xl font-bold mb-2 text-gray-800 border-b-2 pb-2">
+  Familia Marlboro Vista
+</h3>
+
         <p class="text-sm text-gray-600 bg-blue-100 p-3 rounded-lg my-4"><strong>Oferta:</strong> 1 cajetilla a $78.00. ¡Llevando 5 o más de esta familia, cada una a $74.00!</p>
         <div class="space-y-4">
             <div class="flex items-center gap-4 py-3 border-b" data-id="ciga-mv-01" data-nombre="Marlboro Guayaba mas mentol 20's" data-precio="78.00" data-family="marlboro-vista"><img src="img/malborovi.jpg" alt="Marlboro Guayaba" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Marlboro Guayaba mas mentol 20's</p><p class="text-sm text-gray-600">$78.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
@@ -40,7 +71,10 @@
     </div>
     
     <div class="mt-8">
-        <h3 class="text-xl font-bold mb-2 text-gray-800 border-b-2 pb-2">Familia Pall Mall</h3>
+        <h3 id="familia-pallmall" class="text-xl font-bold mb-2 text-gray-800 border-b-2 pb-2">
+  Familia Pall Mall
+</h3>
+
         <p class="text-sm text-gray-600 bg-blue-100 p-3 rounded-lg my-4"><strong>Oferta:</strong> 1 cajetilla a $78.00. ¡Llevando 5 o más de esta familia, cada una a $77.00!</p>
         <div class="space-y-4">
             <div class="flex items-center gap-4 py-3 border-b" data-id="ciga-pm-01" data-nombre="Pall Mall Bora Bora" data-precio="78.00" data-family="pall-mall"><img src="img/pall1.jpg" alt="Pall Mall Bora Bora" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Pall Mall Bora Bora</p><p class="text-sm text-gray-600">$78.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
@@ -55,7 +89,10 @@
     </div>
     
     <div class="mt-8">
-        <h3 class="text-xl font-bold mb-2 text-gray-800 border-b-2 pb-2">Cigarros Individuales</h3>
+        <h3 id="individuales" class="text-xl font-bold mb-2 text-gray-800 border-b-2 pb-2">
+  Cigarros Individuales
+</h3>
+
         <div class="space-y-4">
             <div class="flex items-center gap-4 py-3 border-b" data-id="ciga-ind-01" data-nombre="Faros con filtro de 20's" data-precio="50.00"><img src="img/faros1.jpg" alt="Faros 20s" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Faros con filtro de 20's</p><p class="text-sm text-gray-600">$50.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
             <div class="flex items-center gap-4 py-3 border-b" data-id="ciga-ind-02" data-nombre="Faros con filtro de 25's" data-precio="60.00"><img src="img/faros2.jpg" alt="Faros 25s" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Faros con filtro de 25's</p><p class="text-sm text-gray-600">$60.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
@@ -100,6 +137,21 @@
     </div>
   </div>
   <script src="carrito.js"></script>
+<script>
+  function toggleMenuCigarros() {
+    document.getElementById('menuDropdownCigarros').classList.toggle('hidden');
+  }
+
+  document.addEventListener('click', function (e) {
+    const menu = document.getElementById('menuDropdownCigarros');
+    const btn = document.getElementById('menuBtnCigarros');
+
+    if (!btn.contains(e.target) && !menu.contains(e.target)) {
+      menu.classList.add('hidden');
+    }
+  });
+</script>
+
 </body>
 
 </html>
