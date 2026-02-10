@@ -8,23 +8,30 @@
 </head>
 <body class="bg-gray-100 pb-24">
 
-  <header class="bg-[#5C7DA3] text-white text-center py-5 text-2xl font-bold shadow-md sticky top-0 z-40">
-    Catálogo de Productos
+  <header class="bg-[#5C7DA3] text-white text-center py-5 text-2xl font-bold shadow-md sticky top-0 z-40 relative">
+  Catálogo de Productos
 
-    <!-- MENÚ DE SECCIONES -->
-    <nav class="mt-4 flex justify-center gap-2 flex-wrap text-sm">
-      <a href="#lacteos" class="bg-white text-[#5C7DA3] px-3 py-1 rounded-full font-semibold shadow hover:bg-gray-200">
-        Lácteos y Bebidas
-      </a>
-      <a href="#enlatados" class="bg-white text-[#5C7DA3] px-3 py-1 rounded-full font-semibold shadow hover:bg-gray-200">
-        Enlatados y Conservas
-      </a>
-      <a href="#granos" class="bg-white text-[#5C7DA3] px-3 py-1 rounded-full font-semibold shadow hover:bg-gray-200">
-        Granos, Pastas y Despensa
-      </a>
-    </nav>
-  </header>
+  <!-- MENÚ DESPLEGABLE -->
+  <div class="mt-4 flex justify-center">
+    <div class="relative">
+      <button id="menuBtn" onclick="toggleMenu()" class="bg-white text-[#5C7DA3] px-6 py-2 rounded-full font-semibold shadow hover:bg-gray-200 transition">
+        Menú ▾
+      </button>
 
+      <div id="menuDropdown" class="hidden absolute left-1/2 transform -translate-x-1/2 mt-2 w-64 bg-white text-[#5C7DA3] rounded-xl shadow-lg overflow-hidden z-50">
+        <a href="#lacteos" onclick="toggleMenu()" class="block px-4 py-3 hover:bg-gray-100 font-semibold">
+          🥛 Lácteos y Bebidas
+        </a>
+        <a href="#enlatados" onclick="toggleMenu()" class="block px-4 py-3 hover:bg-gray-100 font-semibold">
+          🥫 Enlatados y Conservas
+        </a>
+        <a href="#granos" onclick="toggleMenu()" class="block px-4 py-3 hover:bg-gray-100 font-semibold">
+          🌾 Granos, Pastas y Despensa
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
   <section id="abarrotes" class="p-6 max-w-3xl mx-auto">
     <h2 class="text-2xl font-bold mb-4 text-[#D32F2F]">Abarrotes</h2>
     <div class="space-y-4">
@@ -97,6 +104,20 @@
     </div>
   </div>
   <script src="carrito.js"></script>
+  <script>
+  function toggleMenu() {
+    document.getElementById('menuDropdown').classList.toggle('hidden');
+  }
+
+  // Cierra el menú si das click fuera
+  document.addEventListener('click', function (e) {
+    const menu = document.getElementById('menuDropdown');
+    const btn = document.getElementById('menuBtn');
+    if (!btn.contains(e.target) && !menu.contains(e.target)) {
+      menu.classList.add('hidden');
+    }
+  });
+</script>
 </body>
 
 </html>
