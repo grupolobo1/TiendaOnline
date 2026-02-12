@@ -7,7 +7,7 @@
 const tuNumeroDeWhatsApp = '2482000310'; // ⚠️ Reemplaza con tu número
 
 const OFERTAS_POR_FAMILIA = {
-  'pall-mall': { precioNormal: 95.00, precioOferta: 94.00, cantidadMinima: 5 },
+  'pall-mall': { precioNormal: 95.00, precioOferta: 9.00, cantidadMinima: 5 },
   'marlboro-rojo': { precioNormal: 101.00, precioOferta: 96.00, cantidadMinima: 5 },
   'marlboro-vista': { precioNormal: 94.00, precioOferta: 86.00, cantidadMinima: 5 }
 };
@@ -81,39 +81,6 @@ function agregarAlCarritoSimple(id, nombre, precio) {
     } else {
         carrito.push({ id, nombre, precio, cantidad: 1, familia: null });
     }
-    saveCartToStorage(carrito);
-    actualizarContadorUI();
-}
-function agregarBootsConOferta() {
-    const ID = 'ciga-boots-pza';
-    const NOMBRE = "Boots 20s (Pieza)";
-    const PRECIO_NORMAL = 45;
-    const PRECIO_OFERTA = 40;
-    const MIN_OFERTA = 5;
-
-    const carrito = getCartFromStorage();
-    let producto = carrito.find(item => item.id === ID);
-
-    if (producto) {
-        producto.cantidad++;
-
-        // Si llega a 5, se aplica la oferta
-        if (producto.cantidad >= MIN_OFERTA) {
-            producto.precio = PRECIO_OFERTA;
-        } else {
-            producto.precio = PRECIO_NORMAL;
-        }
-
-    } else {
-        carrito.push({
-            id: ID,
-            nombre: NOMBRE,
-            precio: PRECIO_NORMAL,
-            cantidad: 1,
-            familia: null
-        });
-    }
-
     saveCartToStorage(carrito);
     actualizarContadorUI();
 }
