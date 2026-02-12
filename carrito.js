@@ -8,7 +8,7 @@ const tuNumeroDeWhatsApp = '2482000310'; // ⚠️ Reemplaza con tu número
 
 const OFERTAS_POR_FAMILIA = {
   'pall-mall': { precioNormal: 78.00, precioOferta: 77.00, cantidadMinima: 5 },
-  'marlboro-rojo': { precioNormal: 85.00, precioOferta: 81.50, cantidadMinima: 5 },
+  'marlboro-rojo': { precioNormal: 85.00, precioOferta: 96.00, cantidadMinima: 5 },
   'marlboro-vista': { precioNormal: 78.00, precioOferta: 74.00, cantidadMinima: 5 }
 };
 
