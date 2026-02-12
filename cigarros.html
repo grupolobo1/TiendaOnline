@@ -98,7 +98,7 @@
     <!-- Pieza -->
     <div class="flex items-center justify-between text-sm">
       <span class="text-gray-600">1 Pieza - $45.00</span>
-      <button onclick="agregarAlCarritoSimple('ciga-boots-pza', 'Boots 20s (Pieza)', 45, 40, 5)"
+      <button onclick="agregarAlCarritoSimple1('ciga-boots-pza', 'Boots 20s (Pieza)', 45, 40, 5)"
         class="bg-green-500 text-white px-3 py-1 rounded-md shadow hover:bg-green-600 text-xs font-bold">
         Agregar
       </button>
@@ -107,7 +107,7 @@
     <!-- Paquete -->
     <div class="flex items-center justify-between text-sm">
       <span class="text-gray-600">Paquete - $400.00</span>
-      <button onclick="agregarAlCarritoSimple('ciga-boots-pqt', 'Boots 20s (Paquete)', 400)"
+      <button onclick="agregarAlCarritoSimple1('ciga-boots-pqt', 'Boots 20s (Paquete)', 400)"
         class="bg-green-500 text-white px-3 py-1 rounded-md shadow hover:bg-green-600 text-xs font-bold">
         Agregar
       </button>
@@ -182,8 +182,7 @@
       menu.classList.add('hidden');
     }
   });
-
-  function agregarAlCarritoSimple(id, nombre, precioNormal, precioOferta = null, cantidadOferta = null) {
+function agregarAlCarritoSimple1(id, nombre, precioNormal, precioOferta = null, cantidadOferta = null) {
   let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
   let producto = carrito.find(p => p.id === id);
@@ -216,6 +215,7 @@
   actualizarCarritoUI();
 }
 
+  
 </script>
 
 </body>
