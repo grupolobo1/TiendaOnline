@@ -76,14 +76,33 @@ function agregarAlCarrito(boton) {
 function agregarAlCarritoSimple(id, nombre, precio) {
     const carrito = getCartFromStorage();
     const productoEnCarrito = carrito.find(item => item.id === id);
+
+    const PRECIO_OFERTA = 40;
+    const CANTIDAD_OFERTA = 5;
+
     if (productoEnCarrito) {
         productoEnCarrito.cantidad++;
+
+        // Si es el producto de oferta y llega a 5 piezas
+        if (id === 'ciga-boots-pza' && productoEnCarrito.cantidad >= CANTIDAD_OFERTA) {
+            productoEnCarrito.precio = PRECIO_OFERTA;
+        }
+
     } else {
-        carrito.push({ id, nombre, precio, cantidad: 1, familia: null });
+        carrito.push({
+            id,
+            nombre,
+            precio: precio,
+            precioNormal: precio,
+            cantidad: 1,
+            familia: null
+        });
     }
+
     saveCartToStorage(carrito);
     actualizarContadorUI();
 }
+
 
 function modificarCantidad(id, cambio) {
   let carrito = getCartFromStorage();

@@ -87,36 +87,7 @@
             <div class="flex items-center gap-4 py-3 border-b" data-id="ciga-pm-05" data-nombre="Pall Mall London (Twilight)" data-precio="95.00" data-family="pall-mall"><img src="img/pall5.jpg" alt="Pall Mall London" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Pall Mall London (Twilight)</p><p class="text-sm text-gray-600">$95.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
             <div class="flex items-center gap-4 py-3 border-b" data-id="ciga-pm-06" data-nombre="Pall Mall New York (Moonrise)" data-precio="95.00" data-family="pall-mall"><img src="img/pall6.jpg" alt="Pall Mall New York" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Pall Mall New York (Moonrise)</p><p class="text-sm text-gray-600">$95.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
             <div class="flex items-center gap-4 py-3 border-b" data-id="ciga-pm-07" data-nombre="Pall Mall Alaska" data-precio="95.00" data-family="pall-mall"><img src="img/pall7.jpg" alt="Pall Mall Alaska" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Pall Mall Alaska</p><p class="text-sm text-gray-600">$95.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-            
-
-<div class="flex items-center gap-4 py-3 border-b">
-  <img src="img/pall8.jpg" alt="Boots 20s" class="w-24 h-24 rounded-lg object-cover shadow-sm">
-
-  <div class="flex-grow space-y-2">
-    <p class="font-semibold text-gray-800">Boots 20's</p>
-
-    <!-- Pieza -->
-    <div class="flex items-center justify-between text-sm">
-      <span class="text-gray-600">1 Pieza - $45.00</span>
-      <button onclick="agregarAlCarritoSimple1('ciga-boots-pza', 'Boots 20s (Pieza)', 45, 40, 5)"
-        class="bg-green-500 text-white px-3 py-1 rounded-md shadow hover:bg-green-600 text-xs font-bold">
-        Agregar
-      </button>
-    </div>
-
-    <!-- Paquete -->
-    <div class="flex items-center justify-between text-sm">
-      <span class="text-gray-600">Paquete - $400.00</span>
-      <button onclick="agregarAlCarritoSimple1('ciga-boots-pqt', 'Boots 20s (Paquete)', 400)"
-        class="bg-green-500 text-white px-3 py-1 rounded-md shadow hover:bg-green-600 text-xs font-bold">
-        Agregar
-      </button>
-    </div>
-
-    <p class="text-xs text-blue-600">Desde 5 piezas a $40 c/u</p>
-  </div>
-</div>
-
+            <div class="flex items-center gap-4 py-3 border-b"><img src="img/pall8.jpg" alt="Boots 20s" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow space-y-2"><p class="font-semibold text-gray-800">Boots 20's</p><div class="flex items-center justify-between text-sm"><span class="text-gray-600">1 Pieza - $45.00</span><button onclick="agregarAlCarritoSimple('ciga-boots-pza', 'Boots 20s (Pieza)', 45.00)" class="bg-green-500 text-white px-3 py-1 rounded-md shadow hover:bg-green-600 text-xs font-bold">Agregar</button></div><div class="flex items-center justify-between text-sm"><span class="text-gray-600">1 Paquete - $400.00</span><button onclick="agregarAlCarritoSimple('ciga-boots-pqt', 'Boots 20s (Paquete)', 400.00)" class="bg-green-500 text-white px-3 py-1 rounded-md shadow hover:bg-green-600 text-xs font-bold">Agregar</button></div></div></div>
         </div>
     </div>
     
@@ -182,40 +153,6 @@
       menu.classList.add('hidden');
     }
   });
-function agregarAlCarritoSimple1(id, nombre, precioNormal, precioOferta = null, cantidadOferta = null) {
-  let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-
-  let producto = carrito.find(p => p.id === id);
-
-  if (producto) {
-    producto.cantidad++;
-
-    if (precioOferta && cantidadOferta && producto.cantidad >= cantidadOferta) {
-      producto.precio = precioOferta;
-      producto.nota = "Oferta por volumen";
-    } else {
-      producto.precio = precioNormal;
-      producto.nota = "";
-    }
-
-  } else {
-    carrito.push({
-      id,
-      nombre,
-      precio: precioNormal,
-      precioNormal,
-      precioOferta,
-      cantidadOferta,
-      cantidad: 1,
-      nota: ""
-    });
-  }
-
-  localStorage.setItem("carrito", JSON.stringify(carrito));
-  actualizarCarritoUI();
-}
-
-  
 </script>
 
 </body>
