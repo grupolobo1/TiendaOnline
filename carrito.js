@@ -76,24 +76,39 @@ function agregarAlCarrito(boton) {
 function agregarAlCarritoSimple(id, nombre, precio) {
     const carrito = getCartFromStorage();
     const productoEnCarrito = carrito.find(item => item.id === id);
-
-    const PRECIO_OFERTA = 40;
-    const CANTIDAD_OFERTA = 5;
-
     if (productoEnCarrito) {
         productoEnCarrito.cantidad++;
+    } else {
+        carrito.push({ id, nombre, precio, cantidad: 1, familia: null });
+    }
+    saveCartToStorage(carrito);
+    actualizarContadorUI();
+}
+function agregarBootsConOferta() {
+    const ID = 'ciga-boots-pza';
+    const NOMBRE = "Boots 20s (Pieza)";
+    const PRECIO_NORMAL = 45;
+    const PRECIO_OFERTA = 40;
+    const MIN_OFERTA = 5;
 
-        // Si es el producto de oferta y llega a 5 piezas
-        if (id === 'ciga-boots-pza' && productoEnCarrito.cantidad >= CANTIDAD_OFERTA) {
-            productoEnCarrito.precio = PRECIO_OFERTA;
+    const carrito = getCartFromStorage();
+    let producto = carrito.find(item => item.id === ID);
+
+    if (producto) {
+        producto.cantidad++;
+
+        // Si llega a 5, se aplica la oferta
+        if (producto.cantidad >= MIN_OFERTA) {
+            producto.precio = PRECIO_OFERTA;
+        } else {
+            producto.precio = PRECIO_NORMAL;
         }
 
     } else {
         carrito.push({
-            id,
-            nombre,
-            precio: precio,
-            precioNormal: precio,
+            id: ID,
+            nombre: NOMBRE,
+            precio: PRECIO_NORMAL,
             cantidad: 1,
             familia: null
         });
@@ -102,7 +117,6 @@ function agregarAlCarritoSimple(id, nombre, precio) {
     saveCartToStorage(carrito);
     actualizarContadorUI();
 }
-
 
 function modificarCantidad(id, cambio) {
   let carrito = getCartFromStorage();
