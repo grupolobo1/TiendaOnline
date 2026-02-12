@@ -182,6 +182,40 @@
       menu.classList.add('hidden');
     }
   });
+
+  function agregarAlCarritoSimple(id, nombre, precioNormal, precioOferta = null, cantidadOferta = null) {
+  let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+  let producto = carrito.find(p => p.id === id);
+
+  if (producto) {
+    producto.cantidad++;
+
+    if (precioOferta && cantidadOferta && producto.cantidad >= cantidadOferta) {
+      producto.precio = precioOferta;
+      producto.nota = "Oferta por volumen";
+    } else {
+      producto.precio = precioNormal;
+      producto.nota = "";
+    }
+
+  } else {
+    carrito.push({
+      id,
+      nombre,
+      precio: precioNormal,
+      precioNormal,
+      precioOferta,
+      cantidadOferta,
+      cantidad: 1,
+      nota: ""
+    });
+  }
+
+  localStorage.setItem("carrito", JSON.stringify(carrito));
+  actualizarCarritoUI();
+}
+
 </script>
 
 </body>
