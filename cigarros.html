@@ -156,8 +156,35 @@
 <div  class="flex items-center justify-between text-sm"><span class="text-gray-600">1 Paquete 10pzas - $350.00</span><button onclick="agregarAlCarritoSimple('ciga-eleph-pqt', 'Link Azul (Paquete)', 350.00)" class="bg-green-500 text-white px-3 py-1 rounded-md shadow hover:bg-green-600 text-xs font-bold">Agregar</button></div></div></div>
             
 
-            <div class="flex items-center gap-4 py-3 border-b"><img src="img/link2.jpg" alt="Link Blanco" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow space-y-2"><p class="font-semibold text-gray-800">Link Blanco</p><div class="flex items-center justify-between text-sm"><span class="text-gray-600">1 Cajetilla - $40.00</span><button onclick="agregarAlCarritoSimple('ciga-linkb-caja', 'Link Blanco (Cajetilla)', 40.00)" class="bg-green-500 text-white px-3 py-1 rounded-md shadow hover:bg-green-600 text-xs font-bold">Agregar</button></div><div class="flex items-center justify-between text-sm"><span class="text-gray-600">1 Paquete - $315.00</span><button onclick="agregarAlCarritoSimple('ciga-linkb-pqt', 'Link Blanco (Paquete)', 315.00)" class="bg-green-500 text-white px-3 py-1 rounded-md shadow hover:bg-green-600 text-xs font-bold">Agregar</button></div></div></div>
-            <div class="flex items-center gap-4 py-3 border-b"><img src="img/link3.jpg" alt="Link Rojo" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow space-y-2"><p class="font-semibold text-gray-800">Link Rojo</p><div class="flex items-center justify-between text-sm"><span class="text-gray-600">1 Cajetilla - $40.00</span><button onclick="agregarAlCarritoSimple('ciga-linkr-caja', 'Link Rojo (Cajetilla)', 40.00)" class="bg-green-500 text-white px-3 py-1 rounded-md shadow hover:bg-green-600 text-xs font-bold">Agregar</button></div><div class="flex items-center justify-between text-sm"><span class="text-gray-600">1 Paquete - $315.00</span><button onclick="agregarAlCarritoSimple('ciga-linkr-pqt', 'Link Rojo (Paquete)', 315.00)" class="bg-green-500 text-white px-3 py-1 rounded-md shadow hover:bg-green-600 text-xs font-bold">Agregar</button></div></div></div>
+
+ <div class="flex items-center gap-4 py-3 border-b" data-id="ciga-ind-kretek" data-nombre="Link Blanco" data-precio="40.00" data-oferta-precio="35.00" data-oferta-cantidad="5">
+              <img src="img/link2.jpg" alt="Link Blanco" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+              <div class="flex-grow">
+                <p class="font-semibold text-gray-800">Link Blanco</p>
+                <p class="text-sm text-gray-600">$40.00</p>
+                <p class="text-xs text-blue-600">A partir de 5 a $35.00 c/u</p>
+                  <div class="flex items-center gap-2">
+                <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+                <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+              </div>
+              
+<div  class="flex items-center justify-between text-sm"><span class="text-gray-600">1 Paquete 10pzas - $350.00</span><button onclick="agregarAlCarritoSimple('ciga-eleph-pqt', 'Link Azul (Paquete)', 350.00)" class="bg-green-500 text-white px-3 py-1 rounded-md shadow hover:bg-green-600 text-xs font-bold">Agregar</button></div></div></div>
+            
+
+<div class="flex items-center gap-4 py-3 border-b" data-id="ciga-ind-kretek" data-nombre="Link Rojo" data-precio="40.00" data-oferta-precio="35.00" data-oferta-cantidad="5">
+              <img src="img/link3.jpg" alt="Link Rojo" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+              <div class="flex-grow">
+                <p class="font-semibold text-gray-800">Link Rojo</p>
+                <p class="text-sm text-gray-600">$40.00</p>
+                <p class="text-xs text-blue-600">A partir de 5 a $35.00 c/u</p>
+                  <div class="flex items-center gap-2">
+                <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+                <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+              </div>
+              
+<div  class="flex items-center justify-between text-sm"><span class="text-gray-600">1 Paquete 10pzas - $350.00</span><button onclick="agregarAlCarritoSimple('ciga-eleph-pqt', 'Link Azul (Paquete)', 350.00)" class="bg-green-500 text-white px-3 py-1 rounded-md shadow hover:bg-green-600 text-xs font-bold">Agregar</button></div></div></div>
+            
+
         </div>
     </div>
     
