@@ -145,7 +145,20 @@
 <a href="index.html" class="mt-8 block w-full text-center bg-gray-300 px-4 py-2 rounded shadow">Regresar al Menú</a>
 
 </section>
-
+<div id="boton-carrito" onclick="mostrarCarrito()" class="fixed bottom-5 right-5 bg-green-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center cursor-pointer z-50">
+    <span class="text-3xl">🛒</span>
+    <span id="contador-carrito" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">0</span>
+  </div>
+  <div id="modal-carrito" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+      <div class="flex justify-between items-center p-4 border-b"><h3 class="text-2xl font-bold">Tu Pedido</h3><button onclick="ocultarCarrito()" class="text-2xl">&times;</button></div>
+      <div id="carrito-items" class="p-4 max-h-64 overflow-y-auto"></div>
+      <div class="p-4 border-t">
+        <div id="carrito-total" class="text-xl font-bold text-right mb-4">Total: $0.00</div>
+        <button onclick="enviarPedido()" class="w-full bg-green-500 text-white font-bold py-3 rounded-lg shadow-lg hover:bg-green-600 transition">Confirmar Pedido por WhatsApp</button>
+      </div>
+    </div>
+  </div>
 <script src="carrito.js"></script>
 <script>
 function toggleMenu() {
