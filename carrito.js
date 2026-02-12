@@ -38,11 +38,15 @@ function agregarAlCarrito(boton) {
   const familia = productoDiv.dataset.family || null;
   const ofertaPrecio = parseFloat(productoDiv.dataset.ofertaPrecio) || null;
   const ofertaCantidad = parseInt(productoDiv.dataset.ofertaCantidad) || null;
+
+  const img = productoDiv.querySelector('img');
+  const imagen = img ? img.src : '';
+
   const cantidadInput = productoDiv.querySelector('.quantity-to-add');
   const cantidad = parseInt(cantidadInput.value);
 
   if (isNaN(cantidad) || cantidad < 1) {
-    alert("Por favor, ingresa una cantidad válida.");
+    alert("Cantidad inválida.");
     return;
   }
 
@@ -52,9 +56,18 @@ function agregarAlCarrito(boton) {
   if (productoEnCarrito) {
     productoEnCarrito.cantidad += cantidad;
   } else {
-    carrito.push({ id, nombre, precio, cantidad, familia, ofertaPrecio, ofertaCantidad });
+    carrito.push({
+      id,
+      nombre,
+      precio,
+      cantidad,
+      familia,
+      ofertaPrecio,
+      ofertaCantidad,
+      imagen
+    });
   }
-  
+
   cantidadInput.value = 1;
   saveCartToStorage(carrito);
   actualizarContadorUI();
@@ -140,20 +153,26 @@ function dibujarCarritoCompleto() {
       const subtotal = precioUnitario * item.cantidad;
       totalGeneral += subtotal;
 
-      const itemHtml = `
-        <div class="flex justify-between items-center mb-3">
-          <div class="flex-grow pr-2">
-            <p class="font-semibold">${item.nombre}${notaPrecio}</p>
-            <p class="text-sm text-gray-600">$${subtotal.toFixed(2)} (${item.cantidad} x $${precioUnitario.toFixed(2)})</p>
-          </div>
-          <div class="flex items-center flex-shrink-0">
-            <button onclick="modificarCantidad('${item.id}', -1)" class="bg-gray-200 w-7 h-7 rounded-full font-bold flex items-center justify-center">-</button>
-            <span class="w-8 text-center font-semibold">${item.cantidad}</span>
-            <button onclick="modificarCantidad('${item.id}', 1)" class="bg-gray-200 w-7 h-7 rounded-full font-bold flex items-center justify-center">+</button>
-            <button onclick="eliminarDelCarrito('${item.id}')" class="text-red-500 hover:text-red-700 ml-3 text-xl">🗑️</button>
-          </div>
-        </div>
-      `;
+    const itemHtml = `
+  <div class="flex items-center gap-3 mb-3">
+    
+    <img src="${item.imagen}" class="w-16 h-16 object-cover rounded-lg border" alt="${item.nombre}">
+
+    <div class="flex-grow pr-2">
+      <p class="font-semibold">${item.nombre}${notaPrecio}</p>
+      <p class="text-sm text-gray-600">$${subtotal.toFixed(2)} (${item.cantidad} x $${precioUnitario.toFixed(2)})</p>
+    </div>
+
+    <div class="flex items-center flex-shrink-0">
+      <button onclick="modificarCantidad('${item.id}', -1)" class="bg-gray-200 w-7 h-7 rounded-full font-bold flex items-center justify-center">-</button>
+      <span class="w-8 text-center font-semibold">${item.cantidad}</span>
+      <button onclick="modificarCantidad('${item.id}', 1)" class="bg-gray-200 w-7 h-7 rounded-full font-bold flex items-center justify-center">+</button>
+      <button onclick="eliminarDelCarrito('${item.id}')" class="text-red-500 hover:text-red-700 ml-3 text-xl">🗑️</button>
+    </div>
+    
+  </div>
+`;
+
       carritoItemsDiv.innerHTML += itemHtml;
     });
   }
