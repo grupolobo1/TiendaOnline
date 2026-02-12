@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mascotas - Catálogo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 pb-24">
+
+<header class="bg-[#8D6E63] text-white text-center py-5 text-2xl font-bold shadow-md sticky top-0 z-40 relative">
+  Catálogo Mascotas
+
+  <div class="mt-4 flex justify-center">
+    <div class="relative">
+      <button id="menuBtn" onclick="toggleMenu()" class="bg-white text-[#8D6E63] px-6 py-2 rounded-full font-semibold shadow hover:bg-gray-200 transition">
+        Menú ▾
+      </button>
+
+      <div id="menuDropdown" class="hidden absolute left-1/2 transform -translate-x-1/2 mt-2 w-64 bg-white text-[#8D6E63] rounded-xl shadow-lg overflow-hidden z-50">
+        <a href="#perro" onclick="toggleMenu()" class="block px-4 py-3 hover:bg-gray-100 font-semibold">
+          🐕 Alimento para Perro
+        </a>
+        <a href="#gato" onclick="toggleMenu()" class="block px-4 py-3 hover:bg-gray-100 font-semibold">
+          🐈 Alimento para Gato
+        </a>
+        <a href="#otros" onclick="toggleMenu()" class="block px-4 py-3 hover:bg-gray-100 font-semibold">
+          🐾 Otros
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="p-6 max-w-3xl mx-auto space-y-6">
+
+<h3 id="perro" class="text-xl font-bold text-gray-700 border-b">🐕 Alimento para Perro</h3>
+
+<div class="flex items-center gap-4 py-3 border-b" data-id="dog-perron" data-nombre="Alimento Perrón 1kg" data-precio="26" data-oferta-precio="24" data-oferta-cantidad="3">
+<img src="img/mascotas/perron.jpg" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+<div class="flex-grow">
+<p class="font-semibold">Alimento Perrón 1kg</p>
+<p class="text-sm">$26.00</p>
+<p class="text-xs text-blue-600">Desde 3kg a $24</p>
+</div>
+<div class="flex items-center gap-2">
+<input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+<button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg">Agregar</button>
+</div>
+</div>
+
+<div class="flex items-center gap-4 py-3 border-b" data-id="dog-chapete" data-nombre="Alimento Chapete Perro 1kg" data-precio="20" data-oferta-precio="18" data-oferta-cantidad="3">
+<img src="img/mascotas/chapete.jpg" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+<div class="flex-grow">
+<p class="font-semibold">Chapete Perro 1kg</p>
+<p class="text-sm">$20.00</p>
+<p class="text-xs text-blue-600">Desde 3kg a $18</p>
+</div>
+<div class="flex items-center gap-2">
+<input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+<button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg">Agregar</button>
+</div>
+</div>
+
+<div class="flex items-center gap-4 py-3 border-b" data-id="dog-shaggy" data-nombre="Alimento Shaggy 1kg" data-precio="18" data-oferta-precio="16.5" data-oferta-cantidad="3">
+<img src="img/mascotas/shaggy.jpg" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+<div class="flex-grow">
+<p class="font-semibold">Shaggy 1kg</p>
+<p class="text-sm">$18.00</p>
+<p class="text-xs text-blue-600">Desde 3kg a $16.50</p>
+</div>
+<div class="flex items-center gap-2">
+<input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+<button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg">Agregar</button>
+</div>
+</div>
+
+<div class="flex items-center gap-4 py-3 border-b" data-id="dog-chow" data-nombre="Alimento Dog Chow 1kg" data-precio="41" data-oferta-precio="39" data-oferta-cantidad="3">
+<img src="img/mascotas/dogchow.jpg" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+<div class="flex-grow">
+<p class="font-semibold">Dog Chow 1kg</p>
+<p class="text-sm">$41.00</p>
+<p class="text-xs text-blue-600">Desde 3kg a $39</p>
+</div>
+<div class="flex items-center gap-2">
+<input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+<button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg">Agregar</button>
+</div>
+</div>
+
+<h3 id="gato" class="text-xl font-bold text-gray-700 border-b pt-8">🐈 Alimento para Gato</h3>
+
+<div class="flex items-center gap-4 py-3 border-b" data-id="cat-chapete" data-nombre="Chapete Gato 1kg" data-precio="38" data-oferta-precio="35" data-oferta-cantidad="2">
+<img src="img/mascotas/chapeteg.jpg" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+<div class="flex-grow">
+<p class="font-semibold">Chapete Gato 1kg</p>
+<p class="text-sm">$38.00</p>
+<p class="text-xs text-blue-600">Desde 2kg a $35</p>
+</div>
+<div class="flex items-center gap-2">
+<input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+<button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg">Agregar</button>
+</div>
+</div>
+
+<div class="flex items-center gap-4 py-3 border-b" data-id="cat-whiskas" data-nombre="Whiskas 1kg" data-precio="45" data-oferta-precio="42.5" data-oferta-cantidad="2">
+<img src="img/mascotas/whiskas.jpg" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+<div class="flex-grow">
+<p class="font-semibold">Whiskas 1kg</p>
+<p class="text-sm">$45.00</p>
+<p class="text-xs text-blue-600">Desde 2kg a $42.50</p>
+</div>
+<div class="flex items-center gap-2">
+<input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+<button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg">Agregar</button>
+</div>
+</div>
+
+<h3 id="otros" class="text-xl font-bold text-gray-700 border-b pt-8">🐾 Otros</h3>
+
+<div class="flex items-center gap-4 py-3 border-b" data-id="snack-ganador" data-nombre="Sobre Ganador" data-precio="12">
+<img src="img/mascotas/ganador.jpg" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+<div class="flex-grow">
+<p class="font-semibold">Sobre Ganador (Lomo o Pavo)</p>
+<p class="text-sm">$12.00</p>
+</div>
+<div class="flex items-center gap-2">
+<input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+<button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg">Agregar</button>
+</div>
+</div>
+
+<div class="flex items-center gap-4 py-3 border-b" data-id="arena-gato" data-nombre="Arena Winner Paw 3kg" data-precio="38">
+<img src="img/mascotas/arena.jpg" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+<div class="flex-grow">
+<p class="font-semibold">Arena Winner Paw 3kg</p>
+<p class="text-sm">$38.00</p>
+</div>
+<div class="flex items-center gap-2">
+<input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+<button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg">Agregar</button>
+</div>
+</div>
+
+<a href="index.html" class="mt-8 block w-full text-center bg-gray-300 px-4 py-2 rounded shadow">Regresar al Menú</a>
+
+</section>
+
+<script src="carrito.js"></script>
+<script>
+function toggleMenu() {
+  document.getElementById('menuDropdown').classList.toggle('hidden');
+}
+
+document.addEventListener('click', function (e) {
+  const menu = document.getElementById('menuDropdown');
+  const btn = document.getElementById('menuBtn');
+  if (!btn.contains(e.target) && !menu.contains(e.target)) {
+    menu.classList.add('hidden');
+  }
+});
+</script>
+
+</body>
+</html>
