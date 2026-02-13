@@ -10,10 +10,44 @@
 
   <header class="bg-[#5C7DA3] text-white text-center py-5 text-2xl font-bold shadow-md">
     Catálogo de Productos
-  </header>
+ <!-- MENÚ DESPLEGABLE -->
+  <div class="mt-4 flex justify-center gap-4">
+
+  <!-- MENÚ DULCES -->
+  <div class="relative">
+    <button onclick="toggleMenuDulces()" class="bg-white text-[#5C7DA3] px-6 py-2 rounded-full font-semibold shadow hover:bg-gray-200 transition">
+      🍬 Dulces ▾
+    </button>
+
+    <div id="menuDropdownDulces" class="hidden absolute left-1/2 transform -translate-x-1/2 mt-2 w-64 bg-white text-[#5C7DA3] rounded-xl shadow-lg overflow-hidden z-50 text-sm">
+      <a href="#dulceria" onclick="toggleMenuDulces()" class="block px-4 py-3 hover:bg-gray-100 font-semibold">
+        🍭 Ver Dulcería
+      </a>
+      <a href="#ofertas" onclick="toggleMenuDulces()" class="block px-4 py-3 hover:bg-gray-100 font-semibold">
+        🔥 Ofertas Dulces
+      </a>
+    </div>
+  </div>
+
+  <!-- MENÚ PAPAS -->
+  <div class="relative">
+    <button onclick="toggleMenuPapas()" class="bg-white text-[#5C7DA3] px-6 py-2 rounded-full font-semibold shadow hover:bg-gray-200 transition">
+      🍟 Papas ▾
+    </button>
+
+    <div id="menuDropdownPapas" class="hidden absolute left-1/2 transform -translate-x-1/2 mt-2 w-64 bg-white text-[#5C7DA3] rounded-xl shadow-lg overflow-hidden z-50 text-sm">
+      <a href="#papas" onclick="toggleMenuPapas()" class="block px-4 py-3 hover:bg-gray-100 font-semibold">
+        🍟 Ver Papas y Frituras
+      </a>
+    </div>
+  </div>
+
+</div>
+</header>
 
   <section id="ofertas" class="p-6 max-w-3xl mx-auto">
-    <h2 class="text-2xl font-bold mb-4 text-[#007A33]">Dulceria</h2>
+    <h2 id="dulceria" class="text-2xl font-bold mb-4 text-[#007A33]">Dulce</h2>
+
     <div class="space-y-4">
 
       
@@ -188,8 +222,7 @@
 
 
 
-
- <h2 class="text-2xl font-bold mb-4 text-[#007A33]">Papas-Frituras</h2>
+<h2 id="papas" class="text-2xl font-bold mb-4 text-[#007A33]">Papas-Frituras</h2>
 
 
 
@@ -407,6 +440,14 @@
       </div>
     </div>
   </div>
+  <script>function toggleMenuDulces() {
+  document.getElementById("menuDropdownDulces").classList.toggle("hidden");
+}
+
+function toggleMenuPapas() {
+  document.getElementById("menuDropdownPapas").classList.toggle("hidden");
+}
+</script>
   <script src="carrito.js"></script>
 </body>
 </html>
