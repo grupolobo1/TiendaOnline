@@ -56,20 +56,50 @@
     </nav>
   </div>
 </header>
- <section id="inicio" class="max-w-7xl mx-auto px-4 pt-4">
+ <section id="inicio" class="max-w-7xl mx-auto px-4 pt-4 space-y-8">
 
-    <div class="swiper mySwiper rounded-2xl shadow-2xl overflow-hidden" style="height: 450px;">
-
-      <div class="swiper-wrapper">
-        <div class="swiper-slide bg-gray-200"><img src="promociones1.png" alt="Promociones" class="w-full h-full object-contain"/></div>
-        <div class="swiper-slide bg-gray-200"><img src="b22.png" alt="Nuevos Productos" class="w-full h-full object-contain"/></div>
-        <div class="swiper-slide bg-gray-200"><img src="b5.png" alt="Nuevos Productos" class="w-full h-full object-contain"/></div>
+  <div class="swiper mySwiper rounded-2xl shadow-xl overflow-hidden h-[250px] md:h-[450px]">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide bg-gray-200">
+        <img src="promociones1.png" alt="Promociones" class="w-full h-full object-cover md:object-contain"/>
       </div>
-      <div class="swiper-pagination"></div>
-      <div class="swiper-button-next text-[#5C7DA3]"></div>
-      <div class="swiper-button-prev text-[#5C7DA3]"></div>
+      <div class="swiper-slide bg-gray-200">
+        <img src="b22.png" alt="Nuevos Productos" class="w-full h-full object-cover md:object-contain"/>
+      </div>
+      <div class="swiper-slide bg-gray-200">
+        <img src="b5.png" alt="Nuevos Productos" class="w-full h-full object-cover md:object-contain"/>
+      </div>
     </div>
-  </section>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-next !text-[#5C7DA3] !after:text-2xl"></div>
+    <div class="swiper-button-prev !text-[#5C7DA3] !after:text-2xl"></div>
+  </div>
+
+  <div class="flex justify-center">
+    <div class="w-full max-w-[320px] md:max-w-[380px] relative group">
+      <div class="absolute -inset-1 bg-gradient-to-r from-[#5C7DA3] to-cyan-500 rounded-[2rem] blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+      
+      <div class="relative bg-black rounded-[1.8rem] overflow-hidden shadow-2xl border-4 border-white">
+        <video 
+          class="w-full h-auto block" 
+          controls 
+          autoplay 
+          muted 
+          loop 
+          playsinline
+          poster="img/lobo.png">
+          <source src="video/videoInicioLoboG.mp4" type="video/mp4">
+          Tu navegador no soporta videos.
+        </video>
+      </div>
+      
+      <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-[#5C7DA3] text-white px-6 py-1 rounded-full text-sm font-bold shadow-lg uppercase tracking-wider">
+        ¡Conócenos!
+      </div>
+    </div>
+  </div>
+
+</section>
 
  <section id="productos" class="max-w-7xl mx-auto px-6 py-16">
   <div class="text-center mb-16">
