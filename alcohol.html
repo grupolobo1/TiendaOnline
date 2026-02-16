@@ -5,13 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Alcohol y Licor - Catálogo</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Evita cualquier deslizamiento horizontal */
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+  </style>
 </head>
 <body class="bg-gray-100 pb-24">
 
-  <header class="bg-[#5C7DA3] text-white text-center py-5 text-2xl font-bold shadow-md">
-    Catálogo de Productos
-  </header>
+  <header class="bg-[#5C7DA3] text-white shadow-xl sticky top-0 z-50 overflow-visible">
+  <div class="max-w-6xl mx-auto px-4 py-3 md:py-6 relative">
+    
+    <div class="flex items-center justify-between md:justify-center gap-2 md:gap-12">
+      
+      <h1 class="text-[1.3rem] sm:text-3xl md:text-5xl font-black tracking-tighter uppercase italic leading-tight flex-shrink">
+        <span class="block">Catálogo de</span> 
+        <span class="text-cyan-100">abarrotes</span>
+      </h1>
 
+      <div class="relative flex-shrink-0">
+        <img src="img/lobo.png" alt="Lobo" 
+             class="h-24 sm:h-36 md:h-52 w-auto object-contain drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)] transform -mb-6 md:-mb-10">
+        
+        <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-4/5 h-2 bg-black/20 blur-xl rounded-full"></div>
+     
+      
+    </div>
+  </div>
+  
+  <div class="h-1 w-full bg-gradient-to-r from-transparent via-white/40 to-transparent"></div>
+</header>
+<a href="index.html" class="mt-8 block w-full text-center bg-gray-300 px-4 py-2 rounded shadow">Regresar al Menú</a>
+<div class="mt-4 flex justify-center">
+  <input 
+    type="text" 
+    id="buscadorProductos" 
+    placeholder="Buscar producto..." 
+    class="w-full max-w-md px-4 py-2 rounded-lg text-gray-700 shadow focus:outline-none focus:ring-2 focus:ring-green-500"
+    onkeyup="filtrarProductos()"
+  >
+</div>
   <section id="alcohol" class="p-6 max-w-3xl mx-auto">
     <h2 class="text-2xl font-bold mb-4 text-[#8E44AD]">Alcohol y Licor</h2>
     <div class="space-y-4">
@@ -181,6 +216,18 @@
     </div>
   </div>
   <script src="carrito.js"></script>
+  <script>
+function filtrarProductos() {
+    const input = document.getElementById("buscadorProductos");
+    const filtro = input.value.toLowerCase();
+    const productos = document.querySelectorAll('[data-nombre]');
+
+    productos.forEach(producto => {
+        const nombre = producto.getAttribute("data-nombre").toLowerCase();
+        producto.style.display = nombre.includes(filtro) ? "flex" : "none";
+    });
+}
+</script>
   <div id="modal-confirmacion" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
   <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 animate-fade-in">
 
