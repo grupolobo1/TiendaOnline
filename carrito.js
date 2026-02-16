@@ -212,9 +212,52 @@ function enviarPedido() {
         return;
     }
 
-    const confirmar = confirm("¿Estás seguro de que este es tu pedido final?");
+    let resumenHTML = '';
+    let totalGeneral = 0;
 
-    if (!confirmar) return;
+    carrito.forEach(item => {
+        let precioUnitario = item.precio;
+
+        if (item.familia && OFERTAS_POR_FAMILIA[item.familia]) {
+            const oferta = OFERTAS_POR_FAMILIA[item.familia];
+            const totalEnFamilia = carrito
+                .filter(p => p.familia === item.familia)
+                .reduce((sum, p) => sum + p.cantidad, 0);
+
+            if (totalEnFamilia >= oferta.cantidadMinima) {
+                precioUnitario = oferta.precioOferta;
+            }
+        } else if (item.ofertaPrecio && item.ofertaCantidad && item.cantidad >= item.ofertaCantidad) {
+            precioUnitario = item.ofertaPrecio;
+        }
+
+        const subtotal = precioUnitario * item.cantidad;
+        totalGeneral += subtotal;
+
+        resumenHTML += `
+          <div class="flex justify-between border-b py-1">
+            <span>${item.nombre} x${item.cantidad}</span>
+            <span class="font-semibold">$${subtotal.toFixed(2)}</span>
+          </div>
+        `;
+    });
+
+    resumenHTML += `
+      <div class="flex justify-between pt-3 text-lg font-bold">
+        <span>Total</span>
+        <span>$${totalGeneral.toFixed(2)}</span>
+      </div>
+    `;
+
+    document.getElementById('resumen-confirmacion').innerHTML = resumenHTML;
+    document.getElementById('modal-confirmacion').classList.remove('hidden');
+}
+function cancelarConfirmacion() {
+    document.getElementById('modal-confirmacion').classList.add('hidden');
+}
+
+function confirmarEnvio() {
+    const carrito = getCartFromStorage();
 
     let mensaje = `*Resumen de Pedido:* 🛒\n\n*Productos:*\n`;
     let totalGeneral = 0;
@@ -242,37 +285,14 @@ function enviarPedido() {
 
     mensaje += `--------------------\n*TOTAL: $${totalGeneral.toFixed(2)}*\n\n¡Gracias por tu compra!`;
 
-    const mensajeCodificado = encodeURIComponent(mensaje);
-    const urlWhatsApp = `https://api.whatsapp.com/send?phone=${tuNumeroDeWhatsApp}&text=${mensajeCodificado}`;
+    const urlWhatsApp = `https://api.whatsapp.com/send?phone=${tuNumeroDeWhatsApp}&text=${encodeURIComponent(mensaje)}`;
 
     window.open(urlWhatsApp, '_blank');
 
-    // LIMPIAR CARRITO
     localStorage.removeItem('miCarrito');
-
-    // Cerrar modal
+    document.getElementById('modal-confirmacion').classList.add('hidden');
     ocultarCarrito();
-
-    // Actualizar contador
     actualizarContadorUI();
 
-    // Recargar página
-    setTimeout(() => {
-        location.reload();
-    }, 400);
-}
-
-function mostrarConfirmacion() {
-  document.getElementById('confirmModal').classList.remove('hidden');
-  document.getElementById('confirmModal').classList.add('flex');
-}
-
-function cerrarConfirmacion() {
-  document.getElementById('confirmModal').classList.add('hidden');
-  document.getElementById('confirmModal').classList.remove('flex');
-}
-
-function confirmarEnvio() {
-  cerrarConfirmacion();
-  enviarPedido();
+    setTimeout(() => location.reload(), 400);
 }
