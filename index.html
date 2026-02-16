@@ -8,6 +8,68 @@
   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+<style>
+
+  /* ANIMACIÓN FLOTANTE */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* CESTA */
+.basket {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 45px;
+  border-radius: 0 0 20px 20px;
+  background: linear-gradient(145deg, #a16207, #ca8a04);
+  box-shadow: inset 0 -4px rgba(0,0,0,.2);
+}
+
+/* LECHE */
+.milk {
+  position: absolute;
+  width: 22px;
+  height: 38px;
+  background: #fff;
+  border-radius: 4px;
+  top: 20px;
+  left: 18px;
+  box-shadow: 0 0 0 3px #60a5fa inset;
+}
+
+/* LATA */
+.can {
+  position: absolute;
+  width: 22px;
+  height: 28px;
+  background: linear-gradient(#9ca3af, #6b7280);
+  border-radius: 50%;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* PASTA */
+.pasta {
+  position: absolute;
+  width: 24px;
+  height: 34px;
+  background: #fbbf24;
+  border-radius: 6px;
+  top: 22px;
+  right: 16px;
+}
+
+</style>
 <body class="bg-gray-100 pb-24">
 
   <header class="bg-[#5C7DA3] text-white py-4 shadow-md">
@@ -73,16 +135,21 @@
     <p class="text-sm text-cyan-700 mt-1">Hogar limpio, fácil y rápido</p>
   </a>
 
-  <!-- ABARROTES -->
-  <a href="abarrotes.html" 
-     class="group bg-amber-200 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 flex flex-col items-center">
-    
-    <img src="gifs/abarrotes.gif" 
-         class="w-28 h-28 object-contain mb-3 transition-transform duration-300 group-hover:scale-110">
+ <!-- ABARROTES -->
+<a href="abarrotes.html" 
+   class="group bg-amber-200 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 flex flex-col items-center">
 
-    <h2 class="text-xl font-bold text-amber-800">Abarrotes</h2>
-    <p class="text-sm text-amber-700 mt-1">Todo para tu despensa</p>
-  </a>
+  <div class="w-28 h-28 relative animate-float">
+    <div class="basket"></div>
+    <div class="milk"></div>
+    <div class="can"></div>
+    <div class="pasta"></div>
+  </div>
+
+  <h2 class="text-xl font-bold text-amber-800 mt-3">Abarrotes</h2>
+  <p class="text-sm text-amber-700 mt-1">Todo para tu despensa</p>
+</a>
+
 
   <!-- DULCERÍA -->
   <a href="dulceria.html" 
