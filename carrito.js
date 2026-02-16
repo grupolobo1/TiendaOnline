@@ -206,29 +206,59 @@ function ocultarCarrito() {
 
 function enviarPedido() {
     const carrito = getCartFromStorage();
-    if (carrito.length === 0) { alert('Tu carrito está vacío.'); return; }
+
+    if (carrito.length === 0) {
+        alert('Tu carrito está vacío.');
+        return;
+    }
+
+    const confirmar = confirm("¿Estás seguro de que este es tu pedido final?");
+
+    if (!confirmar) return;
+
     let mensaje = `*Resumen de Pedido:* 🛒\n\n*Productos:*\n`;
     let totalGeneral = 0;
+
     carrito.forEach(item => {
         let precioUnitario = item.precio;
+
         if (item.familia && OFERTAS_POR_FAMILIA[item.familia]) {
             const oferta = OFERTAS_POR_FAMILIA[item.familia];
-            const totalEnFamilia = carrito.filter(p => p.familia === item.familia).reduce((sum, p) => sum + p.cantidad, 0);
+            const totalEnFamilia = carrito
+                .filter(p => p.familia === item.familia)
+                .reduce((sum, p) => sum + p.cantidad, 0);
+
             if (totalEnFamilia >= oferta.cantidadMinima) {
                 precioUnitario = oferta.precioOferta;
             }
         } else if (item.ofertaPrecio && item.ofertaCantidad && item.cantidad >= item.ofertaCantidad) {
             precioUnitario = item.ofertaPrecio;
         }
+
         const subtotal = precioUnitario * item.cantidad;
         mensaje += `• ${item.nombre} (${item.cantidad} x $${precioUnitario.toFixed(2)}) = *$${subtotal.toFixed(2)}*\n`;
         totalGeneral += subtotal;
     });
+
     mensaje += `--------------------\n*TOTAL: $${totalGeneral.toFixed(2)}*\n\n¡Gracias por tu compra!`;
+
     const mensajeCodificado = encodeURIComponent(mensaje);
     const urlWhatsApp = `https://api.whatsapp.com/send?phone=${tuNumeroDeWhatsApp}&text=${mensajeCodificado}`;
-    window.open(urlWhatsApp, '_blank');
-}
 
-document.addEventListener('DOMContentLoaded', actualizarContadorUI);
+    window.open(urlWhatsApp, '_blank');
+
+    // LIMPIAR CARRITO
+    localStorage.removeItem('miCarrito');
+
+    // Cerrar modal
+    ocultarCarrito();
+
+    // Actualizar contador
+    actualizarContadorUI();
+
+    // Recargar página
+    setTimeout(() => {
+        location.reload();
+    }, 400);
+}
 
