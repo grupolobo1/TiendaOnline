@@ -181,5 +181,30 @@
     </div>
   </div>
   <script src="carrito.js"></script>
+  <div id="modal-confirmacion" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 animate-fade-in">
+
+    <div class="text-center mb-4">
+      <div class="text-5xl mb-2">🛒</div>
+      <h3 class="text-2xl font-bold text-gray-800">Confirmar Pedido</h3>
+      <p class="text-gray-500 text-sm mt-1">Revisa tu pedido antes de enviarlo</p>
+    </div>
+
+    <div id="resumen-confirmacion" class="bg-gray-100 rounded-lg p-4 text-sm max-h-60 overflow-y-auto mb-4"></div>
+
+    <div class="flex gap-3">
+      <button onclick="cancelarConfirmacion()" 
+        class="flex-1 py-3 rounded-lg border border-gray-300 font-semibold text-gray-600 hover:bg-gray-100 transition">
+        Cancelar
+      </button>
+
+      <button onclick="confirmarEnvio()" 
+        class="flex-1 py-3 rounded-lg bg-green-500 text-white font-bold shadow hover:bg-green-600 transition">
+        Enviar por WhatsApp
+      </button>
+    </div>
+
+  </div>
+</div>
 </body>
 </html>
