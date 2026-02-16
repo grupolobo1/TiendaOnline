@@ -262,3 +262,17 @@ function enviarPedido() {
     }, 400);
 }
 
+function mostrarConfirmacion() {
+  document.getElementById('confirmModal').classList.remove('hidden');
+  document.getElementById('confirmModal').classList.add('flex');
+}
+
+function cerrarConfirmacion() {
+  document.getElementById('confirmModal').classList.add('hidden');
+  document.getElementById('confirmModal').classList.remove('flex');
+}
+
+function confirmarEnvio() {
+  cerrarConfirmacion();
+  enviarPedido();
+}
