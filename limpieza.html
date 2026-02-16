@@ -30,8 +30,9 @@
   
   <div class="h-1 w-full bg-gradient-to-r from-transparent via-white/40 to-transparent"></div>
 </header>
-  <section id="limpieza" class="p-6 max-w-3xl mx-auto">
-    <h2 class="text-2xl font-bold mb-4 text-[#007A33]">Limpieza</h2>
+  <section id="limpieza" class="p-4 md:p-6 max-w-3xl mx-auto">
+    <h2 class="text-2xl font-bold mb-6 text-[#007A33] border-b-2 border-green-200 pb-2">Nuestros Productos</h2>
+    
     <div class="space-y-4">
 
       <div class="flex items-center gap-4 py-3 border-b" data-id="limp-roma-1kg" data-nombre="Roma de 1kg" data-precio="38.00" data-oferta-precio="35.00" data-oferta-cantidad="5"><img src="img/lim/lim1.jpg" alt="Roma 1kg" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Roma de 1kg</p><p class="text-sm text-gray-600">$38.00</p><p class="text-xs text-blue-600">A partir de 5 a $35.00 c/u</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
@@ -149,9 +150,9 @@
     <a href="index.html" class="mt-8 block w-full text-center bg-gray-300 px-4 py-2 rounded shadow">Regresar al Menú</a>
   </section>
 
-  <div id="boton-carrito" onclick="mostrarCarrito()" class="fixed bottom-5 right-5 bg-green-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center cursor-pointer z-50">
-    <span class="text-3xl">🛒</span>
-    <span id="contador-carrito" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">0</span>
+  <div id="boton-carrito" onclick="mostrarCarrito()" class="fixed bottom-6 right-6 bg-green-600 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center cursor-pointer z-[60] border-2 border-white">
+    <span class="text-2xl">🛒</span>
+    <span id="contador-carrito" class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-md">0</span>
   </div>
   <div id="modal-carrito" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
     <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
