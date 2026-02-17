@@ -73,18 +73,31 @@ function agregarAlCarrito(boton) {
   actualizarContadorUI();
 }
 
-function agregarAlCarritoSimple(id, nombre, precio) {
+// Añadimos "imagen" a los parámetros
+function agregarAlCarritoSimple(id, nombre, precio, imagen) {
     const carrito = getCartFromStorage();
     const productoEnCarrito = carrito.find(item => item.id === id);
+    
     if (productoEnCarrito) {
         productoEnCarrito.cantidad++;
     } else {
-        carrito.push({ id, nombre, precio, cantidad: 1, familia: null });
+        // Guardamos la imagen dentro del objeto del carrito
+        carrito.push({ 
+            id, 
+            nombre, 
+            precio, 
+            cantidad: 1, 
+            familia: null,
+            imagen: imagen // <--- Esta es la clave
+        });
     }
+    
     saveCartToStorage(carrito);
     actualizarContadorUI();
+    
+    // Opcional: Si tienes una función para abrir el carrito o mostrar un aviso
+    // mostrarNotificacion(`${nombre} agregado`); 
 }
-
 function modificarCantidad(id, cambio) {
   let carrito = getCartFromStorage();
   const productoEnCarrito = carrito.find(item => item.id === id);
