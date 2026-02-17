@@ -157,19 +157,38 @@
     </div>
   </div>
 </div>
-      
-      <div class="flex items-center gap-4 py-3 border-b" data-id="alc-victoria-lata" data-nombre="Victoria Original 474ml" data-precio="25.00" data-oferta-precio="21.00" data-oferta-cantidad="12">
-        <img src="img/alc/alc6.jpg" alt="Victoria Original" class="w-24 h-24 rounded-lg object-cover shadow-sm">
-        <div class="flex-grow">
-          <p class="font-semibold text-gray-800">Victoria Original 474ml</p>
-          <p class="text-sm text-gray-600">$25.00</p>
-          <p class="text-xs text-blue-600">A partir de 12 a $21.00 c/u</p>
+     <div class="py-4 border-b px-2" data-id="alc-victoria-lata" data-nombre="Victoria Original 474ml" data-precio="25.00" data-oferta-precio="21.00" data-oferta-cantidad="12">
+  <div class="flex items-center gap-4">
+    <img src="img/alc/alc6.jpg" alt="Victoria Original" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
+    
+    <div class="flex-grow">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="font-bold text-gray-800">Victoria Original 474ml</p>
+          <p class="text-sm text-gray-600">$25.00 c/u</p>
+          <p class="text-xs text-blue-600 font-medium italic">12+ piezas: $21.00 c/u</p>
         </div>
         <div class="flex items-center gap-2">
-          <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
         </div>
       </div>
+
+      <hr class="my-2 border-gray-100">
+
+      <div class="flex items-center justify-between bg-orange-50/50 p-2 rounded-lg border border-orange-100">
+        <p class="text-xs font-bold text-orange-800 italic uppercase">
+          🍻 Charola (24 pzas): <span class="text-sm font-black">$538.00</span>
+        </p>
+        <button onclick="agregarAlCarritoSimple('alc-victoria-charola', 'Victoria Original (Charola)', 538.00, 'img/alc/alc6.jpg')" 
+                class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase shadow-md hover:bg-[#4a6685]">
+          Agregar Charola
+        </button>
+      </div>
+      
+    </div>
+  </div>
+</div>
 
     <div class="py-4 border-b px-2" data-id="alc-victoria-mega" data-nombre="Victoria Mega 1.2L" data-precio="43.00" data-oferta-precio="40.00" data-oferta-cantidad="6">
   <div class="flex items-center gap-4">
@@ -188,8 +207,8 @@
       </div>
       <hr class="my-2 border-gray-100">
       <div class="flex items-center justify-between bg-amber-50 p-2 rounded-lg border border-amber-200">
-        <p class="text-xs font-bold text-amber-900 italic uppercase">📦 Cartón (12 pzas): <span class="text-sm font-black">$538.00</span></p>
-        <button onclick="agregarAlCarritoSimple('alc-vic-mega-carton', 'Victoria Mega (Cartón)', 538.00, 'img/alc/alc7.jpg')" class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase">Agregar Cartón</button>
+        <p class="text-xs font-bold text-amber-900 italic uppercase">📦 Cartón (12 pzas): <span class="text-sm font-black">$485.00</span></p>
+        <button onclick="agregarAlCarritoSimple('alc-vic-mega-carton', 'Victoria Mega (Cartón)', 485.00, 'img/alc/alc7.jpg')" class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase">Agregar Cartón</button>
       </div>
     </div>
   </div>
