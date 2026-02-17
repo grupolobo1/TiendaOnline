@@ -169,97 +169,134 @@
 
 <h3 id="gato" class="text-xl font-bold text-gray-700 border-b pt-8">🐈 Alimento para Gato</h3>
 
-<div class="flex items-center gap-4 py-3 border-b" data-id="cat-chapete" data-nombre="Chapete Gato 1kg" data-precio="38" data-oferta-precio="35" data-oferta-cantidad="2">
-<img src="img/mas/chapeteGato.jpg" class="w-24 h-24 rounded-lg object-cover shadow-sm">
-<div class="flex-grow">
-<p class="font-semibold">Chapete Gato 1kg</p>
-<p class="text-sm">$38.00</p>
-<p class="text-xs text-blue-600">Desde 2kg a $35</p>
-</div>
-<div class="flex items-center gap-2">
-<input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-<button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg">Agregar</button>
-</div>
-</div>
-
-
-<div class="flex items-center gap-4 py-3 border-b" data-id="cat-whiskas" data-nombre="Whiskas 1kg" data-precio="45" data-oferta-precio="42.5" data-oferta-cantidad="2">
-<img src="img/mas/whiskas.jpg" class="w-24 h-24 rounded-lg object-cover shadow-sm">
-<div class="flex-grow">
-<p class="font-semibold">Whiskas 1kg</p>
-<p class="text-sm">$45.00</p>
-<p class="text-xs text-blue-600">Desde 2kg a $42.50</p>
-</div>
-<div class="flex items-center gap-2">
-<input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-<button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg">Agregar</button>
-</div>
-</div>
-
-<!-- Gatina -->
-<div class="flex items-center gap-4 py-3 border-b"
-     data-id="cat-gatina"
-     data-nombre="Gatina 1kg"
-     data-precio="41"
-     data-oferta-precio="39"
-     data-oferta-cantidad="2">
-  <img src="img/mas/gatina.jpg" class="w-24 h-24 rounded-lg object-cover shadow-sm">
-  <div class="flex-grow">
-    <p class="font-semibold">Gatina 1kg</p>
-    <p class="text-sm">$41.00</p>
-    <p class="text-xs text-blue-600">Desde 2kg a $39</p>
-  </div>
-  <div class="flex items-center gap-2">
-    <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-    <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg">
-      Agregar
-    </button>
+<div class="py-4 border-b px-2" data-id="cat-chapete" data-nombre="Chapete Gato 1kg" data-precio="38" data-oferta-precio="35" data-oferta-cantidad="2">
+  <div class="flex items-center gap-4">
+    <img src="img/mas/chapeteGato.jpg" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
+    <div class="flex-grow">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="font-bold text-gray-800">Chapete Gato 1kg</p>
+          <p class="text-sm text-gray-600">$38.00</p>
+          <p class="text-xs text-blue-600 font-medium italic">Desde 2kg a $35.00</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
+        </div>
+      </div>
+      <hr class="my-2 border-gray-100">
+      <div class="flex items-center justify-between bg-blue-50/50 p-2 rounded-lg border border-blue-100">
+        <p class="text-xs font-bold text-blue-800 italic uppercase">O por Bulto 15kg: <span class="text-sm font-black">$504.00</span></p>
+        <button onclick="agregarAlCarritoSimple('cat-chapete-bulto', 'Chapete Gato (Bulto)', 504.00, 'img/mas/chapeteGato.jpg')" 
+                class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase shadow-md hover:bg-[#4a6685]">
+          Agregar Bulto
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- Felicat -->
-<div class="flex items-center gap-4 py-3 border-b"
-     data-id="cat-felicat"
-     data-nombre="Felicat 1kg"
-     data-precio="35"
-     data-oferta-precio="32"
-     data-oferta-cantidad="2">
-  <img src="img/mas/felicat.jpg" class="w-24 h-24 rounded-lg object-cover shadow-sm">
-  <div class="flex-grow">
-    <p class="font-semibold">Felicat 1kg</p>
-    <p class="text-sm">$35.00</p>
-    <p class="text-xs text-blue-600">Desde 2kg a $32</p>
-  </div>
-  <div class="flex items-center gap-2">
-    <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-    <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg">
-      Agregar
-    </button>
-  </div>
-</div>
-
-<!-- Minino -->
-<div class="flex items-center gap-4 py-3 border-b"
-     data-id="cat-minino"
-     data-nombre="Minino 1kg"
-     data-precio="46"
-     data-oferta-precio="44"
-     data-oferta-cantidad="2">
-  <img src="img/mas/minino.jpg" class="w-24 h-24 rounded-lg object-cover shadow-sm">
-  <div class="flex-grow">
-    <p class="font-semibold">Minino 1kg</p>
-    <p class="text-sm">$46.00</p>
-    <p class="text-xs text-blue-600">Desde 2kg a $44</p>
-  </div>
-  <div class="flex items-center gap-2">
-    <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-    <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg">
-      Agregar
-    </button>
+<div class="py-4 border-b px-2" data-id="cat-whiskas" data-nombre="Whiskas 1kg" data-precio="45" data-oferta-precio="42.5" data-oferta-cantidad="2">
+  <div class="flex items-center gap-4">
+    <img src="img/mas/whiskas.jpg" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
+    <div class="flex-grow">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="font-bold text-gray-800">Whiskas 1kg</p>
+          <p class="text-sm text-gray-600">$45.00</p>
+          <p class="text-xs text-blue-600 font-medium italic">Desde 2kg a $42.50</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
+        </div>
+      </div>
+      <hr class="my-2 border-gray-100">
+      <div class="flex items-center justify-between bg-blue-50/50 p-2 rounded-lg border border-blue-100">
+        <p class="text-xs font-bold text-blue-800 italic uppercase">O por Bulto 15kg: <span class="text-sm font-black">$555.00</span></p>
+        <button onclick="agregarAlCarritoSimple('cat-whiskas-bulto', 'Whiskas (Bulto)', 555.00, 'img/mas/whiskas.jpg')" 
+                class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase shadow-md hover:bg-[#4a6685]">
+          Agregar Bulto
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
+<div class="py-4 border-b px-2" data-id="cat-gatina" data-nombre="Gatina 1kg" data-precio="41" data-oferta-precio="39" data-oferta-cantidad="2">
+  <div class="flex items-center gap-4">
+    <img src="img/mas/gatina.jpg" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
+    <div class="flex-grow">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="font-bold text-gray-800">Gatina 1kg</p>
+          <p class="text-sm text-gray-600">$41.00</p>
+          <p class="text-xs text-blue-600 font-medium italic">Desde 2kg a $39.00</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
+        </div>
+      </div>
+      <hr class="my-2 border-gray-100">
+      <div class="flex items-center justify-between bg-blue-50/50 p-2 rounded-lg border border-blue-100">
+        <p class="text-xs font-bold text-blue-800 italic uppercase">O por Bulto 20kg: <span class="text-sm font-black">$815.00</span></p>
+        <button onclick="agregarAlCarritoSimple('cat-gatina-bulto', 'Gatina (Bulto)', 815.00, 'img/mas/gatina.jpg')" 
+                class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase shadow-md hover:bg-[#4a6685]">
+          Agregar Bulto
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
+<div class="py-4 border-b px-2" data-id="cat-felicat" data-nombre="Felicat 1kg" data-precio="35" data-oferta-precio="32" data-oferta-cantidad="2">
+  <div class="flex items-center gap-4">
+    <img src="img/mas/felicat.jpg" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
+    <div class="flex-grow">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="font-bold text-gray-800">Felicat 1kg</p>
+          <p class="text-sm text-gray-600">$35.00</p>
+          <p class="text-xs text-blue-600 font-medium italic">Desde 2kg a $32.00</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
+        </div>
+      </div>
+      <hr class="my-2 border-gray-100">
+      <div class="flex items-center justify-between bg-blue-50/50 p-2 rounded-lg border border-blue-100">
+        <p class="text-xs font-bold text-blue-800 italic uppercase">O por Bulto 15kg: <span class="text-sm font-black">$478.00</span></p>
+        <button onclick="agregarAlCarritoSimple('cat-felicat-bulto', 'Felicat (Bulto)', 478.00, 'img/mas/felicat.jpg')" 
+                class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase shadow-md hover:bg-[#4a6685]">
+          Agregar Bulto
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="py-4 border-b px-2" data-id="cat-minino" data-nombre="Minino 1kg" data-precio="46" data-oferta-precio="44" data-oferta-cantidad="2">
+  <div class="flex items-center gap-4">
+    <img src="img/mas/minino.jpg" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
+    <div class="flex-grow">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="font-bold text-gray-800">Minino 1kg</p>
+          <p class="text-sm text-gray-600">$46.00</p>
+          <p class="text-xs text-blue-600 font-medium italic">Desde 2kg a $44.00</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
+        </div>
+      </div>
+     
+      </div>
+    </div>
+  </div>
+</div>
 
 <h3 id="otros" class="text-xl font-bold text-gray-700 border-b pt-8">🐾 Otros</h3>
 
