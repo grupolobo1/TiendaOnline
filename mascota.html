@@ -86,43 +86,85 @@
   </div>
 </div>
 
-<div class="flex items-center gap-4 py-3 border-b" data-id="dog-chapete" data-nombre="Alimento Chapete Perro 1kg" data-precio="20" data-oferta-precio="18" data-oferta-cantidad="3">
-<img src="img/mas/chapete.jpg" class="w-24 h-24 rounded-lg object-cover shadow-sm">
-<div class="flex-grow">
-<p class="font-semibold">Chapete Perro 1kg</p>
-<p class="text-sm">$20.00</p>
-<p class="text-xs text-blue-600">Desde 3kg a $18</p>
-</div>
-<div class="flex items-center gap-2">
-<input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-<button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg">Agregar</button>
-</div>
+<div class="py-4 border-b px-2" data-id="dog-chapete" data-nombre="Alimento Chapete Perro 1kg" data-precio="20" data-oferta-precio="18" data-oferta-cantidad="3">
+  <div class="flex items-center gap-4">
+    <img src="img/mas/chapete.jpg" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
+    <div class="flex-grow">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="font-bold text-gray-800">Chapete Perro 1kg</p>
+          <p class="text-sm text-gray-600">$20.00</p>
+          <p class="text-xs text-blue-600 font-medium italic">Desde 3kg a $18.00</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
+        </div>
+      </div>
+      <hr class="my-2 border-gray-100">
+      <div class="flex items-center justify-between bg-blue-50/50 p-2 rounded-lg border border-blue-100">
+        <p class="text-xs font-bold text-blue-800 italic uppercase">O por Bulto: <span class="text-sm font-black">$0.00</span></p>
+        <button onclick="agregarAlCarritoSimple('dog-chapete-bulto', 'Chapete Perro (Bulto)', 0.00, 'img/mas/chapete.jpg')" 
+                class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase shadow-md hover:bg-[#4a6685]">
+          Agregar Bulto
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="flex items-center gap-4 py-3 border-b" data-id="dog-shaggy" data-nombre="Alimento Shaggy 1kg" data-precio="18" data-oferta-precio="16.5" data-oferta-cantidad="3">
-<img src="img/mas/shaggy.jpg" class="w-24 h-24 rounded-lg object-cover shadow-sm">
-<div class="flex-grow">
-<p class="font-semibold">Shaggy 1kg</p>
-<p class="text-sm">$18.00</p>
-<p class="text-xs text-blue-600">Desde 3kg a $16.50</p>
-</div>
-<div class="flex items-center gap-2">
-<input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-<button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg">Agregar</button>
-</div>
+<div class="py-4 border-b px-2" data-id="dog-shaggy" data-nombre="Alimento Shaggy 1kg" data-precio="18" data-oferta-precio="16.5" data-oferta-cantidad="3">
+  <div class="flex items-center gap-4">
+    <img src="img/mas/shaggy.jpg" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
+    <div class="flex-grow">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="font-bold text-gray-800">Shaggy 1kg</p>
+          <p class="text-sm text-gray-600">$18.00</p>
+          <p class="text-xs text-blue-600 font-medium italic">Desde 3kg a $16.50</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
+        </div>
+      </div>
+      <hr class="my-2 border-gray-100">
+      <div class="flex items-center justify-between bg-blue-50/50 p-2 rounded-lg border border-blue-100">
+        <p class="text-xs font-bold text-blue-800 italic uppercase">O por Bulto: <span class="text-sm font-black">$0.00</span></p>
+        <button onclick="agregarAlCarritoSimple('dog-shaggy-bulto', 'Shaggy (Bulto)', 0.00, 'img/mas/shaggy.jpg')" 
+                class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase shadow-md hover:bg-[#4a6685]">
+          Agregar Bulto
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="flex items-center gap-4 py-3 border-b" data-id="dog-chow" data-nombre="Alimento Dog Chow 1kg" data-precio="41" data-oferta-precio="39" data-oferta-cantidad="3">
-<img src="img/mas/dogchow.jpg" class="w-24 h-24 rounded-lg object-cover shadow-sm">
-<div class="flex-grow">
-<p class="font-semibold">Dog Chow 1kg</p>
-<p class="text-sm">$41.00</p>
-<p class="text-xs text-blue-600">Desde 3kg a $39</p>
-</div>
-<div class="flex items-center gap-2">
-<input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-<button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg">Agregar</button>
-</div>
+<div class="py-4 border-b px-2" data-id="dog-chow" data-nombre="Alimento Dog Chow 1kg" data-precio="41" data-oferta-precio="39" data-oferta-cantidad="3">
+  <div class="flex items-center gap-4">
+    <img src="img/mas/dogchow.jpg" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
+    <div class="flex-grow">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="font-bold text-gray-800">Dog Chow 1kg</p>
+          <p class="text-sm text-gray-600">$41.00</p>
+          <p class="text-xs text-blue-600 font-medium italic">Desde 3kg a $39.00</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
+        </div>
+      </div>
+      <hr class="my-2 border-gray-100">
+      <div class="flex items-center justify-between bg-blue-50/50 p-2 rounded-lg border border-blue-100">
+        <p class="text-xs font-bold text-blue-800 italic uppercase">O por Bulto: <span class="text-sm font-black">$0.00</span></p>
+        <button onclick="agregarAlCarritoSimple('dog-chow-bulto', 'Dog Chow (Bulto)', 0.00, 'img/mas/dogchow.jpg')" 
+                class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase shadow-md hover:bg-[#4a6685]">
+          Agregar Bulto
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <h3 id="gato" class="text-xl font-bold text-gray-700 border-b pt-8">🐈 Alimento para Gato</h3>
