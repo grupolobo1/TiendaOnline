@@ -52,15 +52,82 @@
   <section id="cigarros" class="p-6 max-w-3xl mx-auto">
     <h2 class="text-2xl font-bold mb-4 text-[#D32F2F]">Cigarros</h2>
     
-    <div class="mt-6">
-        <h3 id="paquete-marlboro" class="text-xl font-bold mb-2 text-gray-800 border-b-2 pb-2">
-  Paquete Marlboro
-</h3>
+   <div class="py-4 border-b px-2" data-id="ciga-mr-01" data-nombre="Marlboros de 20's" data-precio="101.00" data-family="marlboro-rojo">
+  <div class="flex items-center gap-4">
+    <img src="img/malboro20.jpg" alt="Marlboro Rojo" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
+    
+    <div class="flex-grow">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="font-bold text-gray-800">Marlboros de 20's</p>
+          <p class="text-sm text-gray-600">$101.00 c/u</p>
+          <p class="text-xs text-blue-600 font-medium italic">5+ piezas: $96.00 c/u</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
+        </div>
+      </div>
 
-        <p class="text-sm text-gray-600 bg-blue-100 p-3 rounded-lg my-4"><strong>Oferta:</strong> 1 cajetilla a $101.00 ¡Llevando 5 o más de esta familia, cada una a $96.00!</p>
-        <div class="space-y-4">
-            <div class="flex items-center gap-4 py-3 border-b" data-id="ciga-mr-01" data-nombre="Marlboros de 20's" data-precio="101.00" data-family="marlboro-rojo"><img src="img/malboro20.jpg" alt="Marlboro Rojo" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Marlboros de 20's</p><p class="text-sm text-gray-600">$101.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-            <div class="flex items-center gap-4 py-3 border-b" data-id="ciga-mr-02" data-nombre="Marlboro Capsula Mentolada 20's" data-precio="101.00" data-family="marlboro-rojo"><img src="img/malboromen.jpg" alt="Marlboro Mentol" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Marlboro Capsula Mentolada 20's</p><p class="text-sm text-gray-600">$101.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
+      <hr class="my-2 border-gray-100">
+
+      <div class="flex items-center justify-between bg-blue-50/50 p-2 rounded-lg border border-blue-100">
+        <p class="text-xs font-bold text-blue-800 italic uppercase">
+          🚬 Paquete (10 pzas): <span class="text-sm font-black">$920.00</span>
+        </p>
+        <button onclick="agregarAlCarritoSimple('ciga-marlboro-rojo-paq', 'Marlboro Rojo (Paquete 10pz)', 920.00, 'img/malboro20.jpg')" 
+                class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase shadow-md hover:bg-[#4a6685]">
+          Agregar Paquete
+        </button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<div class="py-4 border-b px-2" data-id="ciga-mr-02" data-nombre="Marlboro Capsula Mentolada 20's" data-precio="101.00" data-family="marlboro-rojo">
+  <div class="flex items-center gap-4">
+    <img src="img/malboromen.jpg" alt="Marlboro Mentol" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
+    
+    <div class="flex-grow">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="font-bold text-gray-800">Marlboro Mentolada 20's</p>
+          <p class="text-sm text-gray-600">$101.00 c/u</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
+        </div>
+      </div>
+
+      <hr class="my-2 border-gray-100">
+
+      <div class="flex items-center justify-between bg-blue-50/50 p-2 rounded-lg border border-blue-100">
+        <p class="text-xs font-bold text-blue-800 italic uppercase">
+          🚬 Paquete (10 pzas): <span class="text-sm font-black">$900.00</span>
+        </p>
+        <button onclick="agregarAlCarritoSimple('ciga-marlboro-mentol-paq', 'Marlboro Mentol (Paquete 10pz)', 900.00, 'img/malboromen.jpg')" 
+                class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase shadow-md hover:bg-[#4a6685]">
+          Agregar Paquete
+        </button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
             <div class="flex items-center gap-4 py-3 border-b" data-id="ciga-mr-03" data-nombre="Marlboro Double Fusion Ruby 20's" data-precio="101.00" data-family="marlboro-rojo"><img src="img/malborodo.jpg" alt="Marlboro Ruby" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Marlboro Double Fusion Ruby 20's</p><p class="text-sm text-gray-600">$101.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
             <div class="flex items-center gap-4 py-3 border-b" data-id="ciga-mr-04" data-nombre="Marlboro Mega Ice Express 20's" data-precio="101.00" data-family="marlboro-rojo"><img src="img/malborome.jpg" alt="Marlboro Ice" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Marlboro Mega Ice Express 20's</p><p class="text-sm text-gray-600">$101.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
         </div>
@@ -74,7 +141,53 @@
         <p class="text-sm text-gray-600 bg-blue-100 p-3 rounded-lg my-4"><strong>Oferta:</strong> 1 cajetilla a $94.00. ¡Llevando 5 o más de esta familia, cada una a $86.00!</p>
         <div class="space-y-4">
             <div class="flex items-center gap-4 py-3 border-b" data-id="ciga-mv-01" data-nombre="Marlboro Guayaba mas mentol 20's" data-precio="94.00" data-family="marlboro-vista"><img src="img/malborovi.jpg" alt="Marlboro Guayaba" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Marlboro Guayaba mas mentol 20's</p><p class="text-sm text-gray-600">$94.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-            <div class="flex items-center gap-4 py-3 border-b" data-id="ciga-mv-02" data-nombre="Marlboro Summer Fusion 20's" data-precio="94.00" data-family="marlboro-vista"><img src="img/malborovi2.jpg" alt="Marlboro Summer" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Marlboro Summer Fusion 20's</p><p class="text-sm text-gray-600">$94.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
+
+
+
+<div class="py-4 border-b px-2" data-id="ciga-mv-02" data-nombre="Marlboro Summer Fusion 20's" data-precio="94.00" data-family="marlboro-vista">
+  <div class="flex items-center gap-4">
+    <img src="img/malborovi2.jpg" alt="Marlboro Summer" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
+    
+    <div class="flex-grow">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="font-bold text-gray-800">Marlboro Summer Fusion 20's</p>
+          <p class="text-sm text-gray-600">$94.00 c/u</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
+        </div>
+      </div>
+
+      <hr class="my-2 border-gray-100">
+
+      <div class="flex items-center justify-between bg-blue-50/50 p-2 rounded-lg border border-blue-100">
+        <p class="text-xs font-bold text-blue-800 italic uppercase">
+          🚬 Paquete (10 pzas): <span class="text-sm font-black">$855.00</span>
+        </p>
+        <button onclick="agregarAlCarritoSimple('ciga-summer-fusion-paq', 'Marlboro Summer (Paquete 10pz)', 855.00, 'img/malborovi2.jpg')" 
+                class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase shadow-md hover:bg-[#4a6685]">
+          Agregar Paquete
+        </button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
             <div class="flex items-center gap-4 py-3 border-b" data-id="ciga-mv-03" data-nombre="Marlboro Pepino mas mentol 20's" data-precio="94.00" data-family="marlboro-vista"><img src="img/malborovi3.jpg" alt="Marlboro Pepino" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Marlboro Pepino mas mentol 20's</p><p class="text-sm text-gray-600">$94.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
             <div class="flex items-center gap-4 py-3 border-b" data-id="ciga-mv-04" data-nombre="Marlboro Forest Fusion 20's" data-precio="94.00" data-family="marlboro-vista"><img src="img/malborovi4.jpg" alt="Marlboro Forest" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Marlboro Forest Fusion 20's</p><p class="text-sm text-gray-600">$94.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
             <div class="flex items-center gap-4 py-3 border-b" data-id="ciga-mv-05" data-nombre="Marlboro Mentol Intenso 20's" data-precio="94.00" data-family="marlboro-vista"><img src="img/malborovi5.jpg" alt="Marlboro Intenso" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Marlboro Mentol Intenso 20's</p><p class="text-sm text-gray-600">$94.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
