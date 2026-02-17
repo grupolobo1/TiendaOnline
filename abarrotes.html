@@ -91,52 +91,76 @@
 
 
 
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-alpura-desc" data-nombre="Alpura Deslactosada 1L" data-precio="29.00" data-oferta-precio="27.50" data-oferta-cantidad="6"><img src="img/aba/aba2.jpg" alt="Alpura Deslactosada" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Alpura Deslactosada 1L</p><p class="text-sm text-gray-600">$29.00</p><p class="text-xs text-blue-600">A partir de 6 a $27.50 c/u</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-     <div class="flex items-center gap-4 py-3 border-b"
-     data-id="ab-lala-deslac-caja"
-     data-nombre="Lala Deslactosada 1L (Caja 12pz)"
-     data-precio="295.00"
-     data-oferta-precio="290.00"
-     data-oferta-cantidad="3">
-
-  <img src="img/aba/lala-deslactosada.jpg" alt="Lala Deslactosada" class="w-24 h-24 rounded-lg object-cover shadow-sm">
-
-  <div class="flex-grow">
-    <p class="font-semibold text-gray-800">Lala Deslactosada 1L (Caja 29 pzs)</p>
-    <p class="text-sm text-gray-600">$295.00</p>
-    <p class="text-xs text-blue-600">Desde 3 cajas a $290.00</p>
-  </div>
-
-  <div class="flex items-center gap-2">
-    <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-    <button onclick="agregarAlCarrito(this)"
-            class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">
-      Agregar
-    </button>
+    <div class="py-4 border-b px-2" data-id="ab-alpura-desc" data-nombre="Alpura Deslactosada 1L" data-precio="29.00" data-oferta-precio="27.50" data-oferta-cantidad="6">
+  <div class="flex items-center gap-4">
+    <img src="img/aba/aba2.jpg" alt="Alpura Deslactosada" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
+    <div class="flex-grow">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="font-bold text-gray-800">Alpura Deslactosada 1L</p>
+          <p class="text-sm text-gray-600">$29.00 pieza</p>
+          <p class="text-xs text-blue-600 font-medium italic">6+ piezas: $27.50 c/u</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
+        </div>
+      </div>
+      </div>
   </div>
 </div>
 
-<div class="flex items-center gap-4 py-3 border-b"
-     data-id="ab-lala-entera-caja"
-     data-nombre="Lala Entera 1L (Caja 12pz)"
-     data-precio="295.00"
-     data-oferta-precio="290.00"
-     data-oferta-cantidad="3">
-
-  <img src="img/aba/lala-entera.jpg" alt="Lala Entera" class="w-24 h-24 rounded-lg object-cover shadow-sm">
-
-  <div class="flex-grow">
-    <p class="font-semibold text-gray-800">Lala Entera 1L (Caja 28 pzs)</p>
-    <p class="text-sm text-gray-600">$295.00</p>
-    <p class="text-xs text-blue-600">Desde 3 cajas a $290.00</p>
+<div class="py-4 border-b px-2" data-id="ab-lala-deslac-caja" data-nombre="Lala Deslactosada 1L (Caja 12pz)" data-precio="295.00" data-oferta-precio="290.00" data-oferta-cantidad="3">
+  <div class="flex items-center gap-4">
+    <img src="img/aba/lala-deslactosada.jpg" alt="Lala Deslactosada" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
+    <div class="flex-grow">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="font-bold text-gray-800">Lala Deslactosada 1L (Caja)</p>
+          <p class="text-sm text-gray-600">$295.00 Caja</p>
+          <p class="text-xs text-blue-600 font-medium italic">3+ cajas: $290.00 c/u</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar Caja</button>
+        </div>
+      </div>
+      <hr class="my-2 border-gray-100">
+      <div class="flex items-center justify-between bg-blue-50/50 p-2 rounded-lg border border-blue-100">
+        <p class="text-xs font-bold text-blue-800 italic uppercase">🥛 Lleva solo 1 pieza: <span class="text-sm font-black">$29.00</span></p>
+        <button onclick="agregarAlCarritoSimple('ab-lala-deslac-pz', 'Lala Deslactosada (Pieza)', 29.00, 'img/aba/lala-deslactosada.jpg')" 
+                class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase shadow-md hover:bg-[#4a6685]">
+          Agregar Pieza
+        </button>
+      </div>
+    </div>
   </div>
+</div>
 
-  <div class="flex items-center gap-2">
-    <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-    <button onclick="agregarAlCarrito(this)"
-            class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">
-      Agregar
-    </button>
+<div class="py-4 border-b px-2" data-id="ab-lala-entera-caja" data-nombre="Lala Entera 1L (Caja 12pz)" data-precio="295.00" data-oferta-precio="290.00" data-oferta-cantidad="3">
+  <div class="flex items-center gap-4">
+    <img src="img/aba/lala-entera.jpg" alt="Lala Entera" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
+    <div class="flex-grow">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="font-bold text-gray-800">Lala Entera 1L (Caja)</p>
+          <p class="text-sm text-gray-600">$295.00 Caja</p>
+          <p class="text-xs text-blue-600 font-medium italic">3+ cajas: $290.00 c/u</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar Caja</button>
+        </div>
+      </div>
+      <hr class="my-2 border-gray-100">
+      <div class="flex items-center justify-between bg-blue-50/50 p-2 rounded-lg border border-blue-100">
+        <p class="text-xs font-bold text-blue-800 italic uppercase">🥛 Lleva solo 1 pieza: <span class="text-sm font-black">$28.00</span></p>
+        <button onclick="agregarAlCarritoSimple('ab-lala-entera-pz', 'Lala Entera (Pieza)', 28.00, 'img/aba/lala-entera.jpg')" 
+                class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase shadow-md hover:bg-[#4a6685]">
+          Agregar Pieza
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -197,8 +221,8 @@
       <div class="flex items-center gap-4 py-3 border-b" data-id="ab-frijol-negro" data-nombre="Frijol Negro (por kg)" data-precio="33.00" data-oferta-precio="31.00" data-oferta-cantidad="10"><img src="img/aba/aba20.jpg" alt="Frijol Negro" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Frijol Negro (por kg)</p><p class="text-sm text-gray-600">$33.00</p><p class="text-xs text-blue-600">A partir de 10kg a $31.00 c/kg</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
       <div class="flex items-center gap-4 py-3 border-b" data-id="ab-frijol-pinto-kg" data-nombre="Frijol Pinto (por kg)" data-precio="34.00" data-oferta-precio="32.00" data-oferta-cantidad="10"><img src="img/aba/aba21.jpg" alt="Frijol Pinto" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Frijol Pinto (por kg)</p><p class="text-sm text-gray-600">$34.00</p><p class="text-xs text-blue-600">A partir de 10kg a $32.00 c/kg</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
       <div class="flex items-center gap-4 py-3 border-b" data-id="ab-frijol-pinto-bulto" data-nombre="Frijol Pinto (Bulto)" data-precio="750.00"><img src="img/aba/aba21.jpg" alt="Frijol Pinto" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Frijol Pinto (Bulto)</p><p class="text-sm text-gray-600">$750.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-azucar-kg" data-nombre="Azúcar Estándar (por kg)" data-precio="17.00"><img src="img/aba/aba22.jpg" alt="Azúcar Estándar" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Azúcar Estándar (por kg)</p><p class="text-sm text-gray-600">$17.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-azucar-bulto" data-nombre="Azúcar Estándar (Bulto 25kg)" data-precio="420.00"><img src="img/aba/aba22.jpg" alt="Azúcar Estándar" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Azúcar Estándar (Bulto 25kg)</p><p class="text-sm text-gray-600">$420.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
+      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-azucar-kg" data-nombre="Azúcar Estándar (por kg)" data-precio="23.00"><img src="img/aba/aba22.jpg" alt="Azúcar Estándar" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Azúcar Estándar (por kg)</p><p class="text-sm text-gray-600">$23.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
+      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-azucar-bulto" data-nombre="Azúcar Estándar (Bulto 25kg)" data-precio="510.00"><img src="img/aba/aba22.jpg" alt="Azúcar Estándar" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Azúcar Estándar (Bulto 25kg)</p><p class="text-sm text-gray-600">$510.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
       <div class="flex items-center gap-4 py-3 border-b" data-id="ab-sal-fina" data-nombre="Sal Fina 1kg" data-precio="19.00" data-oferta-precio="18.00" data-oferta-cantidad="6"><img src="img/aba/aba23.jpg" alt="Sal Fina" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Sal Fina 1kg</p><p class="text-sm text-gray-600">$19.00</p><p class="text-xs text-blue-600">A partir de 6 a $18.00 c/u</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
       <div class="flex items-center gap-4 py-3 border-b" data-id="ab-sopa-ital" data-nombre="Sopa Ital pasta" data-precio="9.00" data-oferta-precio="8.00" data-oferta-cantidad="10"><img src="img/aba/aba24.jpg" alt="Sopa Ital" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Sopa Ital pasta</p><p class="text-sm text-gray-600">$9.00</p><p class="text-xs text-blue-600">A partir de 10 a $8.00 c/u</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
       <div class="flex items-center gap-4 py-3 border-b" data-id="ab-sopa-mod" data-nombre="Sopa La Moderna" data-precio="9.00" data-oferta-precio="8.00" data-oferta-cantidad="10"><img src="img/aba/aba25.jpg" alt="Sopa Moderna" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Sopa La Moderna</p><p class="text-sm text-gray-600">$9.00</p><p class="text-xs text-blue-600">A partir de 10 a $8.00 c/u</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
@@ -232,18 +256,7 @@
   </div>
 </div>
 
- <div class="flex items-center gap-4 py-3 border-b" data-id="ofer-azucar" data-nombre="Azúcar Estándar (por kg)" data-precio="17.00" data-oferta-precio="16.80" data-oferta-cantidad="10">
-        <img src="img/ofe/ofe2.jpg" alt="Azúcar Estándar" class="w-24 h-24 rounded-lg object-cover shadow-sm">
-        <div class="flex-grow">
-          <p class="font-semibold text-gray-800">Azúcar Estándar (por kg)</p>
-          <p class="text-sm text-gray-600">$17.00</p>
-          <p class="text-xs text-blue-600">A partir de 10kg a $16.80 c/kg</p>
-        </div>
-        <div class="flex items-center gap-2">
-          <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
-        </div>
-      </div>
+ 
 <div class="flex items-center gap-4 py-3 border-b" data-id="ofer-huevo" data-nombre="Huevo Fresco (por kg)" data-precio="43.00" data-oferta-precio="38.00" data-oferta-cantidad="15">
         <img src="img/ofe/ofe1.jpg" alt="Huevo Fresco" class="w-24 h-24 rounded-lg object-cover shadow-sm">
         <div class="flex-grow">
