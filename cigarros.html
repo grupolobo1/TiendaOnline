@@ -193,78 +193,84 @@
 <div  class="flex items-center justify-between text-sm"><span class="text-gray-600">1 Paquete 10pzas - $350.00</span><button onclick="agregarAlCarritoSimple('ciga-eleph-pqt', 'Link Azul (Paquete)', 350.00)" class="bg-green-500 text-white px-3 py-1 rounded-md shadow hover:bg-green-600 text-xs font-bold">Agregar</button></div></div></div>
             
 
-<div class="flex items-center gap-4 py-3 border-b"
-     data-id="ciga-soberano"
-     data-nombre="Soberano"
-     data-precio="40.00"
-     data-oferta-precio="35.00"
-     data-oferta-cantidad="5">
-
-  <img src="img/soberano.jpg" alt="Soberano" class="w-24 h-24 rounded-lg object-cover shadow-sm">
-
-  <div class="flex-grow">
-    <p class="font-semibold text-gray-800">Soberano</p>
-    <p class="text-sm text-gray-600">$40.00</p>
-    <p class="text-xs text-blue-600">A partir de 5 pz a $35.00</p>
-  </div>
-
-  <div class="flex items-center gap-2">
-    <input type="number" value="1" min="1"
-           class="quantity-to-add w-16 text-center border rounded-md p-2">
-    <button onclick="agregarAlCarrito(this)"
-            class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">
-      Agregar
-    </button>
-  </div>
-</div>
-
-<div class="flex items-center gap-4 py-3 border-b"
-     data-id="ciga-time-mango"
-     data-nombre="Time Mango"
-     data-precio="35.00"
-     data-oferta-precio="32.00"
-     data-oferta-cantidad="5">
-
-  <img src="img/time-mango.jpg" alt="Time Mango" class="w-24 h-24 rounded-lg object-cover shadow-sm">
-
-  <div class="flex-grow">
-    <p class="font-semibold text-gray-800">Time Mango</p>
-    <p class="text-sm text-gray-600">$35.00</p>
-    <p class="text-xs text-blue-600">A partir de 5 pz a $32.00</p>
-  </div>
-
-  <div class="flex items-center gap-2">
-    <input type="number" value="1" min="1"
-           class="quantity-to-add w-16 text-center border rounded-md p-2">
-    <button onclick="agregarAlCarrito(this)"
-            class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">
-      Agregar
-    </button>
+<div class="py-4 border-b px-2" data-id="ciga-soberano" data-nombre="Soberano Rojo" data-precio="40.00" data-oferta-precio="35.00" data-oferta-cantidad="5">
+  <div class="flex items-center gap-4">
+    <img src="img/soberano.jpg" alt="Soberano" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
+    <div class="flex-grow">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="font-bold text-gray-800">Soberano Rojo</p>
+          <p class="text-sm text-gray-600">$40.00 c/u</p>
+          <p class="text-xs text-blue-600 font-medium italic">5+ pz a $35.00</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
+        </div>
+      </div>
+      <hr class="my-2 border-gray-100">
+      <div class="flex items-center justify-between bg-blue-50/50 p-2 rounded-lg border border-blue-100">
+        <p class="text-xs font-bold text-blue-800 italic uppercase">🚬 Paquete (8 cajetillas): <span class="text-sm font-black">$350.00</span></p>
+        <button onclick="agregarAlCarritoSimple('ciga-soberano-paq', 'Soberano Rojo (Paquete 8pz)', 350.00, 'img/soberano.jpg')" 
+                class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase">
+          Agregar Paquete
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="flex items-center gap-4 py-3 border-b"
-     data-id="ciga-time-normal"
-     data-nombre="Time Normal"
-     data-precio="35.00"
-     data-oferta-precio="32.00"
-     data-oferta-cantidad="5">
-
-  <img src="img/time-normal.jpg" alt="Time Normal" class="w-24 h-24 rounded-lg object-cover shadow-sm">
-
-  <div class="flex-grow">
-    <p class="font-semibold text-gray-800">Time Normal</p>
-    <p class="text-sm text-gray-600">$35.00</p>
-    <p class="text-xs text-blue-600">A partir de 5 pz a $32.00</p>
+<div class="py-4 border-b px-2" data-id="ciga-time-mango" data-nombre="Time Mango" data-precio="35.00" data-oferta-precio="32.00" data-oferta-cantidad="5">
+  <div class="flex items-center gap-4">
+    <img src="img/time-mango.jpg" alt="Time Mango" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
+    <div class="flex-grow">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="font-bold text-gray-800">Time Mango</p>
+          <p class="text-sm text-gray-600">$35.00 c/u</p>
+          <p class="text-xs text-blue-600 font-medium italic">5+ pz a $32.00</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
+        </div>
+      </div>
+      <hr class="my-2 border-gray-100">
+      <div class="flex items-center justify-between bg-blue-50/50 p-2 rounded-lg border border-blue-100">
+        <p class="text-xs font-bold text-blue-800 italic uppercase">🚬 Paquete (8 cajetillas): <span class="text-sm font-black">$350.00</span></p>
+        <button onclick="agregarAlCarritoSimple('ciga-mango-paq', 'Time Mango (Paquete 8pz)', 350.00, 'img/time-mango.jpg')" 
+                class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase">
+          Agregar Paquete
+        </button>
+      </div>
+    </div>
   </div>
+</div>
 
-  <div class="flex items-center gap-2">
-    <input type="number" value="1" min="1"
-           class="quantity-to-add w-16 text-center border rounded-md p-2">
-    <button onclick="agregarAlCarrito(this)"
-            class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">
-      Agregar
-    </button>
+<div class="py-4 border-b px-2" data-id="ciga-time-normal" data-nombre="Time Normal" data-precio="35.00" data-oferta-precio="32.00" data-oferta-cantidad="5">
+  <div class="flex items-center gap-4">
+    <img src="img/time-normal.jpg" alt="Time Normal" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
+    <div class="flex-grow">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="font-bold text-gray-800">Time Vino Tinto</p>
+          <p class="text-sm text-gray-600">$35.00 c/u</p>
+          <p class="text-xs text-blue-600 font-medium italic">5+ pz a $32.00</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
+        </div>
+      </div>
+      <hr class="my-2 border-gray-100">
+      <div class="flex items-center justify-between bg-blue-50/50 p-2 rounded-lg border border-blue-100">
+        <p class="text-xs font-bold text-blue-800 italic uppercase">🚬 Paquete (8 cajetillas): <span class="text-sm font-black">$350.00</span></p>
+        <button onclick="agregarAlCarritoSimple('ciga-time-paq', 'Time Vino Tinto (Paquete 8pz)', 350.00, 'img/time-normal.jpg')" 
+                class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase">
+          Agregar Paquete
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
