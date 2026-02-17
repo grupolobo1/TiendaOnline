@@ -110,31 +110,53 @@
   </div>
 </div>
 
-      <div class="flex items-center gap-4 py-3 border-b" data-id="alc-negramodelo" data-nombre="Negra Modelo Latón 473ml" data-precio="27.00" data-oferta-precio="23.50" data-oferta-cantidad="12">
-        <img src="img/alc/alc4.jpg" alt="Negra Modelo" class="w-24 h-24 rounded-lg object-cover shadow-sm">
-        <div class="flex-grow">
-          <p class="font-semibold text-gray-800">Negra Modelo Latón 473ml</p>
-          <p class="text-sm text-gray-600">$27.00</p>
-          <p class="text-xs text-blue-600">A partir de 12 a $23.50 c/u</p>
+    <div class="py-4 border-b px-2" data-id="alc-negramodelo" data-nombre="Negra Modelo Latón 473ml" data-precio="27.00" data-oferta-precio="23.50" data-oferta-cantidad="12">
+  <div class="flex items-center gap-4">
+    <img src="img/alc/alc4.jpg" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
+    <div class="flex-grow">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="font-bold text-gray-800">Negra Modelo Latón</p>
+          <p class="text-sm text-gray-600">$27.00 c/u</p>
+          <p class="text-xs text-blue-600 font-medium italic">12+ piezas: $23.50 c/u</p>
         </div>
         <div class="flex items-center gap-2">
-          <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
         </div>
       </div>
+      <hr class="my-2 border-gray-100">
+      <div class="flex items-center justify-between bg-orange-50/50 p-2 rounded-lg border border-orange-100">
+        <p class="text-xs font-bold text-orange-800 italic uppercase">🍻 Charola (24 pzas): <span class="text-sm font-black">$585.00</span></p>
+        <button onclick="agregarAlCarritoSimple('alc-negramodelo-charola', 'Negra Modelo (Charola)', 585.00, 'img/alc/alc4.jpg')" class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase">Agregar Charola</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-      <div class="flex items-center gap-4 py-3 border-b" data-id="alc-vickysabores" data-nombre="Vicky Sabores 473ml" data-precio="26.00" data-oferta-precio="22.50" data-oferta-cantidad="12">
-        <img src="img/alc/alc5.jpg" alt="Vicky Sabores" class="w-24 h-24 rounded-lg object-cover shadow-sm">
-        <div class="flex-grow">
-          <p class="font-semibold text-gray-800">Vicky de Sabores 473ml</p>
-          <p class="text-sm text-gray-600">$26.00</p>
-          <p class="text-xs text-blue-600">A partir de 12 a $22.50 c/u</p>
+     <div class="py-4 border-b px-2" data-id="alc-vickysabores" data-nombre="Vicky Sabores 473ml" data-precio="26.00" data-oferta-precio="22.50" data-oferta-cantidad="12">
+  <div class="flex items-center gap-4">
+    <img src="img/alc/alc5.jpg" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
+    <div class="flex-grow">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="font-bold text-gray-800">Vicky de Sabores</p>
+          <p class="text-sm text-gray-600">$26.00 c/u</p>
+          <p class="text-xs text-blue-600 font-medium italic">12+ piezas: $22.50 c/u</p>
         </div>
         <div class="flex items-center gap-2">
-          <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
         </div>
       </div>
+      <hr class="my-2 border-gray-100">
+      <div class="flex items-center justify-between bg-orange-50/50 p-2 rounded-lg border border-orange-100">
+        <p class="text-xs font-bold text-orange-800 italic uppercase">🍻 Charola (24 pzas): <span class="text-sm font-black">$515.00</span></p>
+        <button onclick="agregarAlCarritoSimple('alc-vicky-charola', 'Vicky Sabores (Charola)', 515.00, 'img/alc/alc5.jpg')" class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase">Agregar Charola</button>
+      </div>
+    </div>
+  </div>
+</div>
       
       <div class="flex items-center gap-4 py-3 border-b" data-id="alc-victoria-lata" data-nombre="Victoria Original 474ml" data-precio="25.00" data-oferta-precio="21.00" data-oferta-cantidad="12">
         <img src="img/alc/alc6.jpg" alt="Victoria Original" class="w-24 h-24 rounded-lg object-cover shadow-sm">
@@ -149,18 +171,31 @@
         </div>
       </div>
 
-      <div class="flex items-center gap-4 py-3 border-b" data-id="alc-victoria-mega" data-nombre="Victoria Mega 1.2L" data-precio="43.00" data-oferta-precio="40.00" data-oferta-cantidad="6">
-        <img src="img/alc/alc7.jpg" alt="Victoria Mega" class="w-24 h-24 rounded-lg object-cover shadow-sm">
-        <div class="flex-grow">
-          <p class="font-semibold text-gray-800">Victoria Mega 1.2L</p>
-          <p class="text-sm text-gray-600">$43.00</p>
-          <p class="text-xs text-blue-600">A partir de 6 a $40.00 c/u</p>
+    <div class="py-4 border-b px-2" data-id="alc-victoria-mega" data-nombre="Victoria Mega 1.2L" data-precio="43.00" data-oferta-precio="40.00" data-oferta-cantidad="6">
+  <div class="flex items-center gap-4">
+    <img src="img/alc/alc7.jpg" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
+    <div class="flex-grow">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="font-bold text-gray-800">Victoria Mega 1.2L</p>
+          <p class="text-sm text-gray-600">$43.00 c/u</p>
+          <p class="text-xs text-blue-600 font-medium italic">6+ piezas: $40.00 c/u</p>
         </div>
         <div class="flex items-center gap-2">
-          <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
         </div>
       </div>
+      <hr class="my-2 border-gray-100">
+      <div class="flex items-center justify-between bg-amber-50 p-2 rounded-lg border border-amber-200">
+        <p class="text-xs font-bold text-amber-900 italic uppercase">📦 Cartón (12 pzas): <span class="text-sm font-black">$538.00</span></p>
+        <button onclick="agregarAlCarritoSimple('alc-vic-mega-carton', 'Victoria Mega (Cartón)', 538.00, 'img/alc/alc7.jpg')" class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase">Agregar Cartón</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="flex items-center gap-4 py-3 border-b" data-id="lic-indio-laton" data-nombre="Cerveza Indio Latón" data-precio="28.00">
     <img src="img/alc/indio.jpg" alt="Indio Latón" class="w-24 h-24 rounded-lg object-cover shadow-sm">
     <div class="flex-grow">
@@ -174,49 +209,74 @@
         </button>
     </div>
 </div>
-
-<div class="flex items-center gap-4 py-3 border-b" data-id="lic-carta-laton" data-nombre="Cerveza Carta Blanca Latón" data-precio="28.00">
-    <img src="img/alc/carta.jpg" alt="Carta Blanca Latón" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+<div class="py-4 border-b px-2" data-id="lic-carta-laton" data-nombre="Cerveza Carta Blanca Latón" data-precio="28.00">
+  <div class="flex items-center gap-4">
+    <img src="img/alc/carta.jpg" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
     <div class="flex-grow">
-        <p class="font-semibold text-gray-800">Cerveza Carta Blanca Latón</p>
-        <p class="text-sm text-gray-600">$28.00</p>
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="font-bold text-gray-800">Carta Blanca Latón</p>
+          <p class="text-sm text-gray-600">$28.00 c/u</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
+        </div>
+      </div>
+      <hr class="my-2 border-gray-100">
+      <div class="flex items-center justify-between bg-orange-50/50 p-2 rounded-lg border border-orange-100">
+        <p class="text-xs font-bold text-orange-800 italic uppercase">🍻 Charola (24 pzas): <span class="text-sm font-black">$467.00</span></p>
+        <button onclick="agregarAlCarritoSimple('lic-carta-charola', 'Carta Blanca (Charola)', 467.00, 'img/alc/carta.jpg')" class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase">Agregar Charola</button>
+      </div>
     </div>
-    <div class="flex items-center gap-2">
-        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">
-            Agregar
-        </button>
-    </div>
+  </div>
 </div>
 
-<div class="flex items-center gap-4 py-3 border-b" data-id="lic-xx-laton" data-nombre="Cerveza XX Latón" data-precio="28.00">
-    <img src="img/alc/xx.jpg" alt="XX Latón" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+<div class="py-4 border-b px-2" data-id="lic-xx-laton" data-nombre="Cerveza XX Latón" data-precio="28.00">
+  <div class="flex items-center gap-4">
+    <img src="img/alc/xx.jpg" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
     <div class="flex-grow">
-        <p class="font-semibold text-gray-800">Cerveza XX Latón</p>
-        <p class="text-sm text-gray-600">$28.00</p>
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="font-bold text-gray-800">Cerveza XX Latón</p>
+          <p class="text-sm text-gray-600">$28.00 c/u</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
+        </div>
+      </div>
+      <hr class="my-2 border-gray-100">
+      <div class="flex items-center justify-between bg-orange-50/50 p-2 rounded-lg border border-orange-100">
+        <p class="text-xs font-bold text-orange-800 italic uppercase">🍻 Charola (24 pzas): <span class="text-sm font-black">$533.00</span></p>
+        <button onclick="agregarAlCarritoSimple('lic-xx-charola', 'XX Latón (Charola)', 533.00, 'img/alc/xx.jpg')" class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase">Agregar Charola</button>
+      </div>
     </div>
-    <div class="flex items-center gap-2">
-        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">
-            Agregar
-        </button>
-    </div>
+  </div>
 </div>
 
-<div class="flex items-center gap-4 py-3 border-b" data-id="lic-tecate-laton" data-nombre="Cerveza Tecate Latón" data-precio="28.00">
-    <img src="img/alc/tecate.jpg" alt="Tecate Latón" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+<div class="py-4 border-b px-2" data-id="lic-tecate-laton" data-nombre="Cerveza Tecate Latón" data-precio="28.00">
+  <div class="flex items-center gap-4">
+    <img src="img/alc/tecate.jpg" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
     <div class="flex-grow">
-        <p class="font-semibold text-gray-800">Cerveza Tecate Latón</p>
-        <p class="text-sm text-gray-600">$28.00</p>
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="font-bold text-gray-800">Cerveza Tecate Latón</p>
+          <p class="text-sm text-gray-600">$28.00 c/u</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
+        </div>
+      </div>
+      <hr class="my-2 border-gray-100">
+      <div class="flex items-center justify-between bg-orange-50/50 p-2 rounded-lg border border-orange-100">
+        <p class="text-xs font-bold text-orange-800 italic uppercase">🍻 Charola (24 pzas): <span class="text-sm font-black">$488.00</span></p>
+        <button onclick="agregarAlCarritoSimple('lic-tecate-charola', 'Tecate Latón (Charola)', 488.00, 'img/alc/tecate.jpg')" class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase">Agregar Charola</button>
+      </div>
     </div>
-    <div class="flex items-center gap-2">
-        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">
-            Agregar
-        </button>
-    </div>
+  </div>
 </div>
-    </div>
 
     <a href="index.html" class="mt-8 block w-full text-center bg-gray-300 px-4 py-2 rounded shadow">Regresar al Menú</a>
   </section>
