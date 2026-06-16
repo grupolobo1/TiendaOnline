@@ -1,21 +1,15 @@
 // ===================================================================================
 // ARCHIVO: carrito.js — CON PRECIOS EN TIEMPO REAL DESDE BASEROW
-// Los clientes siempre ven los precios actuales que la dueña edita en el admin.
-// Paginación automática: trae TODOS los productos sin límite de 100.
 // ===================================================================================
 
 const BASEROW_TOKEN    = 'sTPlXBmAyDa2aZS1x78J8oYnb9oGOMe8';
 const BASEROW_TABLE    = '1029851';
 const BASEROW_URL_BASE = `https://api.baserow.io/api/database/rows/table/${BASEROW_TABLE}/?user_field_names=true&size=100`;
 
-// -----------------------------------------------------------------------
-// CACHÉ EN localStorage — 24 HORAS
-// -----------------------------------------------------------------------
+// Sin caché — siempre datos frescos
 const CACHE_KEY    = 'baserow_precios';
 const CACHE_TS_KEY = 'baserow_precios_ts';
-const CACHE_TTL    = 0; // Sin caché — siempre datos frescos
-
-// ------------------- PRECIOS DESDE BASEROW (CON PAGINACIÓN) -------------------
+const CACHE_TTL    = 0;
 
 async function getPreciosDesdeBaserow() {
   const ahora      = Date.now();
@@ -26,29 +20,20 @@ async function getPreciosDesdeBaserow() {
     try {
       const raw = localStorage.getItem(CACHE_KEY);
       if (raw) return JSON.parse(raw);
-    } catch {
-      // JSON corrupto — caemos al fetch
-    }
+    } catch {}
   }
 
-  // Caché expirado o vacío — pedimos a Baserow con paginación completa
   try {
     const lista = [];
     let url = BASEROW_URL_BASE;
-
-    // Seguimos pidiendo páginas mientras Baserow devuelva un campo "next"
     while (url) {
-      const res  = await fetch(url, {
-        headers: { 'Authorization': `Token ${BASEROW_TOKEN}` }
-      });
+      const res  = await fetch(url, { headers: { 'Authorization': `Token ${BASEROW_TOKEN}` } });
       const data = await res.json();
       if (Array.isArray(data.results)) lista.push(...data.results);
-      url = data.next ? data.next.replace('http://', 'https://') : null; // forzar https
+      url = data.next ? data.next.replace('http://', 'https://') : null;
     }
-
     localStorage.setItem(CACHE_KEY,    JSON.stringify(lista));
     localStorage.setItem(CACHE_TS_KEY, String(ahora));
-
     return lista;
   } catch (e) {
     console.warn('No se pudo conectar con Baserow, usando caché anterior o vacío.', e);
@@ -60,19 +45,15 @@ async function getPreciosDesdeBaserow() {
   }
 }
 
-// Limpia el caché manualmente
 function limpiarCachePrecios() {
   localStorage.removeItem(CACHE_KEY);
   localStorage.removeItem(CACHE_TS_KEY);
-  console.info('Caché de precios limpiado. Se pedirán nuevos datos en la próxima acción.');
 }
 
-// Busca un producto por su id_html
 function encontrarFila(precios, id) {
   return precios.find(p => p.id_html === id) || null;
 }
 
-// Construye el mapa de ofertas por familia
 function buildOfertasMap(precios) {
   const map = {};
   precios.forEach(p => {
@@ -94,9 +75,7 @@ function getCartFromStorage() {
   try {
     const cart = JSON.parse(localStorage.getItem('miCarrito'));
     return Array.isArray(cart) ? cart : [];
-  } catch {
-    return [];
-  }
+  } catch { return []; }
 }
 
 function saveCartToStorage(cart) {
@@ -120,28 +99,27 @@ async function agregarAlCarrito(boton) {
   const precios = await getPreciosDesdeBaserow();
   const fila    = encontrarFila(precios, id);
 
-  // Validar stock disponible
+  // Validar stock
   const stock = fila ? (parseInt(fila.stock) || 0) : 999;
-  const carrito   = getCartFromStorage();
-  const existente = carrito.find(item => item.id === id);
+  const carrito    = getCartFromStorage();
+  const existente  = carrito.find(item => item.id === id);
   const yaEnCarrito = existente ? existente.cantidad : 0;
-  const totalSolicitado = yaEnCarrito + cantidad;
 
-  if (stock > 0 && totalSolicitado > stock) {
+  if (stock > 0 && (yaEnCarrito + cantidad) > stock) {
     const disponibleParaAgregar = stock - yaEnCarrito;
     if (disponibleParaAgregar <= 0) {
-      alert('Ya tienes el maximo disponible en tu carrito (' + stock + ' en existencia).');
+      alert('Ya tienes el máximo disponible en tu carrito (' + stock + ' en existencia).');
     } else {
-      alert('Solo hay ' + stock + ' en existencia. Puedes agregar ' + disponibleParaAgregar + ' mas.');
+      alert('Solo hay ' + stock + ' en existencia. Puedes agregar ' + disponibleParaAgregar + ' más.');
     }
     cantidadInput.value = Math.max(1, stock - yaEnCarrito);
     return;
   }
 
-  const precio         = fila ? (parseFloat(fila.precio)         || precioOriginal) : precioOriginal;
-  const familia        = fila?.familia        || productoDiv.dataset.family  || null;
-  const ofertaPrecio   = fila ? (parseFloat(fila.precio_oferta)  || null) : null;
-  const ofertaCantidad = fila ? (parseInt(fila.cantidad_minima)  || null) : null;
+  const precio         = fila ? (parseFloat(fila.precio)        || precioOriginal) : precioOriginal;
+  const familia        = fila?.familia       || productoDiv.dataset.family || null;
+  const ofertaPrecio   = fila ? (parseFloat(fila.precio_oferta) || null) : null;
+  const ofertaCantidad = fila ? (parseInt(fila.cantidad_minima) || null) : null;
   const nombrePaquete  = fila?.nombre_paquete || null;
   const precioPaquete  = fila ? (parseFloat(fila.precio_paquete) || null) : null;
 
@@ -157,10 +135,40 @@ async function agregarAlCarrito(boton) {
   actualizarContadorUI();
 }
 
+// Busca la fila padre que tenga precio_paquete para un id de paquete hardcodeado
+// Ej: 'ciga-marlboro-mentol-paq' → busca fila con precio_paquete donde su id sea la pieza base
+function encontrarFilaPadreConPaquete(precios, idPaquete) {
+  // El id del paquete en HTML puede ser distinto al id_html de la fila padre
+  // Buscamos la fila que tenga precio_paquete y cuyo nombre_paquete o id_html
+  // sea el padre logico de este paquete comparando subcadenas
+  var sufijos = ['-paq', '-caja', '-charola', '-bulto', '-exh', '-bolsa', '-carton', '-pqt'];
+  var base = idPaquete;
+  for (var i = 0; i < sufijos.length; i++) {
+    if (idPaquete.endsWith(sufijos[i])) {
+      base = idPaquete.slice(0, idPaquete.length - sufijos[i].length);
+      break;
+    }
+  }
+  // Buscar fila cuyo id_html comienza igual que la base y tiene precio_paquete
+  return precios.find(function(p) {
+    return p.precio_paquete && p.id_html && p.id_html !== idPaquete &&
+      (p.id_html === base || idPaquete.startsWith(p.id_html));
+  }) || null;
+}
+
 async function agregarAlCarritoSimple(id, nombre, precioOriginal, imagen) {
   const precios = await getPreciosDesdeBaserow();
   const fila    = encontrarFila(precios, id);
-  const precio  = fila ? (parseFloat(fila.precio) || precioOriginal) : precioOriginal;
+
+  // Si la fila directa no tiene precio_paquete, buscar en la fila padre
+  var precioPaquetePadre = null;
+  if (!fila || !fila.precio_paquete) {
+    var filaPadre = encontrarFilaPadreConPaquete(precios, id);
+    if (filaPadre) precioPaquetePadre = parseFloat(filaPadre.precio_paquete) || null;
+  }
+
+  const precio  = precioPaquetePadre
+    || (fila ? (parseFloat(fila.precio) || precioOriginal) : precioOriginal);
   const familia = fila?.familia || null;
 
   const carrito   = getCartFromStorage();
@@ -172,6 +180,25 @@ async function agregarAlCarritoSimple(id, nombre, precioOriginal, imagen) {
     carrito.push({ id, nombre, precio, cantidad: 1, familia, imagen });
   }
 
+  saveCartToStorage(carrito);
+  actualizarContadorUI();
+}
+
+// Agrega paquete nuevo desde Baserow (productos sin boton hardcodeado)
+async function agregarPaqueteAlCarrito(id, nombre, precio, imagen, nombrePaquete) {
+  const precios = await getPreciosDesdeBaserow();
+  const fila    = encontrarFila(precios, id);
+  const carrito = getCartFromStorage();
+  const idPaq   = id + '-paq';
+  const existente = carrito.find(item => item.id === idPaq);
+  const precioFinal = fila ? (parseFloat(fila.precio_paquete) || precio) : precio;
+
+  if (existente) {
+    existente.cantidad++;
+    existente.precio = precioFinal;
+  } else {
+    carrito.push({ id: idPaq, nombre: nombrePaquete + ' — ' + nombre, precio: precioFinal, cantidad: 1, familia: null, imagen });
+  }
   saveCartToStorage(carrito);
   actualizarContadorUI();
 }
@@ -229,7 +256,6 @@ async function dibujarCarritoCompleto() {
       let precioUnitario = fila ? (parseFloat(fila.precio) || item.precio) : item.precio;
       let notaPrecio = '';
 
-      // Datos paquete actualizados desde Baserow
       const nombrePaquete = fila?.nombre_paquete || item.nombrePaquete || null;
       const precioPaquete = fila ? (parseFloat(fila.precio_paquete) || null) : (item.precioPaquete || null);
 
@@ -344,7 +370,6 @@ async function confirmarEnvio() {
   });
 
   const numero = localStorage.getItem('admin_whatsapp') || '2482000310';
-
   let mensaje      = `*Resumen de Pedido:* 🛒\n\n*Productos:*\n`;
   let totalGeneral = 0;
 
@@ -374,134 +399,196 @@ async function confirmarEnvio() {
   actualizarContadorUI();
   setTimeout(() => location.reload(), 400);
 }
+
 // -----------------------------------------------------------------------
-// ACTUALIZAR PRECIOS VISIBLES EN LA PÁGINA AL CARGAR
+// ACTUALIZAR PRECIOS, STOCK Y PAQUETES EN PÁGINA AL CARGAR
 // -----------------------------------------------------------------------
 async function actualizarPreciosEnPagina() {
   try {
     const precios = await getPreciosDesdeBaserow();
     if (!precios || precios.length === 0) return;
 
-    document.querySelectorAll('[data-id]').forEach(el => {
-      const id   = el.dataset.id;
-      const fila = precios.find(p => p.id_html === id);
+    document.querySelectorAll('[data-id]').forEach(function(el) {
+      var id   = el.dataset.id;
+      var fila = precios.find(function(p) { return p.id_html === id; });
       if (!fila) return;
 
-      const precioNuevo  = parseFloat(fila.precio);
-      const ofertaNuevo  = parseFloat(fila.precio_oferta) || null;
-      const cantMinNueva = parseInt(fila.cantidad_minima)  || null;
+      // ── Precio y oferta ──
+      var precioNuevo  = parseFloat(fila.precio);
+      var ofertaNuevo  = parseFloat(fila.precio_oferta) || null;
+      var cantMinNueva = parseInt(fila.cantidad_minima)  || null;
 
       if (!isNaN(precioNuevo))  el.dataset.precio         = precioNuevo;
       if (ofertaNuevo)          el.dataset.ofertaPrecio   = ofertaNuevo;
       if (cantMinNueva)         el.dataset.ofertaCantidad = cantMinNueva;
 
-      const pNormal = el.querySelector('p.text-sm.text-gray-600');
+      var pNormal = el.querySelector('p.text-sm.text-gray-600');
       if (pNormal && !isNaN(precioNuevo)) {
-        const sufijo = pNormal.textContent.replace(/\$[\d.,]+/, '').trim();
+        var sufijo = pNormal.textContent.replace(/\$[\d.,]+/, '').trim();
         pNormal.textContent = '$' + precioNuevo.toFixed(2) + (sufijo ? ' ' + sufijo : '');
       }
 
       if (ofertaNuevo && cantMinNueva) {
-        const pOferta = el.querySelector('p.text-xs.text-blue-600');
+        var pOferta = el.querySelector('p.text-xs.text-blue-600');
         if (pOferta) {
           pOferta.textContent = 'A partir de ' + cantMinNueva + ' a $' + ofertaNuevo.toFixed(2) + ' c/u';
         }
       }
 
-      // Stock y disponibilidad
-      var stock       = parseInt(fila.stock) || 0;
-      var disponible  = (fila.disponible === true || fila.disponible === 'true');
-      var agotado     = !disponible || stock === 0;
-      var pocoStock   = disponible && stock > 0 && stock <= 5;
+      // ── Stock y disponibilidad ──
+      var stock      = parseInt(fila.stock) || 0;
+      var disponible = (fila.disponible === true || fila.disponible === 'true');
+      var agotado    = !disponible || stock === 0;
+      var pocoStock  = disponible && stock > 0 && stock <= 5;
 
-      // Limitar el input de cantidad al stock real
+      // Limitar input al stock real
       var qInput = el.querySelector('.quantity-to-add');
       if (qInput && stock > 0) {
         qInput.max = stock;
         if (parseInt(qInput.value) > stock) qInput.value = stock;
       }
 
-      // Quitar badge anterior si existe
+      // Quitar badge anterior
       var badgeViejo = el.querySelector('.stock-badge');
       if (badgeViejo) badgeViejo.remove();
 
-      var infoDiv2 = el.querySelector('.flex-grow');
+      var infoDiv = el.querySelector('.flex-grow');
 
       if (agotado) {
-        // Atenuar producto completo
         el.style.opacity = '0.5';
         el.style.pointerEvents = 'none';
-        // Badge rojo "Sin stock"
-        if (infoDiv2) {
+        if (infoDiv) {
           var badge = document.createElement('p');
           badge.className = 'stock-badge';
           badge.style.cssText = 'font-size:11px;font-weight:700;color:#fff;background:#dc2626;display:inline-block;padding:2px 8px;border-radius:999px;margin-top:4px;';
           badge.textContent = '❌ Agotado';
-          infoDiv2.appendChild(badge);
+          infoDiv.appendChild(badge);
         }
       } else {
-        // Restaurar por si antes estaba agotado
         el.style.opacity = '';
         el.style.pointerEvents = '';
-        if (pocoStock) {
-          // Badge naranja "¡Solo quedan X!"
-          if (infoDiv2) {
-            var badgePoco = document.createElement('p');
-            badgePoco.className = 'stock-badge';
-            badgePoco.style.cssText = 'font-size:11px;font-weight:700;color:#fff;background:#ea580c;display:inline-block;padding:2px 8px;border-radius:999px;margin-top:4px;';
-            badgePoco.textContent = '⚠️ ¡Solo quedan ' + stock + '!';
-            infoDiv2.appendChild(badgePoco);
-          }
+        if (pocoStock && infoDiv) {
+          var badgePoco = document.createElement('p');
+          badgePoco.className = 'stock-badge';
+          badgePoco.style.cssText = 'font-size:11px;font-weight:700;color:#fff;background:#ea580c;display:inline-block;padding:2px 8px;border-radius:999px;margin-top:4px;';
+          badgePoco.textContent = '⚠️ ¡Solo quedan ' + stock + '!';
+          infoDiv.appendChild(badgePoco);
         }
       }
 
-      // Boton de paquete dinamico
+      // ── Botón de paquete ──
       var nombrePaq = fila.nombre_paquete || null;
       var precioPaq = parseFloat(fila.precio_paquete) || null;
-      if (nombrePaq && precioPaq) {
-        if (!el.querySelector('.paquete-btn-row') && !el.querySelector('.bg-blue-50\/50')) {
-          var idHtml   = fila.id_html || el.dataset.id;
-          var imgEl    = el.querySelector('img');
-          var imgSrc   = imgEl ? imgEl.src : '';
-          var palabraBtn = nombrePaq.split(' ')[0];
-          var row = document.createElement('div');
-          row.className = 'paquete-btn-row';
-          row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:8px 12px;margin-top:8px;gap:8px;';
-          var label = document.createElement('p');
-          label.style.cssText = 'font-size:12px;color:#1e40af;font-weight:700;margin:0;';
-          label.textContent = '📦 ' + nombrePaq + ': $' + precioPaq.toFixed(2);
-          var btn = document.createElement('button');
-          btn.style.cssText = 'flex-shrink:0;background:#1d4ed8;color:#fff;font-size:11px;font-weight:700;padding:6px 12px;border-radius:8px;border:none;cursor:pointer;';
-          btn.textContent = 'AGREGAR ' + palabraBtn;
-          btn.setAttribute('data-id-paq', idHtml);
-          btn.setAttribute('data-nombre-paq', fila.nombre || el.dataset.nombre || '');
-          btn.setAttribute('data-precio-paq', precioPaq);
-          btn.setAttribute('data-img-paq', imgSrc);
-          btn.setAttribute('data-label-paq', nombrePaq);
-          btn.onclick = function() {
-            var b = this;
-            agregarPaqueteAlCarrito(
-              b.getAttribute('data-id-paq'),
-              b.getAttribute('data-nombre-paq'),
-              parseFloat(b.getAttribute('data-precio-paq')),
-              b.getAttribute('data-img-paq'),
-              b.getAttribute('data-label-paq')
-            );
-            var orig = b.textContent;
-            b.textContent = '✓ Agregado';
-            b.style.background = '#16a34a';
-            setTimeout(function() {
-              b.textContent = orig;
-              b.style.background = '#1d4ed8';
-            }, 1200);
-          };
-          row.appendChild(label);
-          row.appendChild(btn);
-          var infoDiv = el.querySelector('.flex-grow');
-          if (infoDiv) infoDiv.appendChild(row);
+      var rowExistente = el.querySelector('.paquete-btn-row');
+      var yaHayBotonHtml = el.querySelector('[onclick*="agregarAlCarritoSimple"]');
+
+      // Si ya hay un botón dinámico (.paquete-btn-row), solo actualizar precio y datos
+      if (rowExistente && nombrePaq && precioPaq) {
+        var labelExistente = rowExistente.querySelector('p');
+        if (labelExistente) {
+          labelExistente.textContent = '📦 ' + nombrePaq + ': $' + precioPaq.toFixed(2);
+        }
+        var btnExistente = rowExistente.querySelector('button');
+        if (btnExistente) {
+          btnExistente.setAttribute('data-precio-paq', precioPaq);
+          btnExistente.setAttribute('data-label-paq', nombrePaq);
+          var palabraBtnUpd = nombrePaq.split(' ')[0];
+          btnExistente.textContent = 'AGREGAR ' + palabraBtnUpd;
+        }
+      } else if (nombrePaq && precioPaq && !yaHayBotonHtml && infoDiv) {
+        var idHtml     = fila.id_html || el.dataset.id;
+        var imgEl      = el.querySelector('img');
+        var imgSrc     = imgEl ? imgEl.src : '';
+        var palabraBtn = nombrePaq.split(' ')[0];
+        var nombreProd = fila.nombre || el.dataset.nombre || '';
+
+        var row = document.createElement('div');
+        row.className = 'paquete-btn-row';
+        row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:8px 12px;margin-top:8px;gap:8px;';
+
+        var label = document.createElement('p');
+        label.style.cssText = 'font-size:12px;color:#1e40af;font-weight:700;margin:0;';
+        label.textContent = '📦 ' + nombrePaq + ': $' + precioPaq.toFixed(2);
+
+        var btn = document.createElement('button');
+        btn.style.cssText = 'flex-shrink:0;background:#1d4ed8;color:#fff;font-size:11px;font-weight:700;padding:6px 12px;border-radius:8px;border:none;cursor:pointer;';
+        btn.textContent = 'AGREGAR ' + palabraBtn;
+        btn.setAttribute('data-id-paq', idHtml);
+        btn.setAttribute('data-nombre-paq', nombreProd);
+        btn.setAttribute('data-precio-paq', precioPaq);
+        btn.setAttribute('data-img-paq', imgSrc);
+        btn.setAttribute('data-label-paq', nombrePaq);
+        btn.onclick = function() {
+          var b = this;
+          agregarPaqueteAlCarrito(
+            b.getAttribute('data-id-paq'),
+            b.getAttribute('data-nombre-paq'),
+            parseFloat(b.getAttribute('data-precio-paq')),
+            b.getAttribute('data-img-paq'),
+            b.getAttribute('data-label-paq')
+          );
+          var orig = b.textContent;
+          b.textContent = '✓ Agregado';
+          b.style.background = '#16a34a';
+          setTimeout(function() {
+            b.textContent = orig;
+            b.style.background = '#1d4ed8';
+          }, 1200);
+        };
+
+        row.appendChild(label);
+        row.appendChild(btn);
+        infoDiv.appendChild(row);
+      }
+    });
+
+    // ── Actualizar botones hardcodeados con agregarAlCarritoSimple ──
+    document.querySelectorAll('button[onclick*="agregarAlCarritoSimple"]').forEach(function(btn) {
+      var onclickStr = btn.getAttribute('onclick');
+      var match = onclickStr.match(/agregarAlCarritoSimple\(\s*'([^']+)'\s*,\s*'([^']+)'\s*,\s*([\d.]+)/);
+      if (!match) return;
+      var idHtml    = match[1];
+      var nombreOrig = match[2];
+
+      // Buscar fila directa
+      var fila = precios.find(function(p) { return p.id_html === idHtml; });
+
+      // Si la fila directa no tiene precio_paquete, buscar en la fila padre
+      var precioNuevo = null;
+      if (fila && fila.precio_paquete) {
+        precioNuevo = parseFloat(fila.precio_paquete);
+      } else {
+        var filaPadre = encontrarFilaPadreConPaquete(precios, idHtml);
+        if (filaPadre && filaPadre.precio_paquete) {
+          precioNuevo = parseFloat(filaPadre.precio_paquete);
+        } else if (fila) {
+          precioNuevo = parseFloat(fila.precio);
+        }
+      }
+
+      if (!precioNuevo || isNaN(precioNuevo)) return;
+
+      // Reemplazar precio en el onclick
+      var onclickNuevo = onclickStr.replace(
+        /agregarAlCarritoSimple\(\s*'([^']+)'\s*,\s*'([^']+)'\s*,\s*[\d.]+/,
+        "agregarAlCarritoSimple('" + idHtml + "', '" + nombreOrig + "', " + precioNuevo.toFixed(2)
+      );
+      btn.setAttribute('onclick', onclickNuevo);
+
+      // Actualizar texto visible: span con precio y/o p con "Caja: $xxx"
+      var contenedor = btn.closest('div');
+      if (contenedor) {
+        var spanPrecio = contenedor.querySelector('span');
+        if (spanPrecio && /\$[\d.,]+/.test(spanPrecio.textContent)) {
+          spanPrecio.textContent = '$' + precioNuevo.toFixed(2);
+        }
+        var pTexto = contenedor.querySelector('p');
+        if (pTexto) {
+          pTexto.innerHTML = pTexto.innerHTML.replace(/\$[\d.,]+/, '$' + precioNuevo.toFixed(2));
         }
       }
     });
+
   } catch (e) {
     console.warn('actualizarPreciosEnPagina error:', e);
   }
@@ -511,29 +598,3 @@ document.addEventListener('DOMContentLoaded', function () {
   actualizarContadorUI();
   actualizarPreciosEnPagina();
 });
-
-// Agrega paquete al carrito
-async function agregarPaqueteAlCarrito(id, nombre, precio, imagen, nombrePaquete) {
-  var precios  = await getPreciosDesdeBaserow();
-  var fila     = encontrarFila(precios, id);
-  var carrito  = getCartFromStorage();
-  var idPaq    = id + '-paq';
-  var existente = carrito.find(function(item) { return item.id === idPaq; });
-  var precioFinal = fila ? (parseFloat(fila.precio_paquete) || precio) : precio;
-
-  if (existente) {
-    existente.cantidad++;
-    existente.precio = precioFinal;
-  } else {
-    carrito.push({
-      id: idPaq,
-      nombre: nombrePaquete + ' — ' + nombre,
-      precio: precioFinal,
-      cantidad: 1,
-      familia: null,
-      imagen: imagen
-    });
-  }
-  saveCartToStorage(carrito);
-  actualizarContadorUI();
-}
