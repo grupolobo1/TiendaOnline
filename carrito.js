@@ -358,11 +358,9 @@ async function confirmarEnvio() {
   actualizarContadorUI();
   setTimeout(() => location.reload(), 400);
 }
-
 // -----------------------------------------------------------------------
 // ACTUALIZAR PRECIOS VISIBLES EN LA PÁGINA AL CARGAR
-// Reemplaza los textos de precio hardcodeados en el HTML con los de Baserow
-// para que el cliente vea el precio real aunque el HTML no haya cambiado.
+// Lee Baserow y reemplaza los textos hardcodeados en el HTML
 // -----------------------------------------------------------------------
 async function actualizarPreciosEnPagina() {
   try {
@@ -374,41 +372,37 @@ async function actualizarPreciosEnPagina() {
       const fila = precios.find(p => p.id_html === id);
       if (!fila) return;
 
-      // 1. Actualizar data-precio (lo que usa agregarAlCarrito)
-      const precioNuevo   = parseFloat(fila.precio);
-      const ofertaNuevo   = parseFloat(fila.precio_oferta) || null;
-      const cantMinNueva  = parseInt(fila.cantidad_minima)  || null;
+      const precioNuevo  = parseFloat(fila.precio);
+      const ofertaNuevo  = parseFloat(fila.precio_oferta) || null;
+      const cantMinNueva = parseInt(fila.cantidad_minima)  || null;
 
-      if (!isNaN(precioNuevo)) {
-        el.dataset.precio = precioNuevo;
-      }
-      if (ofertaNuevo)  el.dataset.ofertaPrecio   = ofertaNuevo;
-      if (cantMinNueva) el.dataset.ofertaCantidad  = cantMinNueva;
+      // Actualizar data attributes (los usa agregarAlCarrito)
+      if (!isNaN(precioNuevo))  el.dataset.precio         = precioNuevo;
+      if (ofertaNuevo)          el.dataset.ofertaPrecio   = ofertaNuevo;
+      if (cantMinNueva)         el.dataset.ofertaCantidad = cantMinNueva;
 
-      // 2. Actualizar el texto visible del precio normal
-      // Busca el primer <p> que contenga "$" y un número (precio unitario)
-      const pNormal = el.querySelector('p.text-sm.text-gray-600, p.text-sm');
-      if (pNormal && /\$[\d]/.test(pNormal.textContent) && !isNaN(precioNuevo)) {
-        // Conservar texto extra como "pieza", "Caja", etc.
-        const extra = pNormal.textContent.replace(/\$[\d.,]+/, '').replace(/c\/u|pieza|pz|kg/gi, '').trim();
-        const sufijo = pNormal.textContent.match(/pieza|pz|kg|Caja|caja/i)?.[0] || 'c/u';
-        pNormal.textContent = `$${precioNuevo.toFixed(2)} ${sufijo}`;
+      // Actualizar texto precio normal: <p class="text-sm text-gray-600">$38.00</p>
+      const pNormal = el.querySelector('p.text-sm.text-gray-600');
+      if (pNormal && !isNaN(precioNuevo)) {
+        // Conserva cualquier sufijo como "pieza", "Caja", "pz", "c/u"
+        const sufijo = pNormal.textContent.replace(/\$[\d.,]+/, '').trim();
+        pNormal.textContent = '$' + precioNuevo.toFixed(2) + (sufijo ? ' ' + sufijo : '');
       }
 
-      // 3. Actualizar el texto de oferta visible
+      // Actualizar texto oferta: <p class="text-xs text-blue-600">A partir de 5 a $37.00 c/u</p>
       if (ofertaNuevo && cantMinNueva) {
-        const pOferta = el.querySelector('p.text-xs.text-blue-600, p.text-xs');
-        if (pOferta && /\$[\d]/.test(pOferta.textContent)) {
-          pOferta.textContent = `${cantMinNueva}+ piezas: $${ofertaNuevo.toFixed(2)} c/u`;
+        const pOferta = el.querySelector('p.text-xs.text-blue-600');
+        if (pOferta) {
+          pOferta.textContent = 'A partir de ' + cantMinNueva + ' a $' + ofertaNuevo.toFixed(2) + ' c/u';
         }
       }
     });
   } catch (e) {
-    console.warn('No se pudieron actualizar precios en la página:', e);
+    console.warn('actualizarPreciosEnPagina error:', e);
   }
 }
 
-// Al cargar la página: actualizar contador del carrito Y precios visibles
+// Al cargar la página
 document.addEventListener('DOMContentLoaded', function () {
   actualizarContadorUI();
   actualizarPreciosEnPagina();
