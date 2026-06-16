@@ -6,10 +6,9 @@ const BASEROW_TOKEN    = 'sTPlXBmAyDa2aZS1x78J8oYnb9oGOMe8';
 const BASEROW_TABLE    = '1029851';
 const BASEROW_URL_BASE = `https://api.baserow.io/api/database/rows/table/${BASEROW_TABLE}/?user_field_names=true&size=100`;
 
-// Sin caché — siempre datos frescos
 const CACHE_KEY    = 'baserow_precios';
 const CACHE_TS_KEY = 'baserow_precios_ts';
-const CACHE_TTL    = 0;
+const CACHE_TTL    = 0; // Siempre consulta a Baserow
 
 async function getPreciosDesdeBaserow() {
   const ahora      = Date.now();
@@ -69,8 +68,6 @@ function buildOfertasMap(precios) {
   return map;
 }
 
-// ------------------- CARRITO -------------------
-
 function getCartFromStorage() {
   try {
     const cart = JSON.parse(localStorage.getItem('miCarrito'));
@@ -99,7 +96,6 @@ async function agregarAlCarrito(boton) {
   const precios = await getPreciosDesdeBaserow();
   const fila    = encontrarFila(precios, id);
 
-  // Validar stock
   const stock = fila ? (parseInt(fila.stock) || 0) : 999;
   const carrito    = getCartFromStorage();
   const existente  = carrito.find(item => item.id === id);
@@ -147,7 +143,6 @@ async function agregarAlCarrito(boton) {
   actualizarContadorUI();
 }
 
-// Busca la fila padre que tenga precio_paquete
 function encontrarFilaPadreConPaquete(precios, idPaquete) {
   var sufijos = ['-paq', '-caja', '-charola', '-bulto', '-exh', '-bolsa', '-carton', '-pqt'];
   var base = idPaquete;
@@ -163,10 +158,8 @@ function encontrarFilaPadreConPaquete(precios, idPaquete) {
   }) || null;
 }
 
-// FUNCIÓN PARA PAQUETES - usa un ID DIFERENTE al de la pieza suelta
 async function agregarAlCarritoSimple(idBase, nombre, precioPaquete, imagen) {
   const idPaquete = idBase + '-paq';
-  
   const carrito = getCartFromStorage();
   const existente = carrito.find(item => item.id === idPaquete);
   
@@ -227,8 +220,14 @@ function modificarCantidad(id, cambio) {
 }
 
 function eliminarDelCarrito(id) {
-  saveCartToStorage(getCartFromStorage().filter(item => item.id !== id));
-  dibujarCarritoCompleto();
+  const carrito = getCartFromStorage();
+  const producto = carrito.find(item => item.id === id);
+  if (!producto) return;
+  if (confirm(`¿Eliminar "${producto.nombre}" del carrito?`)) {
+    saveCartToStorage(carrito.filter(item => item.id !== id));
+    dibujarCarritoCompleto();
+    actualizarContadorUI();
+  }
 }
 
 function actualizarContadorUI() {
@@ -304,7 +303,7 @@ async function dibujarCarritoCompleto() {
             <button onclick="modificarCantidad('${item.id}', -1)" class="bg-gray-200 w-7 h-7 rounded-full font-bold flex items-center justify-center">-</button>
             <span class="w-8 text-center font-semibold">${item.cantidad}</span>
             <button onclick="modificarCantidad('${item.id}', 1)" class="bg-gray-200 w-7 h-7 rounded-full font-bold flex items-center justify-center">+</button>
-            <button onclick="eliminarDelCarrito('${item.id}')" class="text-red-500 hover:text-red-700 ml-3 text-xl">🗑️</button>
+            <button onclick="eliminarDelCarrito('${item.id}')" class="text-red-500 hover:text-red-700 ml-3 text-xl" title="Eliminar del carrito">🗑️</button>
           </div>
         </div>`;
     });
@@ -437,15 +436,32 @@ async function confirmarEnvio() {
 }
 
 // -----------------------------------------------------------------------
-// ACTUALIZAR PRECIOS, STOCK Y PAQUETES EN PÁGINA AL CARGAR
+// ACTUALIZAR PRECIOS, STOCK, PAQUETES Y ELIMINAR PRODUCTOS BORRADOS
 // -----------------------------------------------------------------------
 async function actualizarPreciosEnPagina() {
   try {
     const precios = await getPreciosDesdeBaserow();
     if (!precios || precios.length === 0) return;
 
-    // 🔥 SOLO eliminar los botones que creó el script, NO los hardcodeados
-    // Usamos una clase específica para los botones generados automáticamente
+    // 🔥 OBTENER TODOS LOS IDs VÁLIDOS DESDE BASEROW
+    const idsValidos = new Set();
+    precios.forEach(p => {
+      if (p.id_html) idsValidos.add(p.id_html);
+    });
+
+    // 🔥 ELIMINAR DEL HTML LOS PRODUCTOS QUE YA NO ESTÁN EN BASEROW
+    document.querySelectorAll('[data-id]').forEach(function(el) {
+      const id = el.dataset.id;
+      // Si el ID no está en Baserow, eliminar del HTML
+      if (!idsValidos.has(id)) {
+        // Verificar que no sea el contenedor de la sección
+        if (!el.closest('.space-y-4')) return;
+        el.remove();
+        console.log('Producto eliminado del HTML:', id);
+      }
+    });
+
+    // Limpiar botones de paquete automáticos
     document.querySelectorAll('.paquete-btn-row-auto').forEach(el => el.remove());
 
     document.querySelectorAll('[data-id]').forEach(function(el) {
@@ -453,7 +469,6 @@ async function actualizarPreciosEnPagina() {
       var fila = precios.find(function(p) { return p.id_html === id; });
       if (!fila) return;
 
-      // ── Precio y oferta ──
       var precioNuevo  = parseFloat(fila.precio);
       var ofertaNuevo  = parseFloat(fila.precio_oferta) || null;
       var cantMinNueva = parseInt(fila.cantidad_minima)  || null;
@@ -475,7 +490,6 @@ async function actualizarPreciosEnPagina() {
         }
       }
 
-      // ── Stock y disponibilidad ──
       var stock      = parseInt(fila.stock) || 0;
       var disponible = (fila.disponible === true || fila.disponible === 'true');
       var agotado    = !disponible || stock === 0;
@@ -514,14 +528,11 @@ async function actualizarPreciosEnPagina() {
         }
       }
 
-      // ── Botón de paquete SOLO si NO tiene botón hardcodeado ──
       var nombrePaq = fila.nombre_paquete || null;
       var precioPaq = parseFloat(fila.precio_paquete) || null;
 
-      // 🔥 DETECTAR si ya hay un botón hardcodeado en este producto
       var tieneBotonHardcodeado = el.querySelector('.paquete-btn-hardcode, button[onclick*="agregarAlCarritoSimple"]');
       
-      // Si ya tiene botón hardcodeado, NO generamos uno automático
       if (nombrePaq && precioPaq && infoDiv && !tieneBotonHardcodeado) {
         var idHtml     = fila.id_html || el.dataset.id;
         var imgEl      = el.querySelector('img');
@@ -530,7 +541,6 @@ async function actualizarPreciosEnPagina() {
         var nombreProd = fila.nombre || el.dataset.nombre || '';
 
         var row = document.createElement('div');
-        // 🔥 Usamos clase diferente para los botones generados automáticamente
         row.className = 'paquete-btn-row-auto';
         row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:8px 12px;margin-top:8px;gap:8px;';
 
@@ -563,7 +573,6 @@ async function actualizarPreciosEnPagina() {
       }
     });
 
-    // ── Actualizar botones hardcodeados (solo actualizar precio, no duplicar) ──
     document.querySelectorAll('.paquete-btn-hardcode, button[onclick*="agregarAlCarritoSimple"]').forEach(function(btn) {
       var onclickStr = btn.getAttribute('onclick');
       var match = onclickStr.match(/agregarAlCarritoSimple\(\s*'([^']+)'\s*,\s*'([^']+)'\s*,\s*([\d.]+)/);
