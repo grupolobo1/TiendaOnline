@@ -579,8 +579,9 @@
         <option>Abarrotes</option>
         <option>Dulcería</option>
         <option>Cigarros</option>
-        <option>Vinos y Licores</option>
-        <option>Mascota</option>
+        <option>Bebidas</option>
+        <option>Botanas</option>
+        <option>Otros</option>
       </select>
     </div>
 
@@ -689,8 +690,9 @@
         <option>Abarrotes</option>
         <option>Dulcería</option>
         <option>Cigarros</option>
-        <option>Vinos y Licores</option>
-        <option>Mascota</option>
+        <option>Bebidas</option>
+        <option>Botanas</option>
+        <option>Otros</option>
       </select>
     </div>
 
@@ -1141,7 +1143,7 @@ async function saveNewProduct() {
     }
 
     const body = {
-      nombre, precio, stock, categoria, disponible: true,
+      nombre, precio, stock, categoria, disponible: 'true',
       id_html: idHtml, imagen_url
     };
     if (familia) body.familia = familia;
