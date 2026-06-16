@@ -682,7 +682,7 @@ function crearCardDinamica(prod) {
   // Boton de paquete si aplica
   if (nombrePaq && precioPaq) {
     var rowPaq = document.createElement('div');
-    rowPaq.style.cssText = 'display:flex;align-items:center;justify-content:space-between;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:8px 12px;margin-top:8px;gap:8px;width:100%';
+    rowPaq.style.cssText = 'display:flex;align-items:center;justify-content:space-between;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:8px 12px;margin-top:8px;gap:8px;';
 
     var labelPaq = document.createElement('p');
     labelPaq.style.cssText = 'font-size:12px;color:#1e40af;font-weight:700;margin:0;';
@@ -703,15 +703,7 @@ function crearCardDinamica(prod) {
 
     rowPaq.appendChild(labelPaq);
     rowPaq.appendChild(btnPaq);
-
-    // Wrap info + paquete en un contenedor de columna
-    var wrapCol = document.createElement('div');
-    wrapCol.className = 'flex-grow';
-    wrapCol.appendChild(info);
-    wrapCol.appendChild(rowPaq);
-
-    // Reemplazar info en div
-    div.replaceChild(wrapCol, info);
+    info.appendChild(rowPaq);
   }
 
   return div;
