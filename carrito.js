@@ -164,9 +164,7 @@ function encontrarFilaPadreConPaquete(precios, idPaquete) {
 }
 
 // FUNCIÓN PARA PAQUETES - usa un ID DIFERENTE al de la pieza suelta
-// El ID del paquete será: idBase + '-paq'
 async function agregarAlCarritoSimple(idBase, nombre, precioPaquete, imagen) {
-  // 🔥 IMPORTANTE: El ID del paquete es DIFERENTE al de la pieza suelta
   const idPaquete = idBase + '-paq';
   
   const carrito = getCartFromStorage();
@@ -178,7 +176,7 @@ async function agregarAlCarritoSimple(idBase, nombre, precioPaquete, imagen) {
     existente.esPaquete = true;
   } else {
     carrito.push({ 
-      id: idPaquete,  // ID único para el paquete
+      id: idPaquete,
       nombre: '📦 ' + nombre + ' (Paquete)', 
       precio: precioPaquete, 
       cantidad: 1, 
@@ -272,11 +270,9 @@ async function dibujarCarritoCompleto() {
       let badgePaquete = '';
 
       if (item.esPaquete) {
-        // Es un paquete, usar el precio guardado
         precioUnitario = item.precio;
         badgePaquete = `<p class="text-xs text-green-600 mt-0.5">✅ Precio de paquete: $${precioUnitario.toFixed(2)} c/u</p>`;
       } else {
-        // Es un producto normal, buscar en Baserow
         const fila = encontrarFila(precios, item.id);
         const familia = fila?.familia || item.familia;
         
@@ -448,8 +444,9 @@ async function actualizarPreciosEnPagina() {
     const precios = await getPreciosDesdeBaserow();
     if (!precios || precios.length === 0) return;
 
-    // Limpiar botones de paquete existentes
-    document.querySelectorAll('.paquete-btn-row').forEach(el => el.remove());
+    // 🔥 SOLO eliminar los botones que creó el script, NO los hardcodeados
+    // Usamos una clase específica para los botones generados automáticamente
+    document.querySelectorAll('.paquete-btn-row-auto').forEach(el => el.remove());
 
     document.querySelectorAll('[data-id]').forEach(function(el) {
       var id   = el.dataset.id;
@@ -517,11 +514,15 @@ async function actualizarPreciosEnPagina() {
         }
       }
 
-      // ── Botón de paquete ──
+      // ── Botón de paquete SOLO si NO tiene botón hardcodeado ──
       var nombrePaq = fila.nombre_paquete || null;
       var precioPaq = parseFloat(fila.precio_paquete) || null;
 
-      if (nombrePaq && precioPaq && infoDiv) {
+      // 🔥 DETECTAR si ya hay un botón hardcodeado en este producto
+      var tieneBotonHardcodeado = el.querySelector('.paquete-btn-hardcode, button[onclick*="agregarAlCarritoSimple"]');
+      
+      // Si ya tiene botón hardcodeado, NO generamos uno automático
+      if (nombrePaq && precioPaq && infoDiv && !tieneBotonHardcodeado) {
         var idHtml     = fila.id_html || el.dataset.id;
         var imgEl      = el.querySelector('img');
         var imgSrc     = imgEl ? imgEl.src : '';
@@ -529,7 +530,8 @@ async function actualizarPreciosEnPagina() {
         var nombreProd = fila.nombre || el.dataset.nombre || '';
 
         var row = document.createElement('div');
-        row.className = 'paquete-btn-row';
+        // 🔥 Usamos clase diferente para los botones generados automáticamente
+        row.className = 'paquete-btn-row-auto';
         row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:8px 12px;margin-top:8px;gap:8px;';
 
         var label = document.createElement('p');
@@ -545,7 +547,6 @@ async function actualizarPreciosEnPagina() {
         
         btn.onclick = function() {
           var b = this;
-          // 🔥 PASAMOS EL ID BASE, la función agregará '-paq' al final
           agregarAlCarritoSimple(idHtml, nombreProd, precioParaBoton, imgParaBoton);
           var orig = b.textContent;
           b.textContent = '✓ Agregado';
@@ -562,8 +563,8 @@ async function actualizarPreciosEnPagina() {
       }
     });
 
-    // ── Actualizar botones hardcodeados ──
-    document.querySelectorAll('button[onclick*="agregarAlCarritoSimple"]').forEach(function(btn) {
+    // ── Actualizar botones hardcodeados (solo actualizar precio, no duplicar) ──
+    document.querySelectorAll('.paquete-btn-hardcode, button[onclick*="agregarAlCarritoSimple"]').forEach(function(btn) {
       var onclickStr = btn.getAttribute('onclick');
       var match = onclickStr.match(/agregarAlCarritoSimple\(\s*'([^']+)'\s*,\s*'([^']+)'\s*,\s*([\d.]+)/);
       if (!match) return;
