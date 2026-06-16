@@ -739,11 +739,13 @@ async function insertarProductosDinamicos() {
 
     // Filtrar productos nuevos: tienen id_html, su categoria es la de esta pagina, y NO estan en el HTML
     // Nota: disponible puede llegar como booleano true, string 'true', o undefined en productos recien creados
+    var idsVistos = new Set();
     var nuevos = precios.filter(function(p) {
       var disp = p.disponible;
       var estaDisponible = (disp === true || disp === 'true' || disp === 1 || disp == null);
-      return p.id_html &&
-        estaDisponible &&
+      if (!p.id_html || idsVistos.has(p.id_html)) return false;
+      idsVistos.add(p.id_html);
+      return estaDisponible &&
         categoriasPagina.some(function(cat) { return p.categoria === cat; }) &&
         !idsEnHTML.has(p.id_html);
     });
