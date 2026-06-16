@@ -5,7 +5,7 @@
 // ===================================================================================
 
 const BASEROW_TOKEN    = 'sTPlXBmAyDa2aZS1x78J8oYnb9oGOMe8';
-const BASEROW_TABLE    = '1029851';
+const BASEROW_TABLE    = '1029785';
 const BASEROW_URL_BASE = `https://api.baserow.io/api/database/rows/table/${BASEROW_TABLE}/?user_field_names=true&size=100`;
 
 // -----------------------------------------------------------------------
@@ -13,7 +13,7 @@ const BASEROW_URL_BASE = `https://api.baserow.io/api/database/rows/table/${BASER
 // -----------------------------------------------------------------------
 const CACHE_KEY    = 'baserow_precios';
 const CACHE_TS_KEY = 'baserow_precios_ts';
-const CACHE_TTL    = 24 * 60 * 60 * 1000;
+const CACHE_TTL    = 5 * 60 * 1000; // 5 minutos — cambios en admin se ven rápido
 
 // ------------------- PRECIOS DESDE BASEROW (CON PAGINACIÓN) -------------------
 
