@@ -733,13 +733,22 @@ async function insertarProductosDinamicos() {
 
     if (categoriasPagina.length === 0) return;
 
+    console.log('[Lobo] Categorias de esta pagina:', categoriasPagina);
+    console.log('[Lobo] IDs ya en HTML:', Array.from(idsEnHTML));
+    console.log('[Lobo] Total productos en Baserow:', precios.length);
+
     // Filtrar productos nuevos: tienen id_html, su categoria es la de esta pagina, y NO estan en el HTML
+    // Nota: disponible puede llegar como booleano true, string 'true', o undefined en productos recien creados
     var nuevos = precios.filter(function(p) {
+      var disp = p.disponible;
+      var estaDisponible = (disp === true || disp === 'true' || disp === 1 || disp == null);
       return p.id_html &&
-        (p.disponible === true || p.disponible === 'true') &&
+        estaDisponible &&
         categoriasPagina.some(function(cat) { return p.categoria === cat; }) &&
         !idsEnHTML.has(p.id_html);
     });
+
+    console.log('[Lobo] Productos nuevos a insertar:', nuevos.map(function(p){ return p.id_html + ' (' + p.categoria + ', disponible:' + p.disponible + ')'; }));
 
     if (nuevos.length === 0) return;
 
@@ -759,8 +768,10 @@ async function insertarProductosDinamicos() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
   actualizarContadorUI();
-  actualizarPreciosEnPagina();
-  insertarProductosDinamicos();
+  // Primero insertar productos dinámicos (los que no están en el HTML),
+  // luego actualizar precios/stock de todos (incluyendo los recién insertados)
+  await insertarProductosDinamicos();
+  await actualizarPreciosEnPagina();
 });
