@@ -459,7 +459,7 @@ async function actualizarPreciosEnPagina() {
       var nombrePaq = fila.nombre_paquete || null;
       var precioPaq = parseFloat(fila.precio_paquete) || null;
       if (nombrePaq && precioPaq) {
-        if (!el.querySelector('.paquete-btn-row')) {
+        if (!el.querySelector('.paquete-btn-row') && !el.querySelector('.bg-blue-50\/50')) {
           var idHtml   = fila.id_html || el.dataset.id;
           var imgEl    = el.querySelector('img');
           var imgSrc   = imgEl ? imgEl.src : '';
