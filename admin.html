@@ -1044,11 +1044,20 @@ function escH(str) {
 /* ─────────────────────────────────────────
    QUICK UPDATES (precio, stock, disponible)
 ───────────────────────────────────────── */
+/* Limpia el caché de precios usado por carrito.js.
+   Se llama después de cada cambio exitoso en el admin para que
+   los clientes vean los precios actualizados en su próxima acción. */
+function flushPreciosCache() {
+  localStorage.removeItem('baserow_precios');
+  localStorage.removeItem('baserow_precios_ts');
+}
+
 async function quickUpdatePrice(id, val) {
   try {
     await apiPatch(`${BASEROW_BASE}/api/database/rows/table/${BASEROW_TABLE}/${id}/?user_field_names=true`, { precio: parseFloat(val) });
     const p = allProducts.find(x => x.id === id);
     if (p) p.precio = parseFloat(val);
+    flushPreciosCache();
     showToast('Precio actualizado ✓', 'ok');
   } catch(e) { showToast('Error al actualizar precio', 'err'); }
 }
@@ -1058,6 +1067,7 @@ async function quickUpdateStock(id, val) {
     await apiPatch(`${BASEROW_BASE}/api/database/rows/table/${BASEROW_TABLE}/${id}/?user_field_names=true`, { stock: parseInt(val) });
     const p = allProducts.find(x => x.id === id);
     if (p) { p.stock = parseInt(val); renderProducts(); renderStats(); }
+    flushPreciosCache();
     showToast('Stock actualizado ✓', 'ok');
   } catch(e) { showToast('Error al actualizar stock', 'err'); }
 }
@@ -1067,6 +1077,7 @@ async function toggleDisponible(id, checked) {
     await apiPatch(`${BASEROW_BASE}/api/database/rows/table/${BASEROW_TABLE}/${id}/?user_field_names=true`, { disponible: checked });
     const p = allProducts.find(x => x.id === id);
     if (p) { p.disponible = checked; renderProducts(); renderStats(); }
+    flushPreciosCache();
     showToast(checked ? 'Producto activado ✓' : 'Producto desactivado', 'info');
   } catch(e) { showToast('Error al cambiar disponibilidad', 'err'); }
 }
@@ -1144,6 +1155,7 @@ async function saveNewProduct() {
     renderProducts();
     renderStats();
     closeModal('add-modal');
+    flushPreciosCache();
     showToast('¡Producto agregado! 🎉', 'ok');
   } catch(e) {
     showToast('Error: ' + e.message, 'err');
@@ -1237,6 +1249,7 @@ async function saveEditProduct() {
     renderProducts();
     renderStats();
     closeModal('edit-modal');
+    flushPreciosCache();
     showToast('Producto actualizado ✓', 'ok');
   } catch(e) {
     showToast('Error: ' + e.message, 'err');
@@ -1267,6 +1280,7 @@ async function confirmDelete() {
     renderProducts();
     renderStats();
     closeModal('del-modal');
+    flushPreciosCache();
     showToast('Producto eliminado', 'info');
     deleteTarget = null;
   } catch(e) {
