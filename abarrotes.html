@@ -6,10 +6,110 @@
   <title>Abarrotes - Catálogos</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Evita cualquier deslizamiento horizontal */
     html, body {
       max-width: 100%;
       overflow-x: hidden;
+    }
+    @media (max-width: 640px) {
+      .flex.items-center.gap-4.py-3.border-b,
+      .py-4.border-b.px-2 {
+        flex-wrap: wrap !important;
+        padding: 12px 10px !important;
+        gap: 8px !important;
+      }
+      .flex.items-center.gap-4.py-3.border-b img,
+      .py-4.border-b.px-2 img {
+        width: 60px !important;
+        height: 60px !important;
+        flex-shrink: 0 !important;
+      }
+      .flex.items-center.gap-4.py-3.border-b .flex-grow,
+      .py-4.border-b.px-2 .flex-grow {
+        flex: 1 1 55% !important;
+        min-width: 120px !important;
+      }
+      .flex.items-center.gap-4.py-3.border-b .font-semibold,
+      .py-4.border-b.px-2 .font-bold {
+        font-size: 13px !important;
+        line-height: 1.2 !important;
+      }
+      .flex.items-center.gap-4.py-3.border-b .text-sm,
+      .py-4.border-b.px-2 .text-sm {
+        font-size: 12px !important;
+      }
+      .text-xs.text-blue-600 {
+        font-size: 10px !important;
+      }
+      .flex.items-center.gap-2 {
+        flex-wrap: wrap !important;
+        gap: 4px !important;
+        margin-top: 4px !important;
+      }
+      .flex.items-center.gap-2 input.quantity-to-add {
+        width: 44px !important;
+        font-size: 12px !important;
+        padding: 4px 2px !important;
+      }
+      .flex.items-center.gap-2 button {
+        font-size: 10px !important;
+        padding: 4px 8px !important;
+        white-space: nowrap !important;
+      }
+      .paquete-btn-row-auto,
+      .paquete-btn-hardcode,
+      .bg-blue-50\/50.p-2.rounded-lg {
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+        padding: 8px 10px !important;
+      }
+      .bg-blue-50\/50.p-2.rounded-lg p.text-xs,
+      .paquete-btn-row-auto p,
+      .paquete-btn-hardcode p {
+        font-size: 10px !important;
+        flex: 1 1 60% !important;
+      }
+      .bg-blue-50\/50.p-2.rounded-lg button,
+      .paquete-btn-row-auto button,
+      .paquete-btn-hardcode button {
+        font-size: 9px !important;
+        padding: 4px 8px !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+      }
+      hr.my-2 { margin: 6px 0 !important; }
+      .text-lg.font-bold.text-gray-700.border-b {
+        font-size: 16px !important;
+        padding-top: 16px !important;
+        margin-top: 8px !important;
+      }
+      h2.text-2xl.font-bold { font-size: 20px !important; }
+      #buscadorProductos { font-size: 14px !important; padding: 8px 12px !important; }
+      a.mt-8.block.w-full { font-size: 13px !important; padding: 10px !important; }
+      header .text-\[1\.3rem\] { font-size: 1.1rem !important; }
+      header img { height: 60px !important; }
+      #boton-carrito { width: 50px !important; height: 50px !important; bottom: 12px !important; right: 12px !important; }
+      #boton-carrito span.text-3xl { font-size: 20px !important; }
+      #contador-carrito { width: 20px !important; height: 20px !important; font-size: 9px !important; }
+    }
+    @media (max-width: 400px) {
+      .flex.items-center.gap-4.py-3.border-b img,
+      .py-4.border-b.px-2 img {
+        width: 50px !important;
+        height: 50px !important;
+      }
+      .flex.items-center.gap-4.py-3.border-b .flex-grow,
+      .py-4.border-b.px-2 .flex-grow {
+        flex: 1 1 100% !important;
+        min-width: unset !important;
+      }
+      .flex.items-center.gap-2 { justify-content: flex-start !important; }
+      .bg-blue-50\/50.p-2.rounded-lg p.text-xs { flex: 1 1 100% !important; }
+      .bg-blue-50\/50.p-2.rounded-lg button,
+      .paquete-btn-row-auto button,
+      .paquete-btn-hardcode button {
+        font-size: 8px !important;
+        padding: 3px 6px !important;
+      }
     }
   </style>
 </head>
@@ -17,418 +117,736 @@
 
  <header class="bg-[#5C7DA3] text-white shadow-xl sticky top-0 z-50 overflow-visible">
   <div class="max-w-6xl mx-auto px-4 py-3 md:py-6 relative">
-    
     <div class="flex items-center justify-between md:justify-center gap-2 md:gap-12">
-      
       <h1 class="text-[1.3rem] sm:text-3xl md:text-5xl font-black tracking-tighter uppercase italic leading-tight flex-shrink">
         <span class="block">Catálogo de</span> 
         <span class="text-cyan-100">abarrotes</span>
       </h1>
-
       <div class="relative flex-shrink-0">
         <img src="img/lobo.png" alt="Lobo" 
              class="h-24 sm:h-36 md:h-52 w-auto object-contain drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)] transform -mb-6 md:-mb-10">
-        
         <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-4/5 h-2 bg-black/20 blur-xl rounded-full"></div>
-     
-      
+      </div>
     </div>
   </div>
-  
   <div class="h-1 w-full bg-gradient-to-r from-transparent via-white/40 to-transparent"></div>
 </header>
+
 <a href="index.html" class="mt-8 block w-full text-center bg-gray-300 px-4 py-2 rounded shadow">Regresar al Menú</a>
+
 <div class="mt-4 flex justify-center">
-  <input 
-    type="text" 
-    id="buscadorProductos" 
-    placeholder="Buscar producto..." 
+  <input type="text" id="buscadorProductos" placeholder="Buscar producto..." 
     class="w-full max-w-md px-4 py-2 rounded-lg text-gray-700 shadow focus:outline-none focus:ring-2 focus:ring-green-500"
-    onkeyup="filtrarProductos()"
-  >
+    onkeyup="filtrarProductos()">
 </div>
 
-  <section class="p-3 sm:p-5 max-w-3xl mx-auto space-y-4">
+<section class="p-3 sm:p-5 max-w-3xl mx-auto space-y-4">
+  <h2 class="text-2xl font-bold mb-4 text-[#D32F2F]">Abarrotes</h2>
+  <div class="space-y-4">
 
-    <h2 class="text-2xl font-bold mb-4 text-[#D32F2F]">Abarrotes</h2>
-    <div class="space-y-4">
+    <h3 id="lacteos" class="text-lg font-bold text-gray-700 border-b pt-4">Lácteos y Bebidas</h3>
 
-      <h3 id="lacteos" class="text-lg font-bold text-gray-700 border-b pt-4">
-        Lácteos y Bebidas
-      </h3>
-      <div class="py-4 border-b px-2" data-id="ab-nutri" data-nombre="Leche Nutri 1L" data-precio="21.00" data-oferta-precio="20.41" data-oferta-cantidad="6">
-  <div class="flex items-center gap-4">
-    <img src="img/aba/aba1.jpg" alt="Leche Nutri" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
-    
-    <div class="flex-grow">
-      <div class="flex justify-between items-start">
-        <div>
-          <p class="font-bold text-gray-800">Leche Nutri 1L</p>
-          <p class="text-sm text-gray-600">$21.00 c/u</p>
-          <p class="text-xs text-blue-600 font-medium italic">6+ piezas: $20.41 c/u</p>
-        </div>
-        <div class="flex items-center gap-2">
-          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
-          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
+    <div class="py-4 border-b px-2" data-id="ab-nutri" data-nombre="Leche Nutri 1L" data-precio="21.00" data-oferta-precio="20.41" data-oferta-cantidad="6">
+      <div class="flex items-center gap-4">
+        <img src="img/aba/aba1.jpg" alt="Leche Nutri" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
+        <div class="flex-grow">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="font-bold text-gray-800">Leche Nutri 1L</p>
+              <p class="text-sm text-gray-600">$21.00 c/u</p>
+              <p class="text-xs text-blue-600 font-medium italic">6+ piezas: $20.41 c/u</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+              <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
+            </div>
+          </div>
+          <hr class="my-2 border-gray-100">
+          <div class="flex items-center justify-between bg-blue-50/50 p-2 rounded-lg border border-blue-100">
+            <p class="text-xs font-bold text-blue-800 italic uppercase">📦 Caja (12 pzas): <span class="text-sm font-black">$235.00</span></p>
+            <button onclick="agregarAlCarritoSimple('ab-nutri', 'Leche Nutri (Caja 12pzas)', 235.00, 'img/aba/aba1.jpg')" 
+                    class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase shadow-md hover:bg-[#4a6685]">
+              Agregar Caja
+            </button>
+          </div>
         </div>
       </div>
-
-      <hr class="my-2 border-gray-100">
-
-      <div class="flex items-center justify-between bg-blue-50/50 p-2 rounded-lg border border-blue-100">
-        <p class="text-xs font-bold text-blue-800 italic uppercase">
-          📦 Caja (12 pzas): <span class="text-sm font-black">$235.00</span>
-        </p>
-        <button onclick="agregarAlCarritoSimple('ab-nutri', 'Leche Nutri (Caja 12pzas)', 235.00, 'img/aba/aba1.jpg')" 
-                class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase shadow-md hover:bg-[#4a6685]">
-          Agregar Caja
-        </button>
-      </div>
-      
     </div>
-  </div>
-</div>
-
-
 
     <div class="py-4 border-b px-2" data-id="ab-alpura-desc" data-nombre="Alpura Deslactosada 1L" data-precio="29.00" data-oferta-precio="27.50" data-oferta-cantidad="6">
-  <div class="flex items-center gap-4">
-    <img src="img/aba/aba2.jpg" alt="Alpura Deslactosada" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
-    <div class="flex-grow">
-      <div class="flex justify-between items-start">
-        <div>
-          <p class="font-bold text-gray-800">Alpura Deslactosada 1L</p>
-          <p class="text-sm text-gray-600">$29.00 pieza</p>
-          <p class="text-xs text-blue-600 font-medium italic">6+ piezas: $27.50 c/u</p>
-        </div>
-        <div class="flex items-center gap-2">
-          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
-          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
-        </div>
-      </div>
-      </div>
-  </div>
-</div>
-
-<div class="py-4 border-b px-2" data-id="ab-lala-deslac-caja" data-nombre="Lala Deslactosada 1L (Caja 12pz)" data-precio="295.00" data-oferta-precio="290.00" data-oferta-cantidad="3">
-  <div class="flex items-center gap-4">
-    <img src="img/aba/lala-deslactosada.jpg" alt="Lala Deslactosada" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
-    <div class="flex-grow">
-      <div class="flex justify-between items-start">
-        <div>
-          <p class="font-bold text-gray-800">Lala Deslactosada 1L (Caja)</p>
-          <p class="text-sm text-gray-600">$295.00 Caja</p>
-          <p class="text-xs text-blue-600 font-medium italic">3+ cajas: $290.00 c/u</p>
-        </div>
-        <div class="flex items-center gap-2">
-          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
-          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar Caja</button>
-        </div>
-      </div>
-      <hr class="my-2 border-gray-100">
-      <div class="flex items-center justify-between bg-blue-50/50 p-2 rounded-lg border border-blue-100">
-        <p class="text-xs font-bold text-blue-800 italic uppercase">🥛 Lleva solo 1 pieza: <span class="text-sm font-black">$29.00</span></p>
-        <button onclick="agregarAlCarritoSimple('ab-lala-deslac-pz', 'Lala Deslactosada (Pieza)', 29.00, 'img/aba/lala-deslactosada.jpg')" 
-                class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase shadow-md hover:bg-[#4a6685]">
-          Agregar Pieza
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="py-4 border-b px-2" data-id="ab-lala-entera-caja" data-nombre="Lala Entera 1L (Caja 12pz)" data-precio="295.00" data-oferta-precio="290.00" data-oferta-cantidad="3">
-  <div class="flex items-center gap-4">
-    <img src="img/aba/lala-entera.jpg" alt="Lala Entera" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
-    <div class="flex-grow">
-      <div class="flex justify-between items-start">
-        <div>
-          <p class="font-bold text-gray-800">Lala Entera 1L (Caja)</p>
-          <p class="text-sm text-gray-600">$295.00 Caja</p>
-          <p class="text-xs text-blue-600 font-medium italic">3+ cajas: $290.00 c/u</p>
-        </div>
-        <div class="flex items-center gap-2">
-          <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
-          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar Caja</button>
-        </div>
-      </div>
-      <hr class="my-2 border-gray-100">
-      <div class="flex items-center justify-between bg-blue-50/50 p-2 rounded-lg border border-blue-100">
-        <p class="text-xs font-bold text-blue-800 italic uppercase">🥛 Lleva solo 1 pieza: <span class="text-sm font-black">$28.00</span></p>
-        <button onclick="agregarAlCarritoSimple('ab-lala-entera-pz', 'Lala Entera (Pieza)', 28.00, 'img/aba/lala-entera.jpg')" 
-                class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase shadow-md hover:bg-[#4a6685]">
-          Agregar Pieza
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-alpura-clas" data-nombre="Alpura Clásica 1L" data-precio="26.00" data-oferta-precio="25.41" data-oferta-cantidad="6"><img src="img/aba/aba3.jpg" alt="Alpura Clásica" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Alpura Clásica 1L</p><p class="text-sm text-gray-600">$26.00</p><p class="text-xs text-blue-600">A partir de 6 a $25.41 c/u</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-crema-alp" data-nombre="Crema Alpura 200ml" data-precio="23.00" data-oferta-precio="20.00" data-oferta-cantidad="6"><img src="img/aba/aba4.jpg" alt="Crema Alpura" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Crema Alpura 200ml</p><p class="text-sm text-gray-600">$23.00</p><p class="text-xs text-blue-600">A partir de 6 a $20.00 c/u</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-sabrole-pza" data-nombre="Sabrole 900ml (Pieza)" data-precio="16.00"><img src="img/aba/aba5.jpg" alt="Sabrole 900ml" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Sabrole 900ml (Pieza)</p><p class="text-sm text-gray-600">$16.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-sabrole-bolsa" data-nombre="Sabrole 900ml (Bolsa 6pz)" data-precio="90.00"><img src="img/aba/aba5.jpg" alt="Sabrole 900ml" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Sabrole 900ml (Bolsa 6pz)</p><p class="text-sm text-gray-600">$90.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-    
-    
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ofer-coca" data-nombre="Coca-Cola 600ml (Charola 24pz)" data-precio="467.00">
-        <img src="img/ofe/ofe3.jpg" alt="Coca-Cola 600ml" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex items-center gap-4">
+        <img src="img/aba/aba2.jpg" alt="Alpura Deslactosada" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
         <div class="flex-grow">
-          <p class="font-semibold text-gray-800">Coca-Cola 600ml (Charola 24pz)</p>
-          <p class="text-sm text-gray-600">$467.00</p>
-        </div>
-        <div class="flex items-center gap-2">
-          <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="font-bold text-gray-800">Alpura Deslactosada 1L</p>
+              <p class="text-sm text-gray-600">$29.00 pieza</p>
+              <p class="text-xs text-blue-600 font-medium italic">6+ piezas: $27.50 c/u</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+              <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar</button>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
 
-    
-    
-    <h3 id="enlatados" class="text-lg font-bold text-gray-700 border-b pt-10">
-
-
-
-
-
-
-
-
-        Enlatados y Conservas
-      </h3>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-lechera" data-nombre="Lechera 375ml" data-precio="32.00" data-oferta-precio="28.00" data-oferta-cantidad="6"><img src="img/aba/aba6.jpg" alt="Lechera" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Lechera 375ml</p><p class="text-sm text-gray-600">$32.00</p><p class="text-xs text-blue-600">A partir de 6 a $28.00c/u</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-carnation" data-nombre="Carnation 360ml" data-precio="23.00" data-oferta-precio="20.00" data-oferta-cantidad="6"><img src="img/aba/aba7.jpg" alt="Carnation" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Carnation 360ml</p><p class="text-sm text-gray-600">$23.00</p><p class="text-xs text-blue-600">A partir de 6 a $20.00 c/u</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-iberia" data-nombre="Iberia 90g" data-precio="14.00" data-oferta-precio="10.00" data-oferta-cantidad="6"><img src="img/aba/aba8.jpg" alt="Iberia" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Iberia 90g</p><p class="text-sm text-gray-600">$14.00</p><p class="text-xs text-blue-600">A partir de 6 a $10.00 c/u</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-merm-cost" data-nombre="Mermelada La Costeña 440gr" data-precio="30.00" data-oferta-precio="25.00" data-oferta-cantidad="6"><img src="img/aba/aba9.jpg" alt="Mermelada" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Mermelada La Costeña 440gr</p><p class="text-sm text-gray-600">$30.00</p><p class="text-xs text-blue-600">A partir de 6 a $25.00 c/u</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-chiles-ent" data-nombre="Chiles Enteros La Morena 200gr" data-precio="19.15" data-oferta-precio="17.00" data-oferta-cantidad="5"><img src="img/aba/aba10.jpg" alt="Chiles Enteros" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Chiles Enteros La Morena 200gr</p><p class="text-sm text-gray-600">$19.15</p><p class="text-xs text-blue-600">A partir de 5 a $17.00 c/u</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-rajas" data-nombre="Rajas La Morena 200gr" data-precio="19.50" data-oferta-precio="17.00" data-oferta-cantidad="5"><img src="img/aba/aba11.jpg" alt="Rajas La Morena" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Rajas La Morena 200gr</p><p class="text-sm text-gray-600">$19.50</p><p class="text-xs text-blue-600">A partir de 5 a $17.00 c/u</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-chipotles" data-nombre="Chipotles La Morena 100gr" data-precio="16.50" data-oferta-precio="14.50" data-oferta-cantidad="5"><img src="img/aba/aba12.jpg" alt="Chipotles La Morena" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Chipotles La Morena 100gr</p><p class="text-sm text-gray-600">$16.50</p><p class="text-xs text-blue-600">A partir de 5 a $14.50 c/u</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-atun-dorado" data-nombre="Atún Dorado" data-precio="15.00" data-oferta-precio="13.89" data-oferta-cantidad="5"><img src="img/aba/aba13.jpg" alt="Atún Dorado" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Atún Dorado</p><p class="text-sm text-gray-600">$15.00</p><p class="text-xs text-blue-600">A partir de 5 a $13.89 c/u</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-atun-dolores" data-nombre="Atún Dolores 133gr" data-precio="23.00" data-oferta-precio="20.00" data-oferta-cantidad="6"><img src="img/aba/aba14.jpg" alt="Atún Dolores" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Atún Dolores 133gr</p><p class="text-sm text-gray-600">$23.00</p><p class="text-xs text-blue-600">A partir de 6 a $20.00 c/u</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-merm-clem" data-nombre="Mermelada de Fresa Clemente Jaques 270gr" data-precio="25.00"><img src="img/aba/aba15.jpg" alt="Mermelada Clemente Jaques" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Mermelada de Fresa Clemente Jaques 270gr</p><p class="text-sm text-gray-600">$25.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-
-       <h3 id="granos" class="text-lg font-bold text-gray-700 border-b pt-10">
-        Granos, Pastas y Despensa
-      </h3>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-maruchanh-pza" data-nombre="Maruchan Habanero (Pieza)" data-precio="16.00"><img src="img/aba/aba16.jpg" alt="Maruchan Habanero" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Maruchan Habanero (Pieza)</p><p class="text-sm text-gray-600">$16.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-maruchanh-caja" data-nombre="Maruchan Habanero (Caja)" data-precio="185.00"><img src="img/aba/aba16.jpg" alt="Maruchan Habanero" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Maruchan Habanero (Caja)</p><p class="text-sm text-gray-600">$185.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-maruchanp-pza" data-nombre="Maruchan Pikin (Pieza)" data-precio="16.00"><img src="img/aba/aba17.jpg" alt="Maruchan Pikin" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Maruchan Pikin (Pieza)</p><p class="text-sm text-gray-600">$16.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-maruchanp-caja" data-nombre="Maruchan Pikin (Caja)" data-precio="185.00"><img src="img/aba/aba17.jpg" alt="Maruchan Pikin" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Maruchan Pikin (Caja)</p><p class="text-sm text-gray-600">$185.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-aceitem" data-nombre="Aceite Maravilla 1L" data-precio="36.00" data-oferta-precio="35.42" data-oferta-cantidad="6"><img src="img/aba/aba18.jpg" alt="Aceite Maravilla" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Aceite Maravilla 1L</p><p class="text-sm text-gray-600">$36.00</p><p class="text-xs text-blue-600">A partir de 6 a $35.42 c/u</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-aceitem-caja" data-nombre="Aceite Maravilla (Caja 12pz)" data-precio="425.00"><img src="img/aba/aba18.jpg" alt="Aceite Maravilla" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Aceite Maravilla (Caja 12pz)</p><p class="text-sm text-gray-600">$425.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-lastur-pza" data-nombre="Lastur FEITE (1kg)" data-precio="33.00"><img src="img/aba/aba19.jpg" alt="Lastur FEITE" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Lastur FEITE (1kg)</p><p class="text-sm text-gray-600">$33.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-lastur-caja" data-nombre="Lastur FEITE (Caja 10kg)" data-precio="330.00"><img src="img/aba/aba19.jpg" alt="Lastur FEITE" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Lastur FEITE (Caja 10kg)</p><p class="text-sm text-gray-600">$330.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-frijol-negro" data-nombre="Frijol Negro (por kg)" data-precio="33.00" data-oferta-precio="31.00" data-oferta-cantidad="10"><img src="img/aba/aba20.jpg" alt="Frijol Negro" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Frijol Negro (por kg)</p><p class="text-sm text-gray-600">$33.00</p><p class="text-xs text-blue-600">A partir de 10kg a $31.00 c/kg</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-frijol-pinto-kg" data-nombre="Frijol Pinto (por kg)" data-precio="34.00" data-oferta-precio="32.00" data-oferta-cantidad="10"><img src="img/aba/aba21.jpg" alt="Frijol Pinto" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Frijol Pinto (por kg)</p><p class="text-sm text-gray-600">$34.00</p><p class="text-xs text-blue-600">A partir de 10kg a $32.00 c/kg</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-frijol-pinto-bulto" data-nombre="Frijol Pinto (Bulto)" data-precio="750.00"><img src="img/aba/aba21.jpg" alt="Frijol Pinto" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Frijol Pinto (Bulto)</p><p class="text-sm text-gray-600">$750.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-azucar-kg" data-nombre="Azúcar Estándar (por kg)" data-precio="23.00"><img src="img/aba/aba22.jpg" alt="Azúcar Estándar" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Azúcar Estándar (por kg)</p><p class="text-sm text-gray-600">$23.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-azucar-bulto" data-nombre="Azúcar Estándar (Bulto 25kg)" data-precio="510.00"><img src="img/aba/aba22.jpg" alt="Azúcar Estándar" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Azúcar Estándar (Bulto 25kg)</p><p class="text-sm text-gray-600">$510.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-sal-fina" data-nombre="Sal Fina 1kg" data-precio="19.00" data-oferta-precio="18.00" data-oferta-cantidad="6"><img src="img/aba/aba23.jpg" alt="Sal Fina" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Sal Fina 1kg</p><p class="text-sm text-gray-600">$19.00</p><p class="text-xs text-blue-600">A partir de 6 a $18.00 c/u</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-sopa-ital" data-nombre="Sopa Ital pasta" data-precio="9.00" data-oferta-precio="8.00" data-oferta-cantidad="10"><img src="img/aba/aba24.jpg" alt="Sopa Ital" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Sopa Ital pasta</p><p class="text-sm text-gray-600">$9.00</p><p class="text-xs text-blue-600">A partir de 10 a $8.00 c/u</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-sopa-mod" data-nombre="Sopa La Moderna" data-precio="9.00" data-oferta-precio="8.00" data-oferta-cantidad="10"><img src="img/aba/aba25.jpg" alt="Sopa Moderna" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Sopa La Moderna</p><p class="text-sm text-gray-600">$9.00</p><p class="text-xs text-blue-600">A partir de 10 a $8.00 c/u</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-knorr-pza" data-nombre="Knorr (Pieza)" data-precio="5.00"><img src="img/aba/aba26.jpg" alt="Knorr" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Knorr (Pieza)</p><p class="text-sm text-gray-600">$5.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-knorr-exh" data-nombre="Knorr (Exhibidor 50pz)" data-precio="215.00"><img src="img/aba/aba26.jpg" alt="Knorr" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Knorr (Exhibidor 50pz)</p><p class="text-sm text-gray-600">$215.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-choc-pza" data-nombre="Chocolate Abuelita (Pieza)" data-precio="21.00"><img src="img/aba/aba27.jpg" alt="Chocolate Abuelita" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Chocolate Abuelita (Pieza)</p><p class="text-sm text-gray-600">$21.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-choc-exh" data-nombre="Chocolate Abuelita (Exhibidor 6pz)" data-precio="125.00"><img src="img/aba/aba27.jpg" alt="Chocolate Abuelita" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Chocolate Abuelita (Exhibidor 6pz)</p><p class="text-sm text-gray-600">$125.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-tostadas" data-nombre="Tostadas Delicias" data-precio="29.00" data-oferta-precio="26.00" data-oferta-cantidad="5"><img src="img/aba/aba28.jpg" alt="Tostadas Delicias" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Tostadas Delicias</p><p class="text-sm text-gray-600">$29.00</p><p class="text-xs text-blue-600">A partir de 5 a $26.00 c/u</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-      <div class="flex items-center gap-4 py-3 border-b" data-id="ab-tang" data-nombre="Exhibidor de Tang" data-precio="40.00"><img src="img/aba/aba29.jpg" alt="Exhibidor Tang" class="w-24 h-24 rounded-lg object-cover shadow-sm"><div class="flex-grow"><p class="font-semibold text-gray-800">Exhibidor de Tang</p><p class="text-sm text-gray-600">$40.00</p></div><div class="flex items-center gap-2"><input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2"><button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button></div></div>
-<div class="flex items-center gap-4 py-3 border-b"
-     data-id="ab-maizena"
-     data-nombre="Maizena Sabores"
-     data-precio="13.00"
-     data-oferta-precio="11.50"
-     data-oferta-cantidad="3">
-
-  <img src="img/aba/maizena.jpg" alt="Maizena Sabores" class="w-24 h-24 rounded-lg object-cover shadow-sm">
-
-  <div class="flex-grow">
-    <p class="font-semibold text-gray-800">Maizena Sabores</p>
-    <p class="text-sm text-gray-600">$13.00</p>
-    <p class="text-xs text-blue-600">Desde 3 pzs a $11.50</p>
-  </div>
-
-  <div class="flex items-center gap-2">
-    <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-    <button onclick="agregarAlCarrito(this)"
-            class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">
-      Agregar
-    </button>
-  </div>
-</div>
-
- 
-<div class="flex items-center gap-4 py-3 border-b" data-id="ofer-huevo" data-nombre="Huevo Fresco (por kg)" data-precio="43.00" data-oferta-precio="38.00" data-oferta-cantidad="15">
-        <img src="img/ofe/ofe1.jpg" alt="Huevo Fresco" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+    <div class="py-4 border-b px-2" data-id="ab-lala-deslac-caja" data-nombre="Lala Deslactosada 1L (Caja 12pz)" data-precio="295.00" data-oferta-precio="290.00" data-oferta-cantidad="3">
+      <div class="flex items-center gap-4">
+        <img src="img/aba/lala-deslactosada.jpg" alt="Lala Deslactosada" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
         <div class="flex-grow">
-          <p class="font-semibold text-gray-800">Huevo Fresco (por kg)</p>
-          <p class="text-sm text-gray-600">$43.00</p>
-          <p class="text-xs text-blue-600">A partir de 1/2 caja (15kg) a $38.00 c/kg</p>
-        </div>
-        <div class="flex items-center gap-2">
-          <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-          <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="font-bold text-gray-800">Lala Deslactosada 1L (Caja)</p>
+              <p class="text-sm text-gray-600">$295.00 Caja</p>
+              <p class="text-xs text-blue-600 font-medium italic">3+ cajas: $290.00 c/u</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+              <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar Caja</button>
+            </div>
+          </div>
+          <hr class="my-2 border-gray-100">
+          <div class="flex items-center justify-between bg-blue-50/50 p-2 rounded-lg border border-blue-100">
+            <p class="text-xs font-bold text-blue-800 italic uppercase">🥛 Lleva solo 1 pieza: <span class="text-sm font-black">$29.00</span></p>
+            <button onclick="agregarAlCarritoSimple('ab-lala-deslac-pz', 'Lala Deslactosada (Pieza)', 29.00, 'img/aba/lala-deslactosada.jpg')" 
+                    class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase shadow-md hover:bg-[#4a6685]">
+              Agregar Pieza
+            </button>
+          </div>
         </div>
       </div>
-
-<div class="flex items-center gap-4 py-3 border-b"
-     data-id="ab-arroz-aguila"
-     data-nombre="Arroz El Águila (Kg)"
-     data-precio="24.00">
-
-  <img src="img/aba/arroz.jpg" alt="Arroz El Águila" class="w-24 h-24 rounded-lg object-cover shadow-sm">
-
-  <div class="flex-grow">
-    <p class="font-semibold text-gray-800">Arroz El Águila (Kg)</p>
-    <p class="text-sm text-gray-600">$24.00</p>
-  </div>
-
-  <div class="flex items-center gap-2">
-    <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-    <button onclick="agregarAlCarrito(this)"
-            class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">
-      Agregar
-    </button>
-  </div>
-</div>
-
-
-
-<div class="flex items-center gap-4 py-3 border-b"
-     data-id="ab-lentejas"
-     data-nombre="Lentejas (Kg)"
-     data-precio="30.00">
-
-  <img src="img/aba/lentejas.jpg" alt="Lentejas" class="w-24 h-24 rounded-lg object-cover shadow-sm">
-
-  <div class="flex-grow">
-    <p class="font-semibold text-gray-800">Lentejas (Kg)</p>
-    <p class="text-sm text-gray-600">$30.00</p>
-  </div>
-
-  <div class="flex items-center gap-2">
-    <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-    <button onclick="agregarAlCarrito(this)"
-            class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">
-      Agregar
-    </button>
-  </div>
-</div>
-
-
-<div class="flex items-center gap-4 py-3 border-b"
-     data-id="ab-jamaica"
-     data-nombre="Jamaica (Kg)"
-     data-precio="90.00">
-
-  <img src="img/aba/jamaica.jpg" alt="Jamaica" class="w-24 h-24 rounded-lg object-cover shadow-sm">
-
-  <div class="flex-grow">
-    <p class="font-semibold text-gray-800">Jamaica (Kg)</p>
-    <p class="text-sm text-gray-600">$90.00</p>
-  </div>
-
-  <div class="flex items-center gap-2">
-    <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-    <button onclick="agregarAlCarrito(this)"
-            class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">
-      Agregar
-    </button>
-  </div>
-</div>
-
-
-<div class="flex items-center gap-4 py-3 border-b"
-     data-id="ab-ajonjolin"
-     data-nombre="Ajonjolín (Kg)"
-     data-precio="55.00">
-
-  <img src="img/aba/ajonjolin.jpg" alt="Ajonjolín" class="w-24 h-24 rounded-lg object-cover shadow-sm">
-
-  <div class="flex-grow">
-    <p class="font-semibold text-gray-800">Ajonjolín (Kg)</p>
-    <p class="text-sm text-gray-600">$55.00</p>
-  </div>
-
-  <div class="flex items-center gap-2">
-    <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
-    <button onclick="agregarAlCarrito(this)"
-            class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">
-      Agregar
-    </button>
-  </div>
-</div>
-
-
     </div>
-    <a href="index.html" class="mt-8 block w-full text-center bg-gray-300 px-4 py-2 rounded shadow">Regresar al Menú</a>
-  </section>
 
-  <div id="boton-carrito" onclick="mostrarCarrito()" class="fixed bottom-5 right-5 bg-green-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center cursor-pointer z-50">
-    <span class="text-3xl">🛒</span>
-    <span id="contador-carrito" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">0</span>
-  </div>
-  <div id="modal-carrito" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-    <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
-      <div class="flex justify-between items-center p-4 border-b"><h3 class="text-2xl font-bold">Tu Pedido</h3><button onclick="ocultarCarrito()" class="text-2xl">&times;</button></div>
-      <div id="carrito-items" class="p-4 max-h-64 overflow-y-auto"></div>
-      <div class="p-4 border-t">
-        <div id="carrito-total" class="text-xl font-bold text-right mb-4">Total: $0.00</div>
-        <button onclick="enviarPedido()" class="w-full bg-green-500 text-white font-bold py-3 rounded-lg shadow-lg hover:bg-green-600 transition">Confirmar Pedido por WhatsApp</button>
+    <div class="py-4 border-b px-2" data-id="ab-lala-entera-caja" data-nombre="Lala Entera 1L (Caja 12pz)" data-precio="295.00" data-oferta-precio="290.00" data-oferta-cantidad="3">
+      <div class="flex items-center gap-4">
+        <img src="img/aba/lala-entera.jpg" alt="Lala Entera" class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover shadow-sm flex-shrink-0">
+        <div class="flex-grow">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="font-bold text-gray-800">Lala Entera 1L (Caja)</p>
+              <p class="text-sm text-gray-600">$295.00 Caja</p>
+              <p class="text-xs text-blue-600 font-medium italic">3+ cajas: $290.00 c/u</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="number" value="1" min="1" class="quantity-to-add w-12 text-center border rounded-md p-1 text-sm font-bold">
+              <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">Agregar Caja</button>
+            </div>
+          </div>
+          <hr class="my-2 border-gray-100">
+          <div class="flex items-center justify-between bg-blue-50/50 p-2 rounded-lg border border-blue-100">
+            <p class="text-xs font-bold text-blue-800 italic uppercase">🥛 Lleva solo 1 pieza: <span class="text-sm font-black">$28.00</span></p>
+            <button onclick="agregarAlCarritoSimple('ab-lala-entera-pz', 'Lala Entera (Pieza)', 28.00, 'img/aba/lala-entera.jpg')" 
+                    class="bg-[#5C7DA3] text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase shadow-md hover:bg-[#4a6685]">
+              Agregar Pieza
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <script src="carrito.js"></script>
-  <script>
-  function toggleMenu() {
-    document.getElementById('menuDropdown').classList.toggle('hidden');
-  }
 
-  // Cierra el menú si das click fuera
-  document.addEventListener('click', function (e) {
-    const menu = document.getElementById('menuDropdown');
-    const btn = document.getElementById('menuBtn');
-    if (!btn.contains(e.target) && !menu.contains(e.target)) {
-      menu.classList.add('hidden');
-    }
-  });
-</script>
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-alpura-clas" data-nombre="Alpura Clásica 1L" data-precio="26.00" data-oferta-precio="25.41" data-oferta-cantidad="6">
+      <img src="img/aba/aba3.jpg" alt="Alpura Clásica" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Alpura Clásica 1L</p>
+        <p class="text-sm text-gray-600">$26.00</p>
+        <p class="text-xs text-blue-600">A partir de 6 a $25.41 c/u</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-crema-alp" data-nombre="Crema Alpura 200ml" data-precio="23.00" data-oferta-precio="20.00" data-oferta-cantidad="6">
+      <img src="img/aba/aba4.jpg" alt="Crema Alpura" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Crema Alpura 200ml</p>
+        <p class="text-sm text-gray-600">$23.00</p>
+        <p class="text-xs text-blue-600">A partir de 6 a $20.00 c/u</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-sabrole-pza" data-nombre="Sabrole 900ml (Pieza)" data-precio="16.00">
+      <img src="img/aba/aba5.jpg" alt="Sabrole 900ml" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Sabrole 900ml (Pieza)</p>
+        <p class="text-sm text-gray-600">$16.00</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-sabrole-bolsa" data-nombre="Sabrole 900ml (Bolsa 6pz)" data-precio="90.00">
+      <img src="img/aba/aba5.jpg" alt="Sabrole 900ml" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Sabrole 900ml (Bolsa 6pz)</p>
+        <p class="text-sm text-gray-600">$90.00</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ofer-coca" data-nombre="Coca-Cola 600ml (Charola 24pz)" data-precio="467.00">
+      <img src="img/ofe/ofe3.jpg" alt="Coca-Cola 600ml" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Coca-Cola 600ml (Charola 24pz)</p>
+        <p class="text-sm text-gray-600">$467.00</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <h3 id="enlatados" class="text-lg font-bold text-gray-700 border-b pt-10">Enlatados y Conservas</h3>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-lechera" data-nombre="Lechera 375ml" data-precio="32.00" data-oferta-precio="28.00" data-oferta-cantidad="6">
+      <img src="img/aba/aba6.jpg" alt="Lechera" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Lechera 375ml</p>
+        <p class="text-sm text-gray-600">$32.00</p>
+        <p class="text-xs text-blue-600">A partir de 6 a $28.00c/u</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-carnation" data-nombre="Carnation 360ml" data-precio="23.00" data-oferta-precio="20.00" data-oferta-cantidad="6">
+      <img src="img/aba/aba7.jpg" alt="Carnation" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Carnation 360ml</p>
+        <p class="text-sm text-gray-600">$23.00</p>
+        <p class="text-xs text-blue-600">A partir de 6 a $20.00 c/u</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-iberia" data-nombre="Iberia 90g" data-precio="14.00" data-oferta-precio="10.00" data-oferta-cantidad="6">
+      <img src="img/aba/aba8.jpg" alt="Iberia" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Iberia 90g</p>
+        <p class="text-sm text-gray-600">$14.00</p>
+        <p class="text-xs text-blue-600">A partir de 6 a $10.00 c/u</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-merm-cost" data-nombre="Mermelada La Costeña 440gr" data-precio="30.00" data-oferta-precio="25.00" data-oferta-cantidad="6">
+      <img src="img/aba/aba9.jpg" alt="Mermelada" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Mermelada La Costeña 440gr</p>
+        <p class="text-sm text-gray-600">$30.00</p>
+        <p class="text-xs text-blue-600">A partir de 6 a $25.00 c/u</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-chiles-ent" data-nombre="Chiles Enteros La Morena 200gr" data-precio="19.15" data-oferta-precio="17.00" data-oferta-cantidad="5">
+      <img src="img/aba/aba10.jpg" alt="Chiles Enteros" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Chiles Enteros La Morena 200gr</p>
+        <p class="text-sm text-gray-600">$19.15</p>
+        <p class="text-xs text-blue-600">A partir de 5 a $17.00 c/u</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-rajas" data-nombre="Rajas La Morena 200gr" data-precio="19.50" data-oferta-precio="17.00" data-oferta-cantidad="5">
+      <img src="img/aba/aba11.jpg" alt="Rajas La Morena" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Rajas La Morena 200gr</p>
+        <p class="text-sm text-gray-600">$19.50</p>
+        <p class="text-xs text-blue-600">A partir de 5 a $17.00 c/u</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-chipotles" data-nombre="Chipotles La Morena 100gr" data-precio="16.50" data-oferta-precio="14.50" data-oferta-cantidad="5">
+      <img src="img/aba/aba12.jpg" alt="Chipotles La Morena" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Chipotles La Morena 100gr</p>
+        <p class="text-sm text-gray-600">$16.50</p>
+        <p class="text-xs text-blue-600">A partir de 5 a $14.50 c/u</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-atun-dorado" data-nombre="Atún Dorado" data-precio="15.00" data-oferta-precio="13.89" data-oferta-cantidad="5">
+      <img src="img/aba/aba13.jpg" alt="Atún Dorado" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Atún Dorado</p>
+        <p class="text-sm text-gray-600">$15.00</p>
+        <p class="text-xs text-blue-600">A partir de 5 a $13.89 c/u</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-atun-dolores" data-nombre="Atún Dolores 133gr" data-precio="23.00" data-oferta-precio="20.00" data-oferta-cantidad="6">
+      <img src="img/aba/aba14.jpg" alt="Atún Dolores" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Atún Dolores 133gr</p>
+        <p class="text-sm text-gray-600">$23.00</p>
+        <p class="text-xs text-blue-600">A partir de 6 a $20.00 c/u</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-merm-clem" data-nombre="Mermelada de Fresa Clemente Jaques 270gr" data-precio="25.00">
+      <img src="img/aba/aba15.jpg" alt="Mermelada Clemente Jaques" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Mermelada de Fresa Clemente Jaques 270gr</p>
+        <p class="text-sm text-gray-600">$25.00</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <h3 id="granos" class="text-lg font-bold text-gray-700 border-b pt-10">Granos, Pastas y Despensa</h3>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-maruchanh-pza" data-nombre="Maruchan Habanero (Pieza)" data-precio="16.00">
+      <img src="img/aba/aba16.jpg" alt="Maruchan Habanero" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Maruchan Habanero (Pieza)</p>
+        <p class="text-sm text-gray-600">$16.00</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-maruchanh-caja" data-nombre="Maruchan Habanero (Caja)" data-precio="185.00">
+      <img src="img/aba/aba16.jpg" alt="Maruchan Habanero" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Maruchan Habanero (Caja)</p>
+        <p class="text-sm text-gray-600">$185.00</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-maruchanp-pza" data-nombre="Maruchan Pikin (Pieza)" data-precio="16.00">
+      <img src="img/aba/aba17.jpg" alt="Maruchan Pikin" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Maruchan Pikin (Pieza)</p>
+        <p class="text-sm text-gray-600">$16.00</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-maruchanp-caja" data-nombre="Maruchan Pikin (Caja)" data-precio="185.00">
+      <img src="img/aba/aba17.jpg" alt="Maruchan Pikin" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Maruchan Pikin (Caja)</p>
+        <p class="text-sm text-gray-600">$185.00</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-aceitem" data-nombre="Aceite Maravilla 1L" data-precio="36.00" data-oferta-precio="35.42" data-oferta-cantidad="6">
+      <img src="img/aba/aba18.jpg" alt="Aceite Maravilla" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Aceite Maravilla 1L</p>
+        <p class="text-sm text-gray-600">$36.00</p>
+        <p class="text-xs text-blue-600">A partir de 6 a $35.42 c/u</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-aceitem-caja" data-nombre="Aceite Maravilla (Caja 12pz)" data-precio="425.00">
+      <img src="img/aba/aba18.jpg" alt="Aceite Maravilla" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Aceite Maravilla (Caja 12pz)</p>
+        <p class="text-sm text-gray-600">$425.00</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-lastur-pza" data-nombre="Lastur FEITE (1kg)" data-precio="33.00">
+      <img src="img/aba/aba19.jpg" alt="Lastur FEITE" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Lastur FEITE (1kg)</p>
+        <p class="text-sm text-gray-600">$33.00</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-lastur-caja" data-nombre="Lastur FEITE (Caja 10kg)" data-precio="330.00">
+      <img src="img/aba/aba19.jpg" alt="Lastur FEITE" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Lastur FEITE (Caja 10kg)</p>
+        <p class="text-sm text-gray-600">$330.00</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-frijol-negro" data-nombre="Frijol Negro (por kg)" data-precio="33.00" data-oferta-precio="31.00" data-oferta-cantidad="10">
+      <img src="img/aba/aba20.jpg" alt="Frijol Negro" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Frijol Negro (por kg)</p>
+        <p class="text-sm text-gray-600">$33.00</p>
+        <p class="text-xs text-blue-600">A partir de 10kg a $31.00 c/kg</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-frijol-pinto-kg" data-nombre="Frijol Pinto (por kg)" data-precio="34.00" data-oferta-precio="32.00" data-oferta-cantidad="10">
+      <img src="img/aba/aba21.jpg" alt="Frijol Pinto" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Frijol Pinto (por kg)</p>
+        <p class="text-sm text-gray-600">$34.00</p>
+        <p class="text-xs text-blue-600">A partir de 10kg a $32.00 c/kg</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-frijol-pinto-bulto" data-nombre="Frijol Pinto (Bulto)" data-precio="750.00">
+      <img src="img/aba/aba21.jpg" alt="Frijol Pinto" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Frijol Pinto (Bulto)</p>
+        <p class="text-sm text-gray-600">$750.00</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-azucar-kg" data-nombre="Azúcar Estándar (por kg)" data-precio="23.00">
+      <img src="img/aba/aba22.jpg" alt="Azúcar Estándar" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Azúcar Estándar (por kg)</p>
+        <p class="text-sm text-gray-600">$23.00</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-azucar-bulto" data-nombre="Azúcar Estándar (Bulto 25kg)" data-precio="510.00">
+      <img src="img/aba/aba22.jpg" alt="Azúcar Estándar" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Azúcar Estándar (Bulto 25kg)</p>
+        <p class="text-sm text-gray-600">$510.00</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-sal-fina" data-nombre="Sal Fina 1kg" data-precio="19.00" data-oferta-precio="18.00" data-oferta-cantidad="6">
+      <img src="img/aba/aba23.jpg" alt="Sal Fina" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Sal Fina 1kg</p>
+        <p class="text-sm text-gray-600">$19.00</p>
+        <p class="text-xs text-blue-600">A partir de 6 a $18.00 c/u</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-sopa-ital" data-nombre="Sopa Ital pasta" data-precio="9.00" data-oferta-precio="8.00" data-oferta-cantidad="10">
+      <img src="img/aba/aba24.jpg" alt="Sopa Ital" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Sopa Ital pasta</p>
+        <p class="text-sm text-gray-600">$9.00</p>
+        <p class="text-xs text-blue-600">A partir de 10 a $8.00 c/u</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-sopa-mod" data-nombre="Sopa La Moderna" data-precio="9.00" data-oferta-precio="8.00" data-oferta-cantidad="10">
+      <img src="img/aba/aba25.jpg" alt="Sopa Moderna" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Sopa La Moderna</p>
+        <p class="text-sm text-gray-600">$9.00</p>
+        <p class="text-xs text-blue-600">A partir de 10 a $8.00 c/u</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-knorr-pza" data-nombre="Knorr (Pieza)" data-precio="5.00">
+      <img src="img/aba/aba26.jpg" alt="Knorr" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Knorr (Pieza)</p>
+        <p class="text-sm text-gray-600">$5.00</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-knorr-exh" data-nombre="Knorr (Exhibidor 50pz)" data-precio="215.00">
+      <img src="img/aba/aba26.jpg" alt="Knorr" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Knorr (Exhibidor 50pz)</p>
+        <p class="text-sm text-gray-600">$215.00</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-choc-pza" data-nombre="Chocolate Abuelita (Pieza)" data-precio="21.00">
+      <img src="img/aba/aba27.jpg" alt="Chocolate Abuelita" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Chocolate Abuelita (Pieza)</p>
+        <p class="text-sm text-gray-600">$21.00</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-choc-exh" data-nombre="Chocolate Abuelita (Exhibidor 6pz)" data-precio="125.00">
+      <img src="img/aba/aba27.jpg" alt="Chocolate Abuelita" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Chocolate Abuelita (Exhibidor 6pz)</p>
+        <p class="text-sm text-gray-600">$125.00</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-tostadas" data-nombre="Tostadas Delicias" data-precio="29.00" data-oferta-precio="26.00" data-oferta-cantidad="5">
+      <img src="img/aba/aba28.jpg" alt="Tostadas Delicias" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Tostadas Delicias</p>
+        <p class="text-sm text-gray-600">$29.00</p>
+        <p class="text-xs text-blue-600">A partir de 5 a $26.00 c/u</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-tang" data-nombre="Exhibidor de Tang" data-precio="40.00">
+      <img src="img/aba/aba29.jpg" alt="Exhibidor Tang" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Exhibidor de Tang</p>
+        <p class="text-sm text-gray-600">$40.00</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-maizena" data-nombre="Maizena Sabores" data-precio="13.00" data-oferta-precio="11.50" data-oferta-cantidad="3">
+      <img src="img/aba/maizena.jpg" alt="Maizena Sabores" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Maizena Sabores</p>
+        <p class="text-sm text-gray-600">$13.00</p>
+        <p class="text-xs text-blue-600">Desde 3 pzs a $11.50</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ofer-huevo" data-nombre="Huevo Fresco (por kg)" data-precio="43.00" data-oferta-precio="38.00" data-oferta-cantidad="15">
+      <img src="img/ofe/ofe1.jpg" alt="Huevo Fresco" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Huevo Fresco (por kg)</p>
+        <p class="text-sm text-gray-600">$43.00</p>
+        <p class="text-xs text-blue-600">A partir de 1/2 caja (15kg) a $38.00 c/kg</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-arroz-aguila" data-nombre="Arroz El Águila (Kg)" data-precio="24.00">
+      <img src="img/aba/arroz.jpg" alt="Arroz El Águila" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Arroz El Águila (Kg)</p>
+        <p class="text-sm text-gray-600">$24.00</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-lentejas" data-nombre="Lentejas (Kg)" data-precio="30.00">
+      <img src="img/aba/lentejas.jpg" alt="Lentejas" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Lentejas (Kg)</p>
+        <p class="text-sm text-gray-600">$30.00</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-jamaica" data-nombre="Jamaica (Kg)" data-precio="90.00">
+      <img src="img/aba/jamaica.jpg" alt="Jamaica" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Jamaica (Kg)</p>
+        <p class="text-sm text-gray-600">$90.00</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 py-3 border-b" data-id="ab-ajonjolin" data-nombre="Ajonjolín (Kg)" data-precio="55.00">
+      <img src="img/aba/ajonjolin.jpg" alt="Ajonjolín" class="w-24 h-24 rounded-lg object-cover shadow-sm">
+      <div class="flex-grow">
+        <p class="font-semibold text-gray-800">Ajonjolín (Kg)</p>
+        <p class="text-sm text-gray-600">$55.00</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="number" value="1" min="1" class="quantity-to-add w-16 text-center border rounded-md p-2">
+        <button onclick="agregarAlCarrito(this)" class="bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 font-bold">Agregar</button>
+      </div>
+    </div>
+
+  </div>
+
+  <a href="index.html" class="mt-8 block w-full text-center bg-gray-300 px-4 py-2 rounded shadow">Regresar al Menú</a>
+</section>
+
+<div id="boton-carrito" onclick="mostrarCarrito()" class="fixed bottom-5 right-5 bg-green-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center cursor-pointer z-50">
+  <span class="text-3xl">🛒</span>
+  <span id="contador-carrito" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">0</span>
+</div>
+
+<div id="modal-carrito" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+  <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+    <div class="flex justify-between items-center p-4 border-b"><h3 class="text-2xl font-bold">Tu Pedido</h3><button onclick="ocultarCarrito()" class="text-2xl">&times;</button></div>
+    <div id="carrito-items" class="p-4 max-h-64 overflow-y-auto"></div>
+    <div class="p-4 border-t">
+      <div id="carrito-total" class="text-xl font-bold text-right mb-4">Total: $0.00</div>
+      <button onclick="enviarPedido()" class="w-full bg-green-500 text-white font-bold py-3 rounded-lg shadow-lg hover:bg-green-600 transition">Confirmar Pedido por WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<script src="carrito.js"></script>
+
 <script>
-function filtrarProductos() {
-    const input = document.getElementById("buscadorProductos");
-    const filtro = input.value.toLowerCase();
-    const productos = document.querySelectorAll('[data-nombre]');
+function toggleMenu() {
+  document.getElementById('menuDropdown').classList.toggle('hidden');
+}
 
-    productos.forEach(producto => {
-        const nombre = producto.getAttribute("data-nombre").toLowerCase();
-        producto.style.display = nombre.includes(filtro) ? "flex" : "none";
-    });
+document.addEventListener('click', function (e) {
+  const menu = document.getElementById('menuDropdown');
+  const btn = document.getElementById('menuBtn');
+  if (!btn.contains(e.target) && !menu.contains(e.target)) {
+    menu.classList.add('hidden');
+  }
+});
+
+function filtrarProductos() {
+  const input = document.getElementById("buscadorProductos");
+  const filtro = input.value.toLowerCase();
+  const productos = document.querySelectorAll('[data-nombre]');
+  productos.forEach(producto => {
+    const nombre = producto.getAttribute("data-nombre").toLowerCase();
+    producto.style.display = nombre.includes(filtro) ? "flex" : "none";
+  });
 }
 </script>
+
 <div id="modal-confirmacion" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
   <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 animate-fade-in">
-
     <div class="text-center mb-4">
       <div class="text-5xl mb-2">🛒</div>
       <h3 class="text-2xl font-bold text-gray-800">Confirmar Pedido</h3>
       <p class="text-gray-500 text-sm mt-1">Revisa tu pedido antes de enviarlo</p>
     </div>
-
     <div id="resumen-confirmacion" class="bg-gray-100 rounded-lg p-4 text-sm max-h-60 overflow-y-auto mb-4"></div>
-
     <div class="flex gap-3">
-      <button onclick="cancelarConfirmacion()" 
-        class="flex-1 py-3 rounded-lg border border-gray-300 font-semibold text-gray-600 hover:bg-gray-100 transition">
-        Cancelar
-      </button>
-
-      <button onclick="confirmarEnvio()" 
-        class="flex-1 py-3 rounded-lg bg-green-500 text-white font-bold shadow hover:bg-green-600 transition">
-        Enviar por WhatsApp
-      </button>
+      <button onclick="cancelarConfirmacion()" class="flex-1 py-3 rounded-lg border border-gray-300 font-semibold text-gray-600 hover:bg-gray-100 transition">Cancelar</button>
+      <button onclick="confirmarEnvio()" class="flex-1 py-3 rounded-lg bg-green-500 text-white font-bold shadow hover:bg-green-600 transition">Enviar por WhatsApp</button>
     </div>
-
   </div>
 </div>
-</body>
 
+</body>
 </html>
