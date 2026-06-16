@@ -358,3 +358,46 @@ async function confirmarEnvio() {
   actualizarContadorUI();
   setTimeout(() => location.reload(), 400);
 }
+// -----------------------------------------------------------------------
+// ACTUALIZAR PRECIOS VISIBLES EN LA PÁGINA AL CARGAR
+// -----------------------------------------------------------------------
+async function actualizarPreciosEnPagina() {
+  try {
+    const precios = await getPreciosDesdeBaserow();
+    if (!precios || precios.length === 0) return;
+
+    document.querySelectorAll('[data-id]').forEach(el => {
+      const id   = el.dataset.id;
+      const fila = precios.find(p => p.id_html === id);
+      if (!fila) return;
+
+      const precioNuevo  = parseFloat(fila.precio);
+      const ofertaNuevo  = parseFloat(fila.precio_oferta) || null;
+      const cantMinNueva = parseInt(fila.cantidad_minima)  || null;
+
+      if (!isNaN(precioNuevo))  el.dataset.precio         = precioNuevo;
+      if (ofertaNuevo)          el.dataset.ofertaPrecio   = ofertaNuevo;
+      if (cantMinNueva)         el.dataset.ofertaCantidad = cantMinNueva;
+
+      const pNormal = el.querySelector('p.text-sm.text-gray-600');
+      if (pNormal && !isNaN(precioNuevo)) {
+        const sufijo = pNormal.textContent.replace(/\$[\d.,]+/, '').trim();
+        pNormal.textContent = '$' + precioNuevo.toFixed(2) + (sufijo ? ' ' + sufijo : '');
+      }
+
+      if (ofertaNuevo && cantMinNueva) {
+        const pOferta = el.querySelector('p.text-xs.text-blue-600');
+        if (pOferta) {
+          pOferta.textContent = 'A partir de ' + cantMinNueva + ' a $' + ofertaNuevo.toFixed(2) + ' c/u';
+        }
+      }
+    });
+  } catch (e) {
+    console.warn('actualizarPreciosEnPagina error:', e);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  actualizarContadorUI();
+  actualizarPreciosEnPagina();
+});
