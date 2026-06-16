@@ -13,7 +13,7 @@ const BASEROW_URL_BASE = `https://api.baserow.io/api/database/rows/table/${BASER
 // -----------------------------------------------------------------------
 const CACHE_KEY    = 'baserow_precios';
 const CACHE_TS_KEY = 'baserow_precios_ts';
-const CACHE_TTL    = 24 * 60 * 60 * 1000;
+const CACHE_TTL    = 15 * 60 * 1000; // 15 minutos
 
 // ------------------- PRECIOS DESDE BASEROW (CON PAGINACIÓN) -------------------
 
@@ -389,6 +389,46 @@ async function actualizarPreciosEnPagina() {
         const pOferta = el.querySelector('p.text-xs.text-blue-600');
         if (pOferta) {
           pOferta.textContent = 'A partir de ' + cantMinNueva + ' a $' + ofertaNuevo.toFixed(2) + ' c/u';
+        }
+      }
+
+      // Stock y disponibilidad
+      var stock       = parseInt(fila.stock) || 0;
+      var disponible  = (fila.disponible === true || fila.disponible === 'true');
+      var agotado     = !disponible || stock === 0;
+      var pocoStock   = disponible && stock > 0 && stock <= 5;
+
+      // Quitar badge anterior si existe
+      var badgeViejo = el.querySelector('.stock-badge');
+      if (badgeViejo) badgeViejo.remove();
+
+      var infoDiv2 = el.querySelector('.flex-grow');
+
+      if (agotado) {
+        // Atenuar producto completo
+        el.style.opacity = '0.5';
+        el.style.pointerEvents = 'none';
+        // Badge rojo "Sin stock"
+        if (infoDiv2) {
+          var badge = document.createElement('p');
+          badge.className = 'stock-badge';
+          badge.style.cssText = 'font-size:11px;font-weight:700;color:#fff;background:#dc2626;display:inline-block;padding:2px 8px;border-radius:999px;margin-top:4px;';
+          badge.textContent = '❌ Agotado';
+          infoDiv2.appendChild(badge);
+        }
+      } else {
+        // Restaurar por si antes estaba agotado
+        el.style.opacity = '';
+        el.style.pointerEvents = '';
+        if (pocoStock) {
+          // Badge naranja "¡Solo quedan X!"
+          if (infoDiv2) {
+            var badgePoco = document.createElement('p');
+            badgePoco.className = 'stock-badge';
+            badgePoco.style.cssText = 'font-size:11px;font-weight:700;color:#fff;background:#ea580c;display:inline-block;padding:2px 8px;border-radius:999px;margin-top:4px;';
+            badgePoco.textContent = '⚠️ ¡Solo quedan ' + stock + '!';
+            infoDiv2.appendChild(badgePoco);
+          }
         }
       }
 
