@@ -5,15 +5,17 @@
 // ===================================================================================
 
 const BASEROW_TOKEN    = 'sTPlXBmAyDa2aZS1x78J8oYnb9oGOMe8';
-const BASEROW_TABLE    = '1029785';
+const BASEROW_TABLE    = '1029851';
 const BASEROW_URL_BASE = `https://api.baserow.io/api/database/rows/table/${BASEROW_TABLE}/?user_field_names=true&size=100`;
 
 // -----------------------------------------------------------------------
-// CACHÉ EN localStorage — 24 HORAS
+// CACHÉ EN localStorage — 5 MINUTOS
+// Se puede limpiar manualmente llamando limpiarCachePrecios()
+// El admin la llama automáticamente al guardar cualquier cambio.
 // -----------------------------------------------------------------------
 const CACHE_KEY    = 'baserow_precios';
 const CACHE_TS_KEY = 'baserow_precios_ts';
-const CACHE_TTL    = 5 * 60 * 1000; // 5 minutos — cambios en admin se ven rápido
+const CACHE_TTL    = 5 * 60 * 1000; // 5 minutos
 
 // ------------------- PRECIOS DESDE BASEROW (CON PAGINACIÓN) -------------------
 
