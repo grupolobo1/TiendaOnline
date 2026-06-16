@@ -1141,7 +1141,7 @@ async function saveNewProduct() {
     }
 
     const body = {
-      nombre, precio, stock, categoria, disponible: 'true',
+      nombre, precio, stock, categoria, disponible: true,
       id_html: idHtml, imagen_url
     };
     if (familia) body.familia = familia;
