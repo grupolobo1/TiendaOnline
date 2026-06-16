@@ -927,7 +927,7 @@ async function loadProducts() {
 
 function renderStats() {
   const total  = allProducts.length;
-  const active = allProducts.filter(p => p.disponible).length;
+  const active = allProducts.filter(p => p.disponible === true || p.disponible === 'true').length;
   const sinStock = allProducts.filter(p => (p.stock ?? 0) === 0).length;
 
   document.getElementById('stat-total').innerHTML =
@@ -979,7 +979,7 @@ function renderProducts() {
 
 function buildCard(p) {
   const stock    = p.stock ?? 0;
-  const disponible = p.disponible ?? false;
+  const disponible = p.disponible === true || p.disponible === 'true';
   const stockClass = stock <= 0 ? 'stock-out' : stock <= 5 ? 'stock-low' : 'stock-ok';
   const stockLabel = stock <= 0 ? 'Sin stock' : stock <= 5 ? `${stock} en stock (poco)` : `${stock} en stock`;
 
@@ -1074,12 +1074,14 @@ async function quickUpdateStock(id, val) {
 
 async function toggleDisponible(id, checked) {
   try {
-    await apiPatch(`${BASEROW_BASE}/api/database/rows/table/${BASEROW_TABLE}/${id}/?user_field_names=true`, { disponible: checked });
+    // Baserow tiene disponible como campo texto: manda "true"/"false"
+    const valor = (checked === true || checked === 'true') ? 'true' : 'false';
+    await apiPatch(`${BASEROW_BASE}/api/database/rows/table/${BASEROW_TABLE}/${id}/?user_field_names=true`, { disponible: valor });
     const p = allProducts.find(x => x.id === id);
-    if (p) { p.disponible = checked; renderProducts(); renderStats(); }
+    if (p) { p.disponible = valor; renderProducts(); renderStats(); }
     flushPreciosCache();
-    showToast(checked ? 'Producto activado ✓' : 'Producto desactivado', 'info');
-  } catch(e) { showToast('Error al cambiar disponibilidad', 'err'); }
+    showToast(valor === 'true' ? 'Producto activado ✓' : 'Producto desactivado', 'info');
+  } catch(e) { showToast('Error al cambiar disponibilidad: ' + e.message, 'err'); }
 }
 
 /* ─────────────────────────────────────────
