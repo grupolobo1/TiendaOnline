@@ -120,6 +120,24 @@ async function agregarAlCarrito(boton) {
   const precios = await getPreciosDesdeBaserow();
   const fila    = encontrarFila(precios, id);
 
+  // Validar stock disponible
+  const stock = fila ? (parseInt(fila.stock) || 0) : 999;
+  const carrito   = getCartFromStorage();
+  const existente = carrito.find(item => item.id === id);
+  const yaEnCarrito = existente ? existente.cantidad : 0;
+  const totalSolicitado = yaEnCarrito + cantidad;
+
+  if (stock > 0 && totalSolicitado > stock) {
+    const disponibleParaAgregar = stock - yaEnCarrito;
+    if (disponibleParaAgregar <= 0) {
+      alert('Ya tienes el maximo disponible en tu carrito (' + stock + ' en existencia).');
+    } else {
+      alert('Solo hay ' + stock + ' en existencia. Puedes agregar ' + disponibleParaAgregar + ' mas.');
+    }
+    cantidadInput.value = Math.max(1, stock - yaEnCarrito);
+    return;
+  }
+
   const precio         = fila ? (parseFloat(fila.precio)         || precioOriginal) : precioOriginal;
   const familia        = fila?.familia        || productoDiv.dataset.family  || null;
   const ofertaPrecio   = fila ? (parseFloat(fila.precio_oferta)  || null) : null;
@@ -127,8 +145,6 @@ async function agregarAlCarrito(boton) {
   const nombrePaquete  = fila?.nombre_paquete || null;
   const precioPaquete  = fila ? (parseFloat(fila.precio_paquete) || null) : null;
 
-  const carrito   = getCartFromStorage();
-  const existente = carrito.find(item => item.id === id);
   if (existente) {
     existente.cantidad += cantidad;
     existente.precio    = precio;
@@ -397,6 +413,13 @@ async function actualizarPreciosEnPagina() {
       var disponible  = (fila.disponible === true || fila.disponible === 'true');
       var agotado     = !disponible || stock === 0;
       var pocoStock   = disponible && stock > 0 && stock <= 5;
+
+      // Limitar el input de cantidad al stock real
+      var qInput = el.querySelector('.quantity-to-add');
+      if (qInput && stock > 0) {
+        qInput.max = stock;
+        if (parseInt(qInput.value) > stock) qInput.value = stock;
+      }
 
       // Quitar badge anterior si existe
       var badgeViejo = el.querySelector('.stock-badge');
