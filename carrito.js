@@ -135,40 +135,14 @@ async function agregarAlCarrito(boton) {
   actualizarContadorUI();
 }
 
-// Busca la fila padre que tenga precio_paquete para un id de paquete hardcodeado
-// Ej: 'ciga-marlboro-mentol-paq' → busca fila con precio_paquete donde su id sea la pieza base
-function encontrarFilaPadreConPaquete(precios, idPaquete) {
-  // El id del paquete en HTML puede ser distinto al id_html de la fila padre
-  // Buscamos la fila que tenga precio_paquete y cuyo nombre_paquete o id_html
-  // sea el padre logico de este paquete comparando subcadenas
-  var sufijos = ['-paq', '-caja', '-charola', '-bulto', '-exh', '-bolsa', '-carton', '-pqt'];
-  var base = idPaquete;
-  for (var i = 0; i < sufijos.length; i++) {
-    if (idPaquete.endsWith(sufijos[i])) {
-      base = idPaquete.slice(0, idPaquete.length - sufijos[i].length);
-      break;
-    }
-  }
-  // Buscar fila cuyo id_html comienza igual que la base y tiene precio_paquete
-  return precios.find(function(p) {
-    return p.precio_paquete && p.id_html && p.id_html !== idPaquete &&
-      (p.id_html === base || idPaquete.startsWith(p.id_html));
-  }) || null;
-}
-
 async function agregarAlCarritoSimple(id, nombre, precioOriginal, imagen) {
   const precios = await getPreciosDesdeBaserow();
   const fila    = encontrarFila(precios, id);
-
-  // Si la fila directa no tiene precio_paquete, buscar en la fila padre
-  var precioPaquetePadre = null;
-  if (!fila || !fila.precio_paquete) {
-    var filaPadre = encontrarFilaPadreConPaquete(precios, id);
-    if (filaPadre) precioPaquetePadre = parseFloat(filaPadre.precio_paquete) || null;
-  }
-
-  const precio  = precioPaquetePadre
-    || (fila ? (parseFloat(fila.precio) || precioOriginal) : precioOriginal);
+  // Los botones de paquete ahora apuntan a la fila pieza que tiene precio_paquete
+  // Si la fila tiene precio_paquete, usarlo; si no, usar precio normal
+  const precio  = fila
+    ? (parseFloat(fila.precio_paquete) || parseFloat(fila.precio) || precioOriginal)
+    : precioOriginal;
   const familia = fila?.familia || null;
 
   const carrito   = getCartFromStorage();
@@ -550,20 +524,11 @@ async function actualizarPreciosEnPagina() {
       var idHtml    = match[1];
       var nombreOrig = match[2];
 
-      // Buscar fila directa
+      // Buscar fila directa (ahora el id siempre es la fila pieza con precio_paquete)
       var fila = precios.find(function(p) { return p.id_html === idHtml; });
-
-      // Si la fila directa no tiene precio_paquete, buscar en la fila padre
       var precioNuevo = null;
-      if (fila && fila.precio_paquete) {
-        precioNuevo = parseFloat(fila.precio_paquete);
-      } else {
-        var filaPadre = encontrarFilaPadreConPaquete(precios, idHtml);
-        if (filaPadre && filaPadre.precio_paquete) {
-          precioNuevo = parseFloat(filaPadre.precio_paquete);
-        } else if (fila) {
-          precioNuevo = parseFloat(fila.precio);
-        }
+      if (fila) {
+        precioNuevo = parseFloat(fila.precio_paquete) || parseFloat(fila.precio) || null;
       }
 
       if (!precioNuevo || isNaN(precioNuevo)) return;
