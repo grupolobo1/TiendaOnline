@@ -116,8 +116,8 @@ async function agregarAlCarrito(boton) {
     return;
   }
 
-  const precio         = fila ? (parseFloat(fila.precio)        || precioOriginal) : precioOriginal;
-  const familia        = fila?.familia       || productoDiv.dataset.family || null;
+  const precio         = fila ? (parseFloat(fila.precio) || precioOriginal) : precioOriginal;
+  const familia        = fila?.familia || productoDiv.dataset.family || null;
   const ofertaPrecio   = fila ? (parseFloat(fila.precio_oferta) || null) : null;
   const ofertaCantidad = fila ? (parseInt(fila.cantidad_minima) || null) : null;
   const nombrePaquete  = fila?.nombre_paquete || null;
@@ -127,7 +127,19 @@ async function agregarAlCarrito(boton) {
     existente.cantidad += cantidad;
     existente.precio    = precio;
   } else {
-    carrito.push({ id, nombre, precio, cantidad, familia, ofertaPrecio, ofertaCantidad, nombrePaquete, precioPaquete, imagen });
+    carrito.push({ 
+      id, 
+      nombre, 
+      precio, 
+      cantidad, 
+      familia, 
+      ofertaPrecio, 
+      ofertaCantidad, 
+      nombrePaquete, 
+      precioPaquete, 
+      imagen, 
+      esPaquete: false 
+    });
   }
 
   cantidadInput.value = 1;
@@ -135,12 +147,8 @@ async function agregarAlCarrito(boton) {
   actualizarContadorUI();
 }
 
-// Busca la fila padre que tenga precio_paquete para un id de paquete hardcodeado
-// Ej: 'ciga-marlboro-mentol-paq' → busca fila con precio_paquete donde su id sea la pieza base
+// Busca la fila padre que tenga precio_paquete
 function encontrarFilaPadreConPaquete(precios, idPaquete) {
-  // El id del paquete en HTML puede ser distinto al id_html de la fila padre
-  // Buscamos la fila que tenga precio_paquete y cuyo nombre_paquete o id_html
-  // sea el padre logico de este paquete comparando subcadenas
   var sufijos = ['-paq', '-caja', '-charola', '-bulto', '-exh', '-bolsa', '-carton', '-pqt'];
   var base = idPaquete;
   for (var i = 0; i < sufijos.length; i++) {
@@ -149,42 +157,41 @@ function encontrarFilaPadreConPaquete(precios, idPaquete) {
       break;
     }
   }
-  // Buscar fila cuyo id_html comienza igual que la base y tiene precio_paquete
   return precios.find(function(p) {
     return p.precio_paquete && p.id_html && p.id_html !== idPaquete &&
       (p.id_html === base || idPaquete.startsWith(p.id_html));
   }) || null;
 }
 
-async function agregarAlCarritoSimple(id, nombre, precioOriginal, imagen) {
-  const precios = await getPreciosDesdeBaserow();
-  const fila    = encontrarFila(precios, id);
-
-  // Si la fila directa no tiene precio_paquete, buscar en la fila padre
-  var precioPaquetePadre = null;
-  if (!fila || !fila.precio_paquete) {
-    var filaPadre = encontrarFilaPadreConPaquete(precios, id);
-    if (filaPadre) precioPaquetePadre = parseFloat(filaPadre.precio_paquete) || null;
-  }
-
-  const precio  = precioPaquetePadre
-    || (fila ? (parseFloat(fila.precio) || precioOriginal) : precioOriginal);
-  const familia = fila?.familia || null;
-
-  const carrito   = getCartFromStorage();
-  const existente = carrito.find(item => item.id === id);
+// FUNCIÓN PARA PAQUETES - usa un ID DIFERENTE al de la pieza suelta
+// El ID del paquete será: idBase + '-paq'
+async function agregarAlCarritoSimple(idBase, nombre, precioPaquete, imagen) {
+  // 🔥 IMPORTANTE: El ID del paquete es DIFERENTE al de la pieza suelta
+  const idPaquete = idBase + '-paq';
+  
+  const carrito = getCartFromStorage();
+  const existente = carrito.find(item => item.id === idPaquete);
+  
   if (existente) {
     existente.cantidad++;
-    existente.precio = precio;
+    existente.precio = precioPaquete;
+    existente.esPaquete = true;
   } else {
-    carrito.push({ id, nombre, precio, cantidad: 1, familia, imagen });
+    carrito.push({ 
+      id: idPaquete,  // ID único para el paquete
+      nombre: '📦 ' + nombre + ' (Paquete)', 
+      precio: precioPaquete, 
+      cantidad: 1, 
+      familia: null, 
+      imagen,
+      esPaquete: true
+    });
   }
 
   saveCartToStorage(carrito);
   actualizarContadorUI();
 }
 
-// Agrega paquete nuevo desde Baserow (productos sin boton hardcodeado)
 async function agregarPaqueteAlCarrito(id, nombre, precio, imagen, nombrePaquete) {
   const precios = await getPreciosDesdeBaserow();
   const fila    = encontrarFila(precios, id);
@@ -196,8 +203,17 @@ async function agregarPaqueteAlCarrito(id, nombre, precio, imagen, nombrePaquete
   if (existente) {
     existente.cantidad++;
     existente.precio = precioFinal;
+    existente.esPaquete = true;
   } else {
-    carrito.push({ id: idPaq, nombre: nombrePaquete + ' — ' + nombre, precio: precioFinal, cantidad: 1, familia: null, imagen });
+    carrito.push({ 
+      id: idPaq, 
+      nombre: nombrePaquete + ' — ' + nombre, 
+      precio: precioFinal, 
+      cantidad: 1, 
+      familia: null, 
+      imagen,
+      esPaquete: true
+    });
   }
   saveCartToStorage(carrito);
   actualizarContadorUI();
@@ -245,26 +261,36 @@ async function dibujarCarritoCompleto() {
     carrito.forEach(item => {
       const fila    = encontrarFila(precios, item.id);
       const familia = fila?.familia || item.familia;
-      if (familia) cantFamilia[familia] = (cantFamilia[familia] || 0) + item.cantidad;
+      if (familia && !item.esPaquete) cantFamilia[familia] = (cantFamilia[familia] || 0) + item.cantidad;
     });
 
     carrito.forEach(item => {
       if (!item || !item.nombre || item.precio == null || item.cantidad == null) return;
 
-      const fila    = encontrarFila(precios, item.id);
-      const familia = fila?.familia || item.familia;
-      let precioUnitario = fila ? (parseFloat(fila.precio) || item.precio) : item.precio;
+      let precioUnitario = item.precio;
       let notaPrecio = '';
+      let badgePaquete = '';
 
-      const nombrePaquete = fila?.nombre_paquete || item.nombrePaquete || null;
-      const precioPaquete = fila ? (parseFloat(fila.precio_paquete) || null) : (item.precioPaquete || null);
-
-      if (familia && OFERTAS[familia] && (cantFamilia[familia] || 0) >= OFERTAS[familia].cantidadMinima) {
-        precioUnitario = OFERTAS[familia].precioOferta;
-        notaPrecio = ` <span class="text-xs text-blue-500">(Oferta Familia)</span>`;
-      } else if (item.ofertaPrecio && item.ofertaCantidad && item.cantidad >= item.ofertaCantidad) {
-        precioUnitario = item.ofertaPrecio;
-        notaPrecio = ` <span class="text-xs text-blue-500">(Oferta)</span>`;
+      if (item.esPaquete) {
+        // Es un paquete, usar el precio guardado
+        precioUnitario = item.precio;
+        badgePaquete = `<p class="text-xs text-green-600 mt-0.5">✅ Precio de paquete: $${precioUnitario.toFixed(2)} c/u</p>`;
+      } else {
+        // Es un producto normal, buscar en Baserow
+        const fila = encontrarFila(precios, item.id);
+        const familia = fila?.familia || item.familia;
+        
+        if (fila) {
+          precioUnitario = parseFloat(fila.precio) || item.precio;
+        }
+        
+        if (familia && OFERTAS[familia] && (cantFamilia[familia] || 0) >= OFERTAS[familia].cantidadMinima) {
+          precioUnitario = OFERTAS[familia].precioOferta;
+          notaPrecio = ` <span class="text-xs text-blue-500">(Oferta Familia)</span>`;
+        } else if (item.ofertaPrecio && item.ofertaCantidad && item.cantidad >= item.ofertaCantidad) {
+          precioUnitario = item.ofertaPrecio;
+          notaPrecio = ` <span class="text-xs text-blue-500">(Oferta)</span>`;
+        }
       }
 
       const subtotal = precioUnitario * item.cantidad;
@@ -276,7 +302,7 @@ async function dibujarCarritoCompleto() {
           <div class="flex-grow pr-2">
             <p class="font-semibold">${item.nombre}${notaPrecio}</p>
             <p class="text-sm text-gray-600">$${subtotal.toFixed(2)} (${item.cantidad} x $${precioUnitario.toFixed(2)})</p>
-            ${(nombrePaquete && precioPaquete) ? `<p class="text-xs text-blue-600 mt-0.5">📦 ${nombrePaquete}: <strong>$${precioPaquete.toFixed(2)}</strong></p>` : ''}
+            ${badgePaquete}
           </div>
           <div class="flex items-center flex-shrink-0">
             <button onclick="modificarCantidad('${item.id}', -1)" class="bg-gray-200 w-7 h-7 rounded-full font-bold flex items-center justify-center">-</button>
@@ -318,21 +344,28 @@ async function enviarPedido() {
   carrito.forEach(item => {
     const fila = encontrarFila(precios, item.id);
     const fam  = fila?.familia || item.familia;
-    if (fam) cantFamilia[fam] = (cantFamilia[fam] || 0) + item.cantidad;
+    if (fam && !item.esPaquete) cantFamilia[fam] = (cantFamilia[fam] || 0) + item.cantidad;
   });
 
   let resumenHTML  = '';
   let totalGeneral = 0;
 
   carrito.forEach(item => {
-    const fila    = encontrarFila(precios, item.id);
-    const familia = fila?.familia || item.familia;
-    let precioUnitario = fila ? (parseFloat(fila.precio) || item.precio) : item.precio;
-
-    if (familia && OFERTAS[familia] && (cantFamilia[familia] || 0) >= OFERTAS[familia].cantidadMinima) {
-      precioUnitario = OFERTAS[familia].precioOferta;
-    } else if (item.ofertaPrecio && item.ofertaCantidad && item.cantidad >= item.ofertaCantidad) {
-      precioUnitario = item.ofertaPrecio;
+    let precioUnitario = item.precio;
+    
+    if (!item.esPaquete) {
+      const fila = encontrarFila(precios, item.id);
+      const familia = fila?.familia || item.familia;
+      
+      if (fila) {
+        precioUnitario = parseFloat(fila.precio) || item.precio;
+      }
+      
+      if (familia && OFERTAS[familia] && (cantFamilia[familia] || 0) >= OFERTAS[familia].cantidadMinima) {
+        precioUnitario = OFERTAS[familia].precioOferta;
+      } else if (item.ofertaPrecio && item.ofertaCantidad && item.cantidad >= item.ofertaCantidad) {
+        precioUnitario = item.ofertaPrecio;
+      }
     }
 
     const subtotal = precioUnitario * item.cantidad;
@@ -366,7 +399,7 @@ async function confirmarEnvio() {
   carrito.forEach(item => {
     const fila = encontrarFila(precios, item.id);
     const fam  = fila?.familia || item.familia;
-    if (fam) cantFamilia[fam] = (cantFamilia[fam] || 0) + item.cantidad;
+    if (fam && !item.esPaquete) cantFamilia[fam] = (cantFamilia[fam] || 0) + item.cantidad;
   });
 
   const numero = localStorage.getItem('admin_whatsapp') || '2482000310';
@@ -374,14 +407,21 @@ async function confirmarEnvio() {
   let totalGeneral = 0;
 
   carrito.forEach(item => {
-    const fila    = encontrarFila(precios, item.id);
-    const familia = fila?.familia || item.familia;
-    let precioUnitario = fila ? (parseFloat(fila.precio) || item.precio) : item.precio;
-
-    if (familia && OFERTAS[familia] && (cantFamilia[familia] || 0) >= OFERTAS[familia].cantidadMinima) {
-      precioUnitario = OFERTAS[familia].precioOferta;
-    } else if (item.ofertaPrecio && item.ofertaCantidad && item.cantidad >= item.ofertaCantidad) {
-      precioUnitario = item.ofertaPrecio;
+    let precioUnitario = item.precio;
+    
+    if (!item.esPaquete) {
+      const fila = encontrarFila(precios, item.id);
+      const familia = fila?.familia || item.familia;
+      
+      if (fila) {
+        precioUnitario = parseFloat(fila.precio) || item.precio;
+      }
+      
+      if (familia && OFERTAS[familia] && (cantFamilia[familia] || 0) >= OFERTAS[familia].cantidadMinima) {
+        precioUnitario = OFERTAS[familia].precioOferta;
+      } else if (item.ofertaPrecio && item.ofertaCantidad && item.cantidad >= item.ofertaCantidad) {
+        precioUnitario = item.ofertaPrecio;
+      }
     }
 
     const subtotal = precioUnitario * item.cantidad;
@@ -407,6 +447,9 @@ async function actualizarPreciosEnPagina() {
   try {
     const precios = await getPreciosDesdeBaserow();
     if (!precios || precios.length === 0) return;
+
+    // Limpiar botones de paquete existentes
+    document.querySelectorAll('.paquete-btn-row').forEach(el => el.remove());
 
     document.querySelectorAll('[data-id]').forEach(function(el) {
       var id   = el.dataset.id;
@@ -441,14 +484,12 @@ async function actualizarPreciosEnPagina() {
       var agotado    = !disponible || stock === 0;
       var pocoStock  = disponible && stock > 0 && stock <= 5;
 
-      // Limitar input al stock real
       var qInput = el.querySelector('.quantity-to-add');
       if (qInput && stock > 0) {
         qInput.max = stock;
         if (parseInt(qInput.value) > stock) qInput.value = stock;
       }
 
-      // Quitar badge anterior
       var badgeViejo = el.querySelector('.stock-badge');
       if (badgeViejo) badgeViejo.remove();
 
@@ -479,23 +520,8 @@ async function actualizarPreciosEnPagina() {
       // ── Botón de paquete ──
       var nombrePaq = fila.nombre_paquete || null;
       var precioPaq = parseFloat(fila.precio_paquete) || null;
-      var rowExistente = el.querySelector('.paquete-btn-row');
-      var yaHayBotonHtml = el.querySelector('[onclick*="agregarAlCarritoSimple"]');
 
-      // Si ya hay un botón dinámico (.paquete-btn-row), solo actualizar precio y datos
-      if (rowExistente && nombrePaq && precioPaq) {
-        var labelExistente = rowExistente.querySelector('p');
-        if (labelExistente) {
-          labelExistente.textContent = '📦 ' + nombrePaq + ': $' + precioPaq.toFixed(2);
-        }
-        var btnExistente = rowExistente.querySelector('button');
-        if (btnExistente) {
-          btnExistente.setAttribute('data-precio-paq', precioPaq);
-          btnExistente.setAttribute('data-label-paq', nombrePaq);
-          var palabraBtnUpd = nombrePaq.split(' ')[0];
-          btnExistente.textContent = 'AGREGAR ' + palabraBtnUpd;
-        }
-      } else if (nombrePaq && precioPaq && !yaHayBotonHtml && infoDiv) {
+      if (nombrePaq && precioPaq && infoDiv) {
         var idHtml     = fila.id_html || el.dataset.id;
         var imgEl      = el.querySelector('img');
         var imgSrc     = imgEl ? imgEl.src : '';
@@ -513,20 +539,14 @@ async function actualizarPreciosEnPagina() {
         var btn = document.createElement('button');
         btn.style.cssText = 'flex-shrink:0;background:#1d4ed8;color:#fff;font-size:11px;font-weight:700;padding:6px 12px;border-radius:8px;border:none;cursor:pointer;';
         btn.textContent = 'AGREGAR ' + palabraBtn;
-        btn.setAttribute('data-id-paq', idHtml);
-        btn.setAttribute('data-nombre-paq', nombreProd);
-        btn.setAttribute('data-precio-paq', precioPaq);
-        btn.setAttribute('data-img-paq', imgSrc);
-        btn.setAttribute('data-label-paq', nombrePaq);
+        
+        var precioParaBoton = precioPaq;
+        var imgParaBoton = imgSrc;
+        
         btn.onclick = function() {
           var b = this;
-          agregarPaqueteAlCarrito(
-            b.getAttribute('data-id-paq'),
-            b.getAttribute('data-nombre-paq'),
-            parseFloat(b.getAttribute('data-precio-paq')),
-            b.getAttribute('data-img-paq'),
-            b.getAttribute('data-label-paq')
-          );
+          // 🔥 PASAMOS EL ID BASE, la función agregará '-paq' al final
+          agregarAlCarritoSimple(idHtml, nombreProd, precioParaBoton, imgParaBoton);
           var orig = b.textContent;
           b.textContent = '✓ Agregado';
           b.style.background = '#16a34a';
@@ -542,7 +562,7 @@ async function actualizarPreciosEnPagina() {
       }
     });
 
-    // ── Actualizar botones hardcodeados con agregarAlCarritoSimple ──
+    // ── Actualizar botones hardcodeados ──
     document.querySelectorAll('button[onclick*="agregarAlCarritoSimple"]').forEach(function(btn) {
       var onclickStr = btn.getAttribute('onclick');
       var match = onclickStr.match(/agregarAlCarritoSimple\(\s*'([^']+)'\s*,\s*'([^']+)'\s*,\s*([\d.]+)/);
@@ -550,32 +570,26 @@ async function actualizarPreciosEnPagina() {
       var idHtml    = match[1];
       var nombreOrig = match[2];
 
-      // Buscar fila directa
       var fila = precios.find(function(p) { return p.id_html === idHtml; });
-
-      // Si la fila directa no tiene precio_paquete, buscar en la fila padre
       var precioNuevo = null;
+      
       if (fila && fila.precio_paquete) {
         precioNuevo = parseFloat(fila.precio_paquete);
       } else {
         var filaPadre = encontrarFilaPadreConPaquete(precios, idHtml);
         if (filaPadre && filaPadre.precio_paquete) {
           precioNuevo = parseFloat(filaPadre.precio_paquete);
-        } else if (fila) {
-          precioNuevo = parseFloat(fila.precio);
         }
       }
 
       if (!precioNuevo || isNaN(precioNuevo)) return;
 
-      // Reemplazar precio en el onclick
       var onclickNuevo = onclickStr.replace(
         /agregarAlCarritoSimple\(\s*'([^']+)'\s*,\s*'([^']+)'\s*,\s*[\d.]+/,
-        "agregarAlCarritoSimple('" + idHtml + "', '" + nombreOrig + "', " + precioNuevo.toFixed(2)
+        "agregarAlCarritoSimple('" + idHtml + "', '" + nombreOrig + "', " + precioNuevo
       );
       btn.setAttribute('onclick', onclickNuevo);
 
-      // Actualizar texto visible: span con precio y/o p con "Caja: $xxx"
       var contenedor = btn.closest('div');
       if (contenedor) {
         var spanPrecio = contenedor.querySelector('span');
@@ -595,19 +609,8 @@ async function actualizarPreciosEnPagina() {
 }
 
 // ==========================================================================
-// INSERTAR PRODUCTOS NUEVOS DESDE BASEROW (sin card en el HTML)
+// INSERTAR PRODUCTOS NUEVOS DESDE BASEROW
 // ==========================================================================
-
-// Mapa de categoria Baserow → selector del contenedor en la pagina
-var CATEGORIA_CONTENEDOR = {
-  'Limpieza':       '#limpieza .space-y-4, section .space-y-4',
-  'Abarrotes':      'section .space-y-4',
-  'Dulceria':       'section .space-y-4',
-  'Dulcería':       'section .space-y-4',
-  'Cigarros':       'section .space-y-4, #cigarros-lista',
-  'Vinos y Licores':'#alcohol .space-y-4, section .space-y-4',
-  'Mascota':        'section .space-y-4'
-};
 
 function crearCardDinamica(prod) {
   var precio     = parseFloat(prod.precio) || 0;
@@ -629,7 +632,6 @@ function crearCardDinamica(prod) {
   if (oferta)   div.setAttribute('data-oferta-precio', oferta.toFixed(2));
   if (cantMin)  div.setAttribute('data-oferta-cantidad', cantMin);
 
-  // Imagen
   var img = document.createElement('img');
   img.src = imagen;
   img.alt = nombre;
@@ -637,7 +639,6 @@ function crearCardDinamica(prod) {
   img.onerror = function() { this.style.display = 'none'; };
   div.appendChild(img);
 
-  // Info
   var info = document.createElement('div');
   info.className = 'flex-grow';
 
@@ -660,7 +661,6 @@ function crearCardDinamica(prod) {
 
   div.appendChild(info);
 
-  // Controles agregar
   var controles = document.createElement('div');
   controles.className = 'flex items-center gap-2 flex-shrink-0';
 
@@ -679,33 +679,6 @@ function crearCardDinamica(prod) {
 
   div.appendChild(controles);
 
-  // Boton de paquete si aplica
-  if (nombrePaq && precioPaq) {
-    var rowPaq = document.createElement('div');
-    rowPaq.style.cssText = 'display:flex;align-items:center;justify-content:space-between;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:8px 12px;margin-top:8px;gap:8px;';
-
-    var labelPaq = document.createElement('p');
-    labelPaq.style.cssText = 'font-size:12px;color:#1e40af;font-weight:700;margin:0;';
-    labelPaq.textContent = '📦 ' + nombrePaq + ': $' + precioPaq.toFixed(2);
-
-    var palabraBtn = nombrePaq.split(' ')[0];
-    var btnPaq = document.createElement('button');
-    btnPaq.style.cssText = 'flex-shrink:0;background:#1d4ed8;color:#fff;font-size:11px;font-weight:700;padding:6px 12px;border-radius:8px;border:none;cursor:pointer;';
-    btnPaq.textContent = 'AGREGAR ' + palabraBtn;
-    btnPaq.onclick = function() {
-      var b = this;
-      agregarAlCarritoSimple(idHtml, nombre, precioPaq, imagen);
-      var orig = b.textContent;
-      b.textContent = '✓ Agregado';
-      b.style.background = '#16a34a';
-      setTimeout(function() { b.textContent = orig; b.style.background = '#1d4ed8'; }, 1200);
-    };
-
-    rowPaq.appendChild(labelPaq);
-    rowPaq.appendChild(btnPaq);
-    info.appendChild(rowPaq);
-  }
-
   return div;
 }
 
@@ -714,13 +687,11 @@ async function insertarProductosDinamicos() {
     var precios = await getPreciosDesdeBaserow();
     if (!precios || precios.length === 0) return;
 
-    // IDs que ya existen en el HTML
     var idsEnHTML = new Set();
     document.querySelectorAll('[data-id]').forEach(function(el) {
       idsEnHTML.add(el.dataset.id);
     });
 
-    // Detectar categoria de la pagina actual
     var paginaActual = window.location.pathname.toLowerCase();
 
     var categoriasPagina = [];
@@ -733,12 +704,6 @@ async function insertarProductosDinamicos() {
 
     if (categoriasPagina.length === 0) return;
 
-    console.log('[Lobo] Categorias de esta pagina:', categoriasPagina);
-    console.log('[Lobo] IDs ya en HTML:', Array.from(idsEnHTML));
-    console.log('[Lobo] Total productos en Baserow:', precios.length);
-
-    // Filtrar productos nuevos: tienen id_html, su categoria es la de esta pagina, y NO estan en el HTML
-    // Nota: disponible puede llegar como booleano true, string 'true', o undefined en productos recien creados
     var idsVistos = new Set();
     var nuevos = precios.filter(function(p) {
       var disp = p.disponible;
@@ -750,11 +715,8 @@ async function insertarProductosDinamicos() {
         !idsEnHTML.has(p.id_html);
     });
 
-    console.log('[Lobo] Productos nuevos a insertar:', nuevos.map(function(p){ return p.id_html + ' (' + p.categoria + ', disponible:' + p.disponible + ')'; }));
-
     if (nuevos.length === 0) return;
 
-    // Encontrar el contenedor donde insertar
     var contenedor = document.querySelector('section .space-y-4');
     if (!contenedor) contenedor = document.querySelector('.space-y-4');
     if (!contenedor) return;
@@ -762,7 +724,6 @@ async function insertarProductosDinamicos() {
     nuevos.forEach(function(prod) {
       var card = crearCardDinamica(prod);
       contenedor.appendChild(card);
-      console.log('Producto dinamico insertado:', prod.id_html);
     });
 
   } catch(e) {
@@ -770,10 +731,11 @@ async function insertarProductosDinamicos() {
   }
 }
 
+// ==========================================================================
+// INICIALIZACIÓN
+// ==========================================================================
 document.addEventListener('DOMContentLoaded', async function () {
   actualizarContadorUI();
-  // Primero insertar productos dinámicos (los que no están en el HTML),
-  // luego actualizar precios/stock de todos (incluyendo los recién insertados)
   await insertarProductosDinamicos();
   await actualizarPreciosEnPagina();
 });
