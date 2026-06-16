@@ -13,7 +13,7 @@ const BASEROW_URL_BASE = `https://api.baserow.io/api/database/rows/table/${BASER
 // -----------------------------------------------------------------------
 const CACHE_KEY    = 'baserow_precios';
 const CACHE_TS_KEY = 'baserow_precios_ts';
-const CACHE_TTL    = 5 * 60 * 1000; // 5 minutos
+const CACHE_TTL    = 24 * 60 * 60 * 1000;
 
 // ------------------- PRECIOS DESDE BASEROW (CON PAGINACIÓN) -------------------
 
@@ -43,7 +43,7 @@ async function getPreciosDesdeBaserow() {
       });
       const data = await res.json();
       if (Array.isArray(data.results)) lista.push(...data.results);
-      url = data.next || null; // null termina el bucle
+      url = data.next ? data.next.replace('http://', 'https://') : null; // forzar https
     }
 
     localStorage.setItem(CACHE_KEY,    JSON.stringify(lista));
@@ -358,52 +358,3 @@ async function confirmarEnvio() {
   actualizarContadorUI();
   setTimeout(() => location.reload(), 400);
 }
-// -----------------------------------------------------------------------
-// ACTUALIZAR PRECIOS VISIBLES EN LA PÁGINA AL CARGAR
-// Lee Baserow y reemplaza los textos hardcodeados en el HTML
-// -----------------------------------------------------------------------
-async function actualizarPreciosEnPagina() {
-  try {
-    const precios = await getPreciosDesdeBaserow();
-    if (!precios || precios.length === 0) return;
-
-    document.querySelectorAll('[data-id]').forEach(el => {
-      const id   = el.dataset.id;
-      const fila = precios.find(p => p.id_html === id);
-      if (!fila) return;
-
-      const precioNuevo  = parseFloat(fila.precio);
-      const ofertaNuevo  = parseFloat(fila.precio_oferta) || null;
-      const cantMinNueva = parseInt(fila.cantidad_minima)  || null;
-
-      // Actualizar data attributes (los usa agregarAlCarrito)
-      if (!isNaN(precioNuevo))  el.dataset.precio         = precioNuevo;
-      if (ofertaNuevo)          el.dataset.ofertaPrecio   = ofertaNuevo;
-      if (cantMinNueva)         el.dataset.ofertaCantidad = cantMinNueva;
-
-      // Actualizar texto precio normal: <p class="text-sm text-gray-600">$38.00</p>
-      const pNormal = el.querySelector('p.text-sm.text-gray-600');
-      if (pNormal && !isNaN(precioNuevo)) {
-        // Conserva cualquier sufijo como "pieza", "Caja", "pz", "c/u"
-        const sufijo = pNormal.textContent.replace(/\$[\d.,]+/, '').trim();
-        pNormal.textContent = '$' + precioNuevo.toFixed(2) + (sufijo ? ' ' + sufijo : '');
-      }
-
-      // Actualizar texto oferta: <p class="text-xs text-blue-600">A partir de 5 a $37.00 c/u</p>
-      if (ofertaNuevo && cantMinNueva) {
-        const pOferta = el.querySelector('p.text-xs.text-blue-600');
-        if (pOferta) {
-          pOferta.textContent = 'A partir de ' + cantMinNueva + ' a $' + ofertaNuevo.toFixed(2) + ' c/u';
-        }
-      }
-    });
-  } catch (e) {
-    console.warn('actualizarPreciosEnPagina error:', e);
-  }
-}
-
-// Al cargar la página
-document.addEventListener('DOMContentLoaded', function () {
-  actualizarContadorUI();
-  actualizarPreciosEnPagina();
-});
