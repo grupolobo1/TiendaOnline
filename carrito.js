@@ -13,7 +13,7 @@ const BASEROW_URL_BASE = `https://api.baserow.io/api/database/rows/table/${BASER
 // -----------------------------------------------------------------------
 const CACHE_KEY    = 'baserow_precios';
 const CACHE_TS_KEY = 'baserow_precios_ts';
-const CACHE_TTL    = 15 * 60 * 1000; // 15 minutos
+const CACHE_TTL    = 0; // Sin caché — siempre datos frescos
 
 // ------------------- PRECIOS DESDE BASEROW (CON PAGINACIÓN) -------------------
 
