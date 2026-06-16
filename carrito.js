@@ -391,6 +391,53 @@ async function actualizarPreciosEnPagina() {
           pOferta.textContent = 'A partir de ' + cantMinNueva + ' a $' + ofertaNuevo.toFixed(2) + ' c/u';
         }
       }
+
+      // Boton de paquete dinamico
+      var nombrePaq = fila.nombre_paquete || null;
+      var precioPaq = parseFloat(fila.precio_paquete) || null;
+      if (nombrePaq && precioPaq) {
+        if (!el.querySelector('.paquete-btn-row')) {
+          var idHtml   = fila.id_html || el.dataset.id;
+          var imgEl    = el.querySelector('img');
+          var imgSrc   = imgEl ? imgEl.src : '';
+          var palabraBtn = nombrePaq.split(' ')[0];
+          var row = document.createElement('div');
+          row.className = 'paquete-btn-row';
+          row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:8px 12px;margin-top:8px;gap:8px;';
+          var label = document.createElement('p');
+          label.style.cssText = 'font-size:12px;color:#1e40af;font-weight:700;margin:0;';
+          label.textContent = '📦 ' + nombrePaq + ': $' + precioPaq.toFixed(2);
+          var btn = document.createElement('button');
+          btn.style.cssText = 'flex-shrink:0;background:#1d4ed8;color:#fff;font-size:11px;font-weight:700;padding:6px 12px;border-radius:8px;border:none;cursor:pointer;';
+          btn.textContent = 'AGREGAR ' + palabraBtn;
+          btn.setAttribute('data-id-paq', idHtml);
+          btn.setAttribute('data-nombre-paq', fila.nombre || el.dataset.nombre || '');
+          btn.setAttribute('data-precio-paq', precioPaq);
+          btn.setAttribute('data-img-paq', imgSrc);
+          btn.setAttribute('data-label-paq', nombrePaq);
+          btn.onclick = function() {
+            var b = this;
+            agregarPaqueteAlCarrito(
+              b.getAttribute('data-id-paq'),
+              b.getAttribute('data-nombre-paq'),
+              parseFloat(b.getAttribute('data-precio-paq')),
+              b.getAttribute('data-img-paq'),
+              b.getAttribute('data-label-paq')
+            );
+            var orig = b.textContent;
+            b.textContent = '✓ Agregado';
+            b.style.background = '#16a34a';
+            setTimeout(function() {
+              b.textContent = orig;
+              b.style.background = '#1d4ed8';
+            }, 1200);
+          };
+          row.appendChild(label);
+          row.appendChild(btn);
+          var infoDiv = el.querySelector('.flex-grow');
+          if (infoDiv) infoDiv.appendChild(row);
+        }
+      }
     });
   } catch (e) {
     console.warn('actualizarPreciosEnPagina error:', e);
@@ -401,3 +448,29 @@ document.addEventListener('DOMContentLoaded', function () {
   actualizarContadorUI();
   actualizarPreciosEnPagina();
 });
+
+// Agrega paquete al carrito
+async function agregarPaqueteAlCarrito(id, nombre, precio, imagen, nombrePaquete) {
+  var precios  = await getPreciosDesdeBaserow();
+  var fila     = encontrarFila(precios, id);
+  var carrito  = getCartFromStorage();
+  var idPaq    = id + '-paq';
+  var existente = carrito.find(function(item) { return item.id === idPaq; });
+  var precioFinal = fila ? (parseFloat(fila.precio_paquete) || precio) : precio;
+
+  if (existente) {
+    existente.cantidad++;
+    existente.precio = precioFinal;
+  } else {
+    carrito.push({
+      id: idPaq,
+      nombre: nombrePaquete + ' — ' + nombre,
+      precio: precioFinal,
+      cantidad: 1,
+      familia: null,
+      imagen: imagen
+    });
+  }
+  saveCartToStorage(carrito);
+  actualizarContadorUI();
+}
