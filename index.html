@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -7,6 +7,27 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    @keyframes giroMin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes giroHora {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes pulseOfertas {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.5); }
+      50%       { box-shadow: 0 0 0 14px rgba(239,68,68,0); }
+    }
+    #btn-ofertas { animation: pulseOfertas 2s ease-in-out infinite; }
+    @keyframes fadeInDown {
+      from { opacity:0; transform:translateY(-30px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    #popup-ofertas-inner { animation: fadeInDown 0.5s ease forwards; }
+    .animate-fade-in { animation: fadeInDown 0.3s ease; }
+  </style>
 </head>
 <body class="bg-gray-100 pb-24">
 
@@ -122,6 +143,32 @@
     <p class="text-slate-500 text-sm md:text-base max-w-xl mx-auto uppercase font-medium">
       Selecciona una categoría para ver nuestro catálogo disponible
     </p>
+
+    <!-- BOTÓN PRECIOS ESPECIALES DE LA SEMANA -->
+    <a href="ofertas.html" id="btn-ofertas"
+       class="inline-flex items-center gap-3 mt-4 px-7 py-4 rounded-2xl font-black uppercase tracking-wider text-sm shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl active:scale-95"
+       style="background: linear-gradient(135deg, #f59e0b, #ef4444); color: white; border-bottom: 4px solid rgba(0,0,0,0.2);">
+      <!-- Reloj animado SVG -->
+      <span class="reloj-anim flex-shrink-0" style="display:inline-block; width:32px; height:32px;">
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px;">
+          <circle cx="32" cy="32" r="28" fill="white" fill-opacity="0.2" stroke="white" stroke-width="3"/>
+          <circle cx="32" cy="32" r="22" fill="white" fill-opacity="0.15" stroke="white" stroke-width="2"/>
+          <!-- Marcas de hora -->
+          <line x1="32" y1="12" x2="32" y2="17" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="32" y1="47" x2="32" y2="52" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="12" y1="32" x2="17" y2="32" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="47" y1="32" x2="52" y2="32" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Manecilla de hora -->
+          <line id="hora-hand" x1="32" y1="32" x2="32" y2="22" stroke="white" stroke-width="3" stroke-linecap="round" style="transform-origin:32px 32px; animation: giroHora 12s linear infinite;"/>
+          <!-- Manecilla de minuto -->
+          <line id="min-hand" x1="32" y1="32" x2="32" y2="16" stroke="#fde68a" stroke-width="2" stroke-linecap="round" style="transform-origin:32px 32px; animation: giroMin 2s linear infinite;"/>
+          <!-- Centro -->
+          <circle cx="32" cy="32" r="3" fill="white"/>
+        </svg>
+      </span>
+      <span>⭐ Precios Especiales de la Semana</span>
+    </a>
+
   </div>
 
   <main id="menu" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
@@ -276,6 +323,38 @@
     </div>
   </div>
   
+  <!-- POPUP OFERTAS DE LA SEMANA -->
+  <div id="popup-ofertas" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-[200] p-4">
+    <div id="popup-ofertas-inner" class="bg-white rounded-3xl shadow-2xl max-w-sm w-full overflow-hidden">
+      <div class="relative p-6 text-center" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">
+        <div class="flex justify-center mb-3">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:64px;height:64px;">
+            <circle cx="32" cy="32" r="28" fill="white" fill-opacity="0.25" stroke="white" stroke-width="3"/>
+            <circle cx="32" cy="32" r="22" fill="white" fill-opacity="0.15" stroke="white" stroke-width="2"/>
+            <line x1="32" y1="12" x2="32" y2="17" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="32" y1="47" x2="32" y2="52" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="12" y1="32" x2="17" y2="32" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="47" y1="32" x2="52" y2="32" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="32" y1="32" x2="32" y2="22" stroke="white" stroke-width="3.5" stroke-linecap="round" style="transform-origin:32px 32px; animation: giroHora 12s linear infinite;"/>
+            <line x1="32" y1="32" x2="32" y2="14" stroke="#fde68a" stroke-width="2.5" stroke-linecap="round" style="transform-origin:32px 32px; animation: giroMin 2s linear infinite;"/>
+            <circle cx="32" cy="32" r="3.5" fill="white"/>
+          </svg>
+        </div>
+        <h2 class="text-white font-black text-2xl uppercase tracking-wide drop-shadow">¡Ofertas de la Semana!</h2>
+        <p class="text-yellow-100 text-sm mt-1 font-medium">Precios especiales por tiempo limitado</p>
+      </div>
+      <div class="p-6 text-center">
+        <div class="text-4xl mb-3">🏷️⭐</div>
+        <p class="text-gray-700 font-semibold text-base leading-relaxed">Esta semana tenemos <span class="text-red-500 font-black">descuentos increíbles</span> en productos seleccionados.</p>
+        <p class="text-gray-500 text-sm mt-2">¡No te los pierdas, son por tiempo limitado!</p>
+        <div class="flex gap-3 mt-6">
+          <button onclick="cerrarPopupOfertas()" class="flex-1 py-3 rounded-xl border-2 border-gray-200 text-gray-500 font-semibold hover:bg-gray-50 transition text-sm">Quizás después</button>
+          <a href="ofertas.html" class="flex-1 py-3 rounded-xl text-white font-black text-sm transition hover:opacity-90 active:scale-95 flex items-center justify-center gap-2" style="background: linear-gradient(135deg, #f59e0b, #ef4444);" onclick="cerrarPopupOfertas()">¡Ver Ofertas!</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   <script src="carrito.js"></script>
   
@@ -324,6 +403,15 @@
       });
 
     });
+
+    // Popup ofertas
+    window.cerrarPopupOfertas = function() {
+      document.getElementById('popup-ofertas').style.display = 'none';
+    };
+    document.getElementById('popup-ofertas').addEventListener('click', function(e) {
+      if (e.target === this) window.cerrarPopupOfertas();
+    });
+
   </script>
   <!-- MODAL CONFIRMACIÓN -->
 <div id="modal-confirmacion" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
@@ -354,5 +442,3 @@
 
 </body>
 </html>
-
-
