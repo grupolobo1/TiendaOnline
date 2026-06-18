@@ -55,15 +55,16 @@
   <!-- ═══════════════════ HEADER ═══════════════════ -->
   <header class="bg-[#5C7DA3] text-white shadow-xl sticky top-0 z-[100] overflow-visible">
     <div class="max-w-6xl mx-auto px-4 py-3 md:py-6 relative">
-      <div class="flex items-center justify-between md:justify-center gap-2 md:gap-12">
-        <h1 class="text-2xl sm:text-3xl md:text-5xl font-black tracking-tighter uppercase italic leading-tight flex-shrink">
+      <!-- Móvil: título arriba izquierda, lobo centrado abajo -->
+      <div class="flex flex-col items-start md:flex-row md:items-center md:justify-center md:gap-12">
+        <h1 class="text-2xl sm:text-3xl md:text-5xl font-black tracking-tighter uppercase italic leading-tight">
           <span class="block whitespace-nowrap">Ofertas de</span>
           <span class="text-cyan-100 whitespace-nowrap">la Semana</span>
         </h1>
-        <div class="relative flex-shrink-0">
+        <div class="relative self-center mt-2 md:mt-0">
           <img src="img/lobo.png" alt="Lobo"
-               class="h-20 sm:h-36 md:h-52 w-auto max-w-[100px] sm:max-w-none object-contain drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)] transform -mb-6 md:-mb-10">
-          <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-4/5 h-2 bg-black/20 blur-xl rounded-full"></div>
+               class="h-20 sm:h-36 md:h-52 w-auto object-contain drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)] -mb-4 md:-mb-10">
+          <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4/5 h-2 bg-black/20 blur-xl rounded-full"></div>
         </div>
       </div>
     </div>
