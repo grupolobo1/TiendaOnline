@@ -7,6 +7,9 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
+    /* Evita deslizamiento horizontal en móvil */
+    html, body { max-width: 100%; overflow-x: hidden; }
+
     @keyframes giroMin  { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
     @keyframes giroHora { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
 
@@ -53,9 +56,9 @@
   <header class="bg-[#5C7DA3] text-white shadow-xl sticky top-0 z-[100] overflow-visible">
     <div class="max-w-6xl mx-auto px-4 py-3 md:py-6 relative">
       <div class="flex items-center justify-between md:justify-center gap-2 md:gap-12">
-        <h1 class="text-[1.3rem] sm:text-3xl md:text-5xl font-black tracking-tighter uppercase italic leading-tight flex-shrink">
-          <span class="block">Ofertas de</span>
-          <span class="text-cyan-100">la Semana</span>
+        <h1 class="text-2xl sm:text-3xl md:text-5xl font-black tracking-tighter uppercase italic leading-tight flex-shrink">
+          <span class="block whitespace-nowrap">Ofertas de</span>
+          <span class="text-cyan-100 whitespace-nowrap">la Semana</span>
         </h1>
         <div class="relative flex-shrink-0">
           <img src="img/lobo.png" alt="Lobo"
