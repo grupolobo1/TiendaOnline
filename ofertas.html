@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ofertas de la Semana — Grupo Lobo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    @keyframes giroMin  { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+    @keyframes giroHora { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+
+    @keyframes pulso {
+      0%,100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); }
+      50%      { box-shadow: 0 0 0 12px rgba(239,68,68,0); }
+    }
+    .badge-oferta { animation: pulso 2s infinite; }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(20px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .card-anim { animation: fadeUp 0.4s ease both; }
+
+    .card-producto {
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .card-producto:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    }
+
+    /* Skeleton loader */
+    .skeleton {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: 12px;
+    }
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+  </style>
+</head>
+<body class="bg-gray-100 pb-28">
+
+  <!-- ═══════════════════ HEADER ═══════════════════ -->
+  <header class="bg-[#5C7DA3] text-white shadow-xl sticky top-0 z-[100] overflow-visible">
+    <div class="max-w-6xl mx-auto px-4 py-3 md:py-6 relative">
+      <div class="flex items-center justify-between md:justify-center gap-2 md:gap-12">
+        <h1 class="text-[1.3rem] sm:text-3xl md:text-5xl font-black tracking-tighter uppercase italic leading-tight flex-shrink">
+          <span class="block">Ofertas de</span>
+          <span class="text-cyan-100">la Semana</span>
+        </h1>
+        <div class="relative flex-shrink-0">
+          <img src="img/lobo.png" alt="Lobo"
+               class="h-24 sm:h-36 md:h-52 w-auto object-contain drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)] transform -mb-6 md:-mb-10">
+          <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-4/5 h-2 bg-black/20 blur-xl rounded-full"></div>
+        </div>
+      </div>
+    </div>
+    <div class="h-1 w-full bg-gradient-to-r from-transparent via-white/40 to-transparent"></div>
+  </header>
+
+  <!-- ═══════════════════ REGRESAR + FILTRO ═══════════════════ -->
+  <a href="index.html" class="mt-8 block w-full text-center bg-gray-300 px-4 py-2 rounded shadow">Regresar al Menú</a>
+
+  <!-- ═══════════════════ FILTRO DE CATEGORÍAS ═══════════════════ -->
+  <div class="max-w-7xl mx-auto px-4 py-4">
+    <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+      <button onclick="filtrarCategoria('Todas')" data-cat="Todas"
+        class="filtro-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-bold border-2 transition-all border-[#5C7DA3] bg-[#5C7DA3] text-white">
+        🏷️ Todas
+      </button>
+      <button onclick="filtrarCategoria('Limpieza')" data-cat="Limpieza"
+        class="filtro-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-bold border-2 transition-all border-gray-200 bg-white text-gray-600 hover:border-cyan-400">
+        🧤 Limpieza
+      </button>
+      <button onclick="filtrarCategoria('Abarrotes')" data-cat="Abarrotes"
+        class="filtro-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-bold border-2 transition-all border-gray-200 bg-white text-gray-600 hover:border-amber-400">
+        🥛 Abarrotes
+      </button>
+      <button onclick="filtrarCategoria('Dulcería')" data-cat="Dulcería"
+        class="filtro-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-bold border-2 transition-all border-gray-200 bg-white text-gray-600 hover:border-rose-400">
+        🍬 Dulcería
+      </button>
+      <button onclick="filtrarCategoria('Vinos y Licores')" data-cat="Vinos y Licores"
+        class="filtro-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-bold border-2 transition-all border-gray-200 bg-white text-gray-600 hover:border-purple-400">
+        🍷 Licores
+      </button>
+      <button onclick="filtrarCategoria('Cigarros')" data-cat="Cigarros"
+        class="filtro-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-bold border-2 transition-all border-gray-200 bg-white text-gray-600 hover:border-slate-400">
+        🚬 Cigarros
+      </button>
+      <button onclick="filtrarCategoria('Mascota')" data-cat="Mascota"
+        class="filtro-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-bold border-2 transition-all border-gray-200 bg-white text-gray-600 hover:border-stone-400">
+        🐾 Mascotas
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ PRODUCTOS ═══════════════════ -->
+  <main class="max-w-7xl mx-auto px-4">
+
+    <!-- Skeletons mientras carga -->
+    <div id="skeletons" class="space-y-4">
+      <div class="skeleton h-32"></div>
+      <div class="skeleton h-32"></div>
+      <div class="skeleton h-32"></div>
+      <div class="skeleton h-32"></div>
+    </div>
+
+    <!-- Sin ofertas -->
+    <div id="sin-ofertas" class="hidden text-center py-16">
+      <div class="text-6xl mb-4">🏷️</div>
+      <h3 class="text-xl font-black text-gray-600">Sin ofertas esta semana</h3>
+      <p class="text-gray-400 text-sm mt-2">Vuelve pronto, ¡pronto habrá nuevas promociones!</p>
+      <a href="index.html"
+        class="inline-block mt-6 px-8 py-3 rounded-2xl text-white font-black text-sm transition hover:opacity-90"
+        style="background:linear-gradient(135deg,#5C7DA3,#2C3E50)">
+        ← Ver Catálogo Completo
+      </a>
+    </div>
+
+    <!-- Lista de productos en oferta -->
+    <div id="lista-ofertas" class="flex flex-col gap-4 hidden"></div>
+
+  </main>
+
+  <!-- ═══════════════════ MODAL CARRITO ═══════════════════ -->
+  <div id="modal-carrito" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[200]">
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-md">
+      <div class="flex justify-between items-center p-4 border-b">
+        <h3 class="text-2xl font-bold">Tu Pedido</h3>
+        <button onclick="ocultarCarrito()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
+      </div>
+      <div id="carrito-items" class="p-4 max-h-64 overflow-y-auto"></div>
+      <div class="p-4 border-t">
+        <div id="carrito-total" class="text-xl font-bold text-right mb-4">Total: $0.00</div>
+        <button onclick="enviarPedido()"
+          class="w-full bg-green-500 text-white font-bold py-3 rounded-lg shadow-lg hover:bg-green-600 transition">
+          Confirmar Pedido por WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL CONFIRMACIÓN -->
+  <div id="modal-confirmacion" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-[200] p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6">
+      <div class="text-center mb-4">
+        <div class="text-5xl mb-2">🛒</div>
+        <h3 class="text-2xl font-bold text-gray-800">Confirmar Pedido</h3>
+        <p class="text-gray-500 text-sm mt-1">Revisa tu pedido antes de enviarlo</p>
+      </div>
+      <div id="resumen-confirmacion" class="bg-gray-100 rounded-lg p-4 text-sm max-h-60 overflow-y-auto mb-4"></div>
+      <div class="flex gap-3">
+        <button onclick="cancelarConfirmacion()"
+          class="flex-1 py-3 rounded-lg border border-gray-300 font-semibold text-gray-600 hover:bg-gray-100 transition">
+          Cancelar
+        </button>
+        <button onclick="confirmarEnvio()"
+          class="flex-1 py-3 rounded-lg bg-green-500 text-white font-bold shadow hover:bg-green-600 transition">
+          Enviar por WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="carrito.js"></script>
+  <script>
+  // ═══════════════════════════════════════════════════════
+  //  CONSTANTES — igual que carrito.js, misma tabla
+  // ═══════════════════════════════════════════════════════
+  const BASEROW_TOKEN_OF    = 'sTPlXBmAyDa2aZS1x78J8oYnb9oGOMe8';
+  const BASEROW_TABLE_OF    = '1029851'; // ← misma tabla
+  const BASEROW_URL_OF      = `https://api.baserow.io/api/database/rows/table/${BASEROW_TABLE_OF}/?user_field_names=true&size=200`;
+
+  let todosLosProductos = [];
+  let categoriaActiva   = 'Todas';
+
+  // ═══════════════════════════════════════════════════════
+  //  CARGAR OFERTAS DESDE BASEROW
+  //  Filtra donde oferta_semana === true
+  // ═══════════════════════════════════════════════════════
+  async function cargarOfertas() {
+    try {
+      const lista = [];
+      let url = BASEROW_URL_OF;
+      while (url) {
+        const res  = await fetch(url, {
+          headers: { 'Authorization': `Token ${BASEROW_TOKEN_OF}` }
+        });
+        const data = await res.json();
+        if (Array.isArray(data.results)) lista.push(...data.results);
+        url = data.next ? data.next.replace('http://', 'https://') : null;
+      }
+
+      // Solo los que tienen oferta_semana = true
+      todosLosProductos = lista.filter(p =>
+        p.oferta_semana === true || p.oferta_semana === 'true' || p.oferta_semana === 1
+      );
+
+      document.getElementById('skeletons').classList.add('hidden');
+
+      if (todosLosProductos.length === 0) {
+        document.getElementById('sin-ofertas').classList.remove('hidden');
+        // sin badge
+        return;
+      }
+
+      // sin badge
+
+      renderOfertas(todosLosProductos);
+
+    } catch (e) {
+      console.error('Error cargando ofertas:', e);
+      // Reintentar una vez después de 2 segundos antes de mostrar error
+      setTimeout(async () => {
+        try {
+          const lista2 = [];
+          let url2 = BASEROW_URL_OF;
+          while (url2) {
+            const res2  = await fetch(url2, { headers: { 'Authorization': `Token ${BASEROW_TOKEN_OF}` } });
+            const data2 = await res2.json();
+            if (Array.isArray(data2.results)) lista2.push(...data2.results);
+            url2 = data2.next ? data2.next.replace('http://', 'https://') : null;
+          }
+          todosLosProductos = lista2.filter(p =>
+            p.oferta_semana === true || p.oferta_semana === 'true' || p.oferta_semana === 1
+          );
+          document.getElementById('skeletons').classList.add('hidden');
+          if (todosLosProductos.length === 0) {
+            document.getElementById('sin-ofertas').classList.remove('hidden');
+          } else {
+            renderOfertas(todosLosProductos);
+          }
+        } catch (e2) {
+          document.getElementById('skeletons').classList.add('hidden');
+          document.getElementById('sin-ofertas').classList.remove('hidden');
+        }
+      }, 2000);
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════
+  //  RENDER TARJETAS
+  // ═══════════════════════════════════════════════════════
+  function renderOfertas(productos) {
+    const contenedor = document.getElementById('lista-ofertas');
+    contenedor.innerHTML = '';
+
+    if (productos.length === 0) {
+      contenedor.classList.add('hidden');
+      document.getElementById('sin-ofertas').classList.remove('hidden');
+      return;
+    }
+
+    document.getElementById('sin-ofertas').classList.add('hidden');
+    contenedor.classList.remove('hidden');
+
+    productos.forEach((p, i) => {
+      const precio      = parseFloat(p.precio)        || 0;
+      const pOferta     = parseFloat(p.precio_oferta) || null;
+      const cantMin     = parseInt(p.cantidad_minima)  || null;
+      const stock       = parseInt(p.stock)            || 0;
+      const nombre      = p.nombre      || 'Producto';
+      const idHtml      = p.id_html     || ('oferta-' + i);
+      const imagen      = p.imagen_url  || '';
+      const familia     = p.familia     || '';
+      const categoria   = p.categoria   || '';
+      const nota        = p.nota_oferta || '';  // campo opcional extra
+
+      // Calcular % descuento
+      let pctDesc = '';
+      let precioMostrar = precio;
+      if (pOferta && pOferta < precio) {
+        pctDesc = Math.round(((precio - pOferta) / precio) * 100);
+        precioMostrar = pOferta; // si hay oferta, ese es el precio especial
+      }
+
+      const agotado  = stock === 0 && p.stock !== undefined && p.stock !== null;
+      const pocoStock = !agotado && stock > 0 && stock <= 5;
+
+      const card = document.createElement('div');
+      card.className = 'card-producto card-anim bg-white rounded-2xl shadow-md overflow-hidden border-2 border-transparent hover:border-amber-300';
+      card.style.animationDelay = `${i * 60}ms`;
+      // Si hay precio de oferta, usarlo como data-precio directo para que el carrito lo tome
+      const precioParaCarrito = (pOferta && pOferta < precio) ? pOferta : precio;
+
+      card.setAttribute('data-id',      idHtml);
+      card.setAttribute('data-nombre',  nombre);
+      card.setAttribute('data-precio',  precioParaCarrito.toFixed(2));
+      card.setAttribute('data-categoria', categoria);
+      if (familia)   card.setAttribute('data-family',          familia);
+      if (pOferta)   card.setAttribute('data-oferta-precio',   pOferta.toFixed(2));
+      if (cantMin)   card.setAttribute('data-oferta-cantidad', cantMin);
+
+      card.innerHTML = `
+        <div class="flex items-center gap-4 p-4 ${agotado ? 'opacity-50 pointer-events-none' : ''}">
+
+          <!-- Imagen -->
+          <div class="relative flex-shrink-0">
+            <img src="${imagen}" alt="${nombre}"
+              class="w-24 h-24 rounded-xl object-cover shadow-sm border border-gray-100"
+              onerror="this.src=''; this.className='w-24 h-24 rounded-xl bg-gray-100 flex items-center justify-center text-3xl'; this.textContent='🏷️';">
+
+            <!-- Badge % descuento -->
+            ${pctDesc ? `
+            <div class="badge-oferta absolute -top-2 -right-2 bg-red-500 text-white text-xs font-black px-2 py-0.5 rounded-full shadow-lg">
+              -${pctDesc}%
+            </div>` : ''}
+          </div>
+
+          <!-- Info -->
+          <div class="flex-grow min-w-0">
+            <div class="flex flex-wrap gap-1 mb-1">
+              <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">⭐ Oferta</span>
+              ${categoria ? `<span class="text-xs font-bold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500">${categoria}</span>` : ''}
+              ${agotado   ? `<span class="text-xs font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-600">❌ Agotado</span>` : ''}
+              ${pocoStock ? `<span class="text-xs font-bold px-2 py-0.5 rounded-full bg-orange-100 text-orange-600">⚠️ Solo ${stock}</span>` : ''}
+            </div>
+
+            <p class="font-black text-gray-800 text-sm leading-tight truncate">${nombre}</p>
+
+            <!-- Precios -->
+            <div class="flex items-baseline gap-2 mt-1">
+              ${pOferta && pOferta < precio ? `
+                <span class="text-gray-400 text-xs line-through">$${precio.toFixed(2)}</span>
+                <span class="text-green-600 font-black text-lg">$${pOferta.toFixed(2)}</span>
+                ${cantMin ? `<span class="text-xs text-blue-500 font-semibold">desde ${cantMin} pzs</span>` : ''}
+              ` : `
+                <span class="text-green-600 font-black text-lg">$${precio.toFixed(2)}</span>
+              `}
+            </div>
+
+            ${nota ? `<p class="text-gray-700 text-xs mt-0.5 truncate">${nota}</p>` : ''}
+          </div>
+
+          <!-- Controles cantidad + agregar -->
+          <div class="flex flex-col items-center gap-2 flex-shrink-0">
+            <div class="flex items-center border-2 border-gray-200 rounded-xl overflow-hidden">
+              <button onclick="cambiarCantidad(this, -1)"
+                class="w-8 h-8 bg-gray-100 font-black text-gray-600 hover:bg-gray-200 transition text-lg leading-none">−</button>
+              <input type="number" value="1" min="1" ${stock > 0 ? `max="${stock}"` : ''}
+                class="quantity-to-add w-10 text-center font-bold text-sm border-0 focus:outline-none py-1">
+              <button onclick="cambiarCantidad(this, 1)"
+                class="w-8 h-8 bg-gray-100 font-black text-gray-600 hover:bg-gray-200 transition text-lg leading-none">+</button>
+            </div>
+            <button onclick="agregarAlCarrito(this); animarBoton(this)"
+              class="bg-green-500 hover:bg-green-600 text-white font-black text-xs px-4 py-2 rounded-xl shadow transition active:scale-95 whitespace-nowrap">
+              🛒 Agregar
+            </button>
+          </div>
+        </div>
+      `;
+
+      contenedor.appendChild(card);
+    });
+  }
+
+  // ═══════════════════════════════════════════════════════
+  //  FILTRO POR CATEGORÍA
+  // ═══════════════════════════════════════════════════════
+  function filtrarCategoria(cat) {
+    categoriaActiva = cat;
+
+    // Actualizar botones
+    document.querySelectorAll('.filtro-btn').forEach(btn => {
+      const activo = btn.dataset.cat === cat;
+      btn.className = `filtro-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-bold border-2 transition-all ${
+        activo
+          ? 'border-[#5C7DA3] bg-[#5C7DA3] text-white'
+          : 'border-gray-200 bg-white text-gray-600 hover:border-gray-400'
+      }`;
+    });
+
+    const filtrados = cat === 'Todas'
+      ? todosLosProductos
+      : todosLosProductos.filter(p => p.categoria === cat ||
+          (cat === 'Dulcería' && (p.categoria === 'Dulcería' || p.categoria === 'Dulceria')));
+
+    renderOfertas(filtrados);
+  }
+
+  // ═══════════════════════════════════════════════════════
+  //  HELPERS
+  // ═══════════════════════════════════════════════════════
+  function cambiarCantidad(btn, delta) {
+    const card  = btn.closest('[data-id]');
+    const input = card.querySelector('.quantity-to-add');
+    const max   = parseInt(input.max) || 999;
+    let val = parseInt(input.value) || 1;
+    val = Math.max(1, Math.min(max, val + delta));
+    input.value = val;
+  }
+
+  function animarBoton(btn) {
+    const orig = btn.textContent;
+    btn.textContent = '✓ Agregado';
+    btn.classList.replace('bg-green-500', 'bg-blue-500');
+    btn.classList.replace('hover:bg-green-600', 'hover:bg-blue-600');
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.classList.replace('bg-blue-500', 'bg-green-500');
+      btn.classList.replace('hover:bg-blue-600', 'hover:bg-green-600');
+    }, 1200);
+  }
+
+  // ═══════════════════════════════════════════════════════
+  //  INIT
+  // ═══════════════════════════════════════════════════════
+  document.addEventListener('DOMContentLoaded', () => {
+    actualizarContadorUI();
+    cargarOfertas();
+  });
+  </script>
+
+  <!-- BOTÓN CARRITO FLOTANTE -->
+  <div id="boton-carrito" onclick="mostrarCarrito()" class="fixed bottom-5 right-5 bg-green-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center cursor-pointer z-50">
+    <span class="text-3xl">🛒</span>
+    <span id="contador-carrito" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">0</span>
+  </div>
+
+</body>
+</html>

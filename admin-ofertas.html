@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin — Ofertas de la Semana | Grupo Lobo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    @keyframes giroMin  { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+    @keyframes giroHora { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+    body { font-family: 'Segoe UI', sans-serif; }
+    .card-oferta { transition: all 0.3s ease; }
+    .card-oferta:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
+    input, select, textarea { outline: none; }
+    input:focus, select:focus { box-shadow: 0 0 0 3px rgba(92,125,163,0.25); }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+  <!-- HEADER ADMIN -->
+  <header class="bg-[#2C3E50] text-white shadow-xl sticky top-0 z-50">
+    <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:36px;height:36px;">
+          <circle cx="32" cy="32" r="28" fill="#f59e0b" fill-opacity="0.3" stroke="#f59e0b" stroke-width="3"/>
+          <circle cx="32" cy="32" r="22" fill="#f59e0b" fill-opacity="0.15" stroke="#f59e0b" stroke-width="2"/>
+          <line x1="32" y1="12" x2="32" y2="17" stroke="#fde68a" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="32" y1="47" x2="32" y2="52" stroke="#fde68a" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="12" y1="32" x2="17" y2="32" stroke="#fde68a" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="47" y1="32" x2="52" y2="32" stroke="#fde68a" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="32" y1="32" x2="32" y2="21" stroke="white" stroke-width="3" stroke-linecap="round" style="transform-origin:32px 32px; animation: giroHora 12s linear infinite;"/>
+          <line x1="32" y1="32" x2="32" y2="14" stroke="#fde68a" stroke-width="2" stroke-linecap="round" style="transform-origin:32px 32px; animation: giroMin 2s linear infinite;"/>
+          <circle cx="32" cy="32" r="3" fill="white"/>
+        </svg>
+        <div>
+          <h1 class="font-black text-base uppercase tracking-wide leading-tight">Admin — Ofertas de la Semana</h1>
+          <p class="text-gray-400 text-xs">Grupo Lobo &bull; Panel de Control</p>
+        </div>
+      </div>
+      <a href="index.html" class="text-sm bg-white/10 hover:bg-white/20 px-4 py-2 rounded-xl transition flex items-center gap-2">
+        <i class="fas fa-arrow-left text-xs"></i> Volver al Sitio
+      </a>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 py-8 space-y-8">
+
+    <!-- LOGIN -->
+    <div id="pantalla-login" class="fixed inset-0 bg-[#2C3E50] flex items-center justify-center z-[200] p-4">
+      <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-8 text-center">
+        <div class="text-5xl mb-4">🔐</div>
+        <h2 class="text-2xl font-black text-gray-800 mb-1">Acceso Admin</h2>
+        <p class="text-gray-500 text-sm mb-6">Ingresa la contraseña para continuar</p>
+        <input id="input-pass" type="password" placeholder="Contraseña..."
+          class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-center font-bold text-lg focus:border-[#5C7DA3] transition mb-4"
+          onkeydown="if(event.key==='Enter') verificarPass()">
+        <button onclick="verificarPass()"
+          class="w-full py-3 rounded-xl text-white font-black transition"
+          style="background:linear-gradient(135deg,#5C7DA3,#2C3E50)">
+          Entrar
+        </button>
+        <p id="error-pass" class="text-red-500 text-sm mt-3 hidden">Contraseña incorrecta</p>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="grid grid-cols-3 gap-4">
+      <div class="bg-white rounded-2xl shadow p-4 text-center">
+        <p class="text-3xl font-black text-[#5C7DA3]" id="stat-total">0</p>
+        <p class="text-gray-500 text-xs uppercase font-semibold mt-1">Ofertas Activas</p>
+      </div>
+      <div class="bg-white rounded-2xl shadow p-4 text-center">
+        <p class="text-3xl font-black text-green-500" id="stat-descuento">0%</p>
+        <p class="text-gray-500 text-xs uppercase font-semibold mt-1">Desc. Promedio</p>
+      </div>
+      <div class="bg-white rounded-2xl shadow p-4 text-center">
+        <p class="text-3xl font-black text-amber-500" id="stat-semana">—</p>
+        <p class="text-gray-500 text-xs uppercase font-semibold mt-1">Semana Actual</p>
+      </div>
+    </div>
+
+    <!-- FORMULARIO AGREGAR / EDITAR -->
+    <div class="bg-white rounded-2xl shadow-lg p-6">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center text-white text-lg"
+             style="background:linear-gradient(135deg,#f59e0b,#ef4444)">
+          <i class="fas fa-plus"></i>
+        </div>
+        <div>
+          <h2 class="font-black text-lg text-gray-800" id="form-titulo">Agregar Nueva Oferta</h2>
+          <p class="text-gray-500 text-sm">Llena los datos del producto en oferta</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Nombre del Producto *</label>
+          <input id="f-nombre" type="text" placeholder="Ej: Jabón Roma 250g"
+            class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 font-semibold text-sm transition focus:border-[#5C7DA3]">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Categoría *</label>
+          <select id="f-categoria"
+            class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 font-semibold text-sm transition focus:border-[#5C7DA3]">
+            <option value="">-- Seleccionar --</option>
+            <option value="Limpieza">🧤 Limpieza</option>
+            <option value="Abarrotes">🥛 Abarrotes</option>
+            <option value="Dulcería">🍬 Dulcería</option>
+            <option value="Vinos y Licores">🍷 Vinos y Licores</option>
+            <option value="Cigarros">🚬 Cigarros</option>
+            <option value="Mascotas">🐾 Mascotas</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Precio Normal ($) *</label>
+          <input id="f-precio-normal" type="number" min="0" step="0.5" placeholder="0.00"
+            class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 font-semibold text-sm transition focus:border-[#5C7DA3]"
+            oninput="calcularDescuento()">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Precio Oferta ($) *</label>
+          <input id="f-precio-oferta" type="number" min="0" step="0.5" placeholder="0.00"
+            class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 font-semibold text-sm transition focus:border-[#5C7DA3]"
+            oninput="calcularDescuento()">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-500 uppercase mb-1">% Descuento (calculado)</label>
+          <div id="descuento-preview"
+            class="w-full border-2 border-green-200 bg-green-50 rounded-xl px-4 py-2.5 font-black text-green-700 text-sm">
+            — %
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Válido hasta</label>
+          <input id="f-fecha" type="date"
+            class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 font-semibold text-sm transition focus:border-[#5C7DA3]">
+        </div>
+        <div class="md:col-span-2">
+          <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Nota / Descripción (opcional)</label>
+          <input id="f-nota" type="text" placeholder="Ej: Solo mientras dure el stock"
+            class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 font-semibold text-sm transition focus:border-[#5C7DA3]">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Foto del producto</label>
+          <div class="relative border-2 border-dashed border-gray-200 rounded-xl p-5 text-center cursor-pointer hover:border-[#5C7DA3] transition">
+            <input id="f-imagen" type="file" accept="image/*" class="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+                   onchange="previewImgOferta(event)">
+            <i class="fas fa-cloud-arrow-up text-2xl text-gray-400 block mb-1"></i>
+            <span id="upload-label-oferta" class="text-xs text-gray-400 font-semibold">Haz clic o arrastra una foto aquí</span>
+          </div>
+          <img id="f-imagen-preview" src="" alt="Vista previa"
+            class="hidden w-full aspect-video object-cover rounded-xl border border-gray-200 mt-2">
+          <div id="upload-progress" style="display:none" class="mt-2">
+            <p id="upload-progress-text" class="text-xs text-gray-400 mb-1">Subiendo…</p>
+            <div class="bg-gray-200 rounded-full h-1.5">
+              <div id="upload-progress-bar" class="bg-[#5C7DA3] h-1.5 rounded-full transition-all" style="width:0%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-end">
+          <label class="flex items-center gap-3 cursor-pointer">
+            <div class="relative">
+              <input id="f-destacado" type="checkbox" class="sr-only peer">
+              <div class="w-12 h-6 bg-gray-300 peer-checked:bg-amber-500 rounded-full transition peer-focus:ring-2 peer-focus:ring-amber-300"></div>
+              <div class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-all peer-checked:translate-x-6"></div>
+            </div>
+            <span class="text-sm font-bold text-gray-600">⭐ Destacar (aparece primero)</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="flex gap-3 mt-6">
+        <button id="btn-cancelar-edit" onclick="cancelarEdicion()"
+          class="hidden px-6 py-3 rounded-xl border-2 border-gray-200 text-gray-600 font-bold text-sm hover:bg-gray-50 transition">
+          <i class="fas fa-times mr-2"></i>Cancelar
+        </button>
+        <button id="btn-guardar" onclick="guardarOferta()"
+          class="flex-1 md:flex-none md:px-10 py-3 rounded-xl text-white font-black text-sm transition hover:opacity-90 active:scale-95"
+          style="background:linear-gradient(135deg,#f59e0b,#ef4444)">
+          <i class="fas fa-save mr-2"></i><span id="btn-guardar-texto">Guardar Oferta</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- LISTA DE OFERTAS -->
+    <div class="bg-white rounded-2xl shadow-lg p-6">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-[#5C7DA3] flex items-center justify-center text-white">
+            <i class="fas fa-list"></i>
+          </div>
+          <div>
+            <h2 class="font-black text-lg text-gray-800">Ofertas Actuales</h2>
+            <p class="text-gray-500 text-sm">Gestiona las ofertas de esta semana</p>
+          </div>
+        </div>
+        <button onclick="limpiarTodas()"
+          class="text-red-400 hover:text-red-600 text-sm font-bold transition flex items-center gap-1">
+          <i class="fas fa-trash-alt"></i> Limpiar todo
+        </button>
+      </div>
+      <div id="lista-ofertas" class="space-y-3">
+        <div class="text-center py-10 text-gray-400">
+          <i class="fas fa-circle-notch fa-spin text-3xl mb-3 block"></i>
+          <p class="font-semibold">Cargando ofertas…</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- TOAST -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-full text-sm font-bold shadow-xl hidden z-50 transition-all">
+    ✅ Guardado
+  </div>
+
+  <script>
+    // ═══════════════════════════════════════
+    //  CONFIG
+    // ═══════════════════════════════════════
+    const CLOUDINARY_NAME   = 'dwt0kpzvu';
+    const CLOUDINARY_PRESET = 'grupo-lobo';
+
+    const BR_TOKEN   = 'sTPlXBmAyDa2aZS1x78J8oYnb9oGOMe8';
+    const BR_TABLE   = '1029851';
+    const BR_BASE    = `https://api.baserow.io/api/database/rows/table/${BR_TABLE}`;
+    const BR_HEADERS = { 'Authorization': `Token ${BR_TOKEN}`, 'Content-Type': 'application/json' };
+
+    const PASS_ADMIN = 'lobo2026';
+
+    // ofertas = rows de Baserow con oferta_semana=true
+    let ofertas    = [];
+    let editandoId = null; // Baserow row id (número)
+
+    // ═══════════════════════════════════════
+    //  LOGIN
+    // ═══════════════════════════════════════
+    function verificarPass() {
+      if (document.getElementById('input-pass').value === PASS_ADMIN) {
+        document.getElementById('pantalla-login').style.display = 'none';
+        cargarOfertas();
+      } else {
+        document.getElementById('error-pass').classList.remove('hidden');
+        document.getElementById('input-pass').classList.add('border-red-400');
+      }
+    }
+    document.getElementById('input-pass').addEventListener('keydown', e => {
+      if (e.key === 'Enter') verificarPass();
+    });
+
+    // ═══════════════════════════════════════
+    //  CLOUDINARY
+    // ═══════════════════════════════════════
+    async function uploadToCloudinary(file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', CLOUDINARY_PRESET);
+      formData.append('folder', 'grupo-lobo/ofertas');
+
+      const progressEl  = document.getElementById('upload-progress');
+      const progressBar = document.getElementById('upload-progress-bar');
+      const progressTxt = document.getElementById('upload-progress-text');
+
+      progressEl.style.display = 'block';
+      progressBar.style.width  = '20%';
+      progressTxt.textContent  = 'Subiendo imagen…';
+
+      const r = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_NAME}/image/upload`, {
+        method: 'POST', body: formData
+      });
+      progressBar.style.width = '80%';
+      if (!r.ok) { const t = await r.text(); throw new Error(`Cloudinary: ${t}`); }
+      const data = await r.json();
+      progressBar.style.width  = '100%';
+      progressTxt.textContent  = '¡Imagen subida!';
+      setTimeout(() => { progressEl.style.display = 'none'; }, 1500);
+      return data.secure_url;
+    }
+
+    function previewImgOferta(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const preview = document.getElementById('f-imagen-preview');
+      preview.src = URL.createObjectURL(file);
+      preview.classList.remove('hidden');
+      document.getElementById('upload-label-oferta').textContent = file.name;
+    }
+
+    // ═══════════════════════════════════════
+    //  CARGAR OFERTAS DESDE BASEROW
+    // ═══════════════════════════════════════
+    async function cargarOfertas() {
+      try {
+        const lista = [];
+        let url = `${BR_BASE}/?user_field_names=true&size=200`;
+        while (url) {
+          const res  = await fetch(url, { headers: BR_HEADERS });
+          if (!res.ok) throw new Error('Error ' + res.status);
+          const data = await res.json();
+          if (Array.isArray(data.results)) lista.push(...data.results);
+          url = data.next ? data.next.replace('http://', 'https://') : null;
+        }
+        // Solo los que tienen oferta_semana = true
+        ofertas = lista.filter(p =>
+          p.oferta_semana === true || p.oferta_semana === 'true' || p.oferta_semana === 1
+        );
+        // Destacados primero
+        ofertas.sort((a, b) => (b.destacado ? 1 : 0) - (a.destacado ? 1 : 0));
+        actualizarStats();
+        renderLista();
+      } catch(e) {
+        document.getElementById('lista-ofertas').innerHTML =
+          `<div class="text-center py-8 text-red-400"><i class="fas fa-exclamation-circle text-3xl mb-2 block"></i><p class="font-semibold">Error al conectar con Baserow</p><p class="text-xs mt-1">${e.message}</p></div>`;
+      }
+    }
+
+    // ═══════════════════════════════════════
+    //  FORMULARIO — calcular descuento
+    // ═══════════════════════════════════════
+    function calcularDescuento() {
+      const pn = parseFloat(document.getElementById('f-precio-normal').value) || 0;
+      const po = parseFloat(document.getElementById('f-precio-oferta').value) || 0;
+      const el = document.getElementById('descuento-preview');
+      if (pn > 0 && po > 0 && po < pn) {
+        const pct = Math.round(((pn - po) / pn) * 100);
+        el.textContent = `${pct}% OFF 🔥`;
+        el.className = 'w-full border-2 border-green-300 bg-green-50 rounded-xl px-4 py-2.5 font-black text-green-700 text-sm';
+      } else {
+        el.textContent = '— %';
+        el.className = 'w-full border-2 border-gray-200 bg-gray-50 rounded-xl px-4 py-2.5 font-black text-gray-400 text-sm';
+      }
+    }
+
+    // ═══════════════════════════════════════
+    //  GUARDAR OFERTA → BASEROW
+    //  Si editandoId tiene valor → PATCH (actualizar)
+    //  Si editandoId es null     → POST  (crear nuevo row)
+    // ═══════════════════════════════════════
+    async function guardarOferta() {
+      const nombre    = document.getElementById('f-nombre').value.trim();
+      const categoria = document.getElementById('f-categoria').value;
+      const pNormal   = parseFloat(document.getElementById('f-precio-normal').value);
+      const pOferta   = parseFloat(document.getElementById('f-precio-oferta').value);
+      const fecha     = document.getElementById('f-fecha').value;
+      const nota      = document.getElementById('f-nota').value.trim();
+      const destacado = document.getElementById('f-destacado').checked;
+      const file      = document.getElementById('f-imagen').files[0];
+
+      if (!nombre || !categoria || isNaN(pNormal) || isNaN(pOferta)) {
+        mostrarToast('⚠️ Completa los campos obligatorios', 'error'); return;
+      }
+      if (pOferta >= pNormal) {
+        mostrarToast('⚠️ El precio oferta debe ser menor al normal', 'error'); return;
+      }
+
+      const btn = document.getElementById('btn-guardar');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Guardando…';
+
+      try {
+        // Subir imagen si hay archivo nuevo
+        let imagenUrl = '';
+        if (editandoId !== null) {
+          // Mantener imagen existente si no sube nueva
+          const ofertaActual = ofertas.find(o => o.id === editandoId);
+          imagenUrl = ofertaActual ? (ofertaActual.imagen_url || '') : '';
+        }
+        if (file) {
+          imagenUrl = await uploadToCloudinary(file);
+        }
+
+        const descuento = Math.round(((pNormal - pOferta) / pNormal) * 100);
+
+        // Payload para Baserow — campos que usa ofertas.html
+        const payload = {
+          nombre,
+          categoria,
+          precio:         pNormal,
+          precio_oferta:  pOferta,
+          nota_oferta:    nota,
+          imagen_url:     imagenUrl,
+          destacado,
+          oferta_semana:  true
+        };
+        // Campo fecha solo si tiene valor
+        if (fecha) payload.fecha_oferta = fecha;
+
+        let res;
+        if (editandoId !== null) {
+          // Actualizar row existente
+          res = await fetch(`${BR_BASE}/${editandoId}/?user_field_names=true`, {
+            method: 'PATCH', headers: BR_HEADERS, body: JSON.stringify(payload)
+          });
+        } else {
+          // Crear nuevo row
+          res = await fetch(`${BR_BASE}/?user_field_names=true`, {
+            method: 'POST', headers: BR_HEADERS, body: JSON.stringify(payload)
+          });
+        }
+
+        if (!res.ok) {
+          const err = await res.text();
+          throw new Error(err);
+        }
+
+        mostrarToast(editandoId !== null ? '✅ Oferta actualizada' : '✅ Oferta guardada — ya visible para clientes');
+        cancelarEdicion();
+        await cargarOfertas();
+
+      } catch(e) {
+        mostrarToast('⚠️ Error al guardar: ' + e.message, 'error');
+      } finally {
+        btn.disabled = false;
+        const textoGuardar = editandoId !== null ? 'Actualizar Oferta' : 'Guardar Oferta';
+        btn.innerHTML = `<i class="fas fa-save mr-2"></i><span id="btn-guardar-texto">${textoGuardar}</span>`;
+      }
+    }
+
+    // ═══════════════════════════════════════
+    //  LIMPIAR FORMULARIO
+    // ═══════════════════════════════════════
+    function limpiarForm() {
+      ['f-nombre','f-precio-normal','f-precio-oferta','f-nota','f-fecha'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      document.getElementById('f-categoria').value = '';
+      document.getElementById('f-destacado').checked = false;
+      document.getElementById('descuento-preview').textContent = '— %';
+      document.getElementById('f-imagen').value = '';
+      document.getElementById('f-imagen-preview').classList.add('hidden');
+      document.getElementById('f-imagen-preview').src = '';
+      document.getElementById('upload-label-oferta').textContent = 'Haz clic o arrastra una foto aquí';
+      document.getElementById('upload-progress').style.display = 'none';
+    }
+
+    function cancelarEdicion() {
+      editandoId = null;
+      document.getElementById('form-titulo').textContent = 'Agregar Nueva Oferta';
+      const spanTexto = document.getElementById('btn-guardar-texto');
+      if (spanTexto) spanTexto.textContent = 'Guardar Oferta';
+      const btnG = document.getElementById('btn-guardar');
+      if (btnG) btnG.innerHTML = '<i class="fas fa-save mr-2"></i><span id="btn-guardar-texto">Guardar Oferta</span>';
+      document.getElementById('btn-cancelar-edit').classList.add('hidden');
+      limpiarForm();
+    }
+
+    // ═══════════════════════════════════════
+    //  RENDER LISTA
+    // ═══════════════════════════════════════
+    function renderLista() {
+      const contenedor = document.getElementById('lista-ofertas');
+      if (ofertas.length === 0) {
+        contenedor.innerHTML = `
+          <div class="text-center py-10 text-gray-400">
+            <div class="text-5xl mb-3">🏷️</div>
+            <p class="font-semibold">No hay ofertas esta semana</p>
+            <p class="text-sm mt-1">Agrega la primera usando el formulario de arriba</p>
+          </div>`;
+        return;
+      }
+      contenedor.innerHTML = ofertas.map(o => {
+        const pNormal  = parseFloat(o.precio)        || 0;
+        const pOferta  = parseFloat(o.precio_oferta) || 0;
+        const descuento = (pNormal > 0 && pOferta > 0 && pOferta < pNormal)
+          ? Math.round(((pNormal - pOferta) / pNormal) * 100) : 0;
+        const imagen   = o.imagen_url || '';
+        const fecha    = o.fecha_oferta || '';
+        const nota     = o.nota_oferta  || '';
+        const destacado = o.destacado;
+
+        return `
+        <div class="card-oferta border-2 ${destacado ? 'border-amber-300 bg-amber-50' : 'border-gray-100 bg-gray-50'} rounded-2xl p-4 flex items-center gap-4">
+          ${imagen
+            ? `<img src="${imagen}" class="w-14 h-14 rounded-xl object-cover flex-shrink-0 border border-gray-200" onerror="this.style.display='none'">`
+            : `<div class="w-14 h-14 rounded-xl flex items-center justify-center text-2xl bg-white border border-gray-200 flex-shrink-0">🏷️</div>`}
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 flex-wrap">
+              ${destacado ? '<span class="text-xs bg-amber-400 text-white px-2 py-0.5 rounded-full font-bold">⭐ Destacada</span>' : ''}
+              <span class="text-xs bg-[#5C7DA3]/10 text-[#5C7DA3] px-2 py-0.5 rounded-full font-bold">${o.categoria || ''}</span>
+              ${descuento ? `<span class="text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded-full font-black">${descuento}% OFF</span>` : ''}
+            </div>
+            <p class="font-black text-gray-800 text-sm mt-1 truncate">${o.nombre || ''}</p>
+            <div class="flex items-center gap-3 mt-1">
+              ${pOferta && pOferta < pNormal
+                ? `<span class="text-gray-400 text-xs line-through">$${pNormal.toFixed(2)}</span>
+                   <span class="text-green-600 font-black text-sm">$${pOferta.toFixed(2)}</span>`
+                : `<span class="text-green-600 font-black text-sm">$${pNormal.toFixed(2)}</span>`}
+              ${fecha ? `<span class="text-gray-400 text-xs">📅 hasta ${fecha}</span>` : ''}
+            </div>
+            ${nota ? `<p class="text-gray-500 text-xs mt-1 italic truncate">${nota}</p>` : ''}
+          </div>
+          <div class="flex flex-col gap-2 flex-shrink-0">
+            <button onclick="editarOferta(${o.id})"
+              class="w-9 h-9 rounded-xl bg-[#5C7DA3] text-white flex items-center justify-center hover:bg-[#4a6685] transition text-sm">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button onclick="eliminarOferta(${o.id})"
+              class="w-9 h-9 rounded-xl bg-red-100 text-red-500 flex items-center justify-center hover:bg-red-200 transition text-sm">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    // ═══════════════════════════════════════
+    //  EDITAR — carga los datos en el form
+    // ═══════════════════════════════════════
+    function editarOferta(rowId) {
+      const o = ofertas.find(x => x.id === rowId);
+      if (!o) return;
+      editandoId = rowId;
+      document.getElementById('f-nombre').value        = o.nombre        || '';
+      document.getElementById('f-categoria').value     = o.categoria     || '';
+      document.getElementById('f-precio-normal').value = o.precio        || '';
+      document.getElementById('f-precio-oferta').value = o.precio_oferta || '';
+      document.getElementById('f-fecha').value         = o.fecha_oferta  || '';
+      document.getElementById('f-nota').value          = o.nota_oferta   || '';
+      document.getElementById('f-destacado').checked   = !!o.destacado;
+
+      const prevImg = document.getElementById('f-imagen-preview');
+      if (o.imagen_url) {
+        prevImg.src = o.imagen_url;
+        prevImg.classList.remove('hidden');
+        document.getElementById('upload-label-oferta').textContent = 'Imagen actual (sube otra para cambiarla)';
+      } else {
+        prevImg.classList.add('hidden');
+        prevImg.src = '';
+        document.getElementById('upload-label-oferta').textContent = 'Haz clic o arrastra una foto aquí';
+      }
+      document.getElementById('f-imagen').value = '';
+
+      calcularDescuento();
+      document.getElementById('form-titulo').textContent       = 'Editando Oferta';
+      document.getElementById('btn-guardar-texto').textContent = 'Actualizar Oferta';
+      document.getElementById('btn-cancelar-edit').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ═══════════════════════════════════════
+    //  ELIMINAR → desactiva oferta_semana en Baserow
+    // ═══════════════════════════════════════
+    async function eliminarOferta(rowId) {
+      if (!confirm('¿Quitar esta oferta? El producto seguirá en el catálogo pero ya no aparecerá en ofertas.')) return;
+      try {
+        const res = await fetch(`${BR_BASE}/${rowId}/?user_field_names=true`, {
+          method: 'PATCH', headers: BR_HEADERS,
+          body: JSON.stringify({ oferta_semana: false })
+        });
+        if (!res.ok) throw new Error(await res.text());
+        mostrarToast('🗑️ Oferta eliminada');
+        await cargarOfertas();
+      } catch(e) {
+        mostrarToast('⚠️ Error: ' + e.message, 'error');
+      }
+    }
+
+    // ═══════════════════════════════════════
+    //  LIMPIAR TODAS
+    // ═══════════════════════════════════════
+    async function limpiarTodas() {
+      if (!confirm('¿Quitar TODAS las ofertas activas?')) return;
+      try {
+        await Promise.all(ofertas.map(o =>
+          fetch(`${BR_BASE}/${o.id}/?user_field_names=true`, {
+            method: 'PATCH', headers: BR_HEADERS,
+            body: JSON.stringify({ oferta_semana: false })
+          })
+        ));
+        mostrarToast('🗑️ Lista limpiada');
+        await cargarOfertas();
+      } catch(e) {
+        mostrarToast('⚠️ Error: ' + e.message, 'error');
+      }
+    }
+
+    // ═══════════════════════════════════════
+    //  STATS
+    // ═══════════════════════════════════════
+    function actualizarStats() {
+      document.getElementById('stat-total').textContent = ofertas.length;
+      if (ofertas.length > 0) {
+        const avg = Math.round(ofertas.reduce((s, o) => {
+          const pn = parseFloat(o.precio) || 0;
+          const po = parseFloat(o.precio_oferta) || 0;
+          return s + ((pn > 0 && po > 0 && po < pn) ? Math.round(((pn - po) / pn) * 100) : 0);
+        }, 0) / ofertas.length);
+        document.getElementById('stat-descuento').textContent = avg + '%';
+      } else {
+        document.getElementById('stat-descuento').textContent = '0%';
+      }
+      const now    = new Date();
+      const semana = `S${Math.ceil(now.getDate() / 7)}-${now.getMonth() + 1}`;
+      document.getElementById('stat-semana').textContent = semana;
+    }
+
+    // ═══════════════════════════════════════
+    //  TOAST
+    // ═══════════════════════════════════════
+    function mostrarToast(msg, tipo = 'ok') {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = `fixed bottom-6 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full text-sm font-bold shadow-xl z-50 transition-all ${tipo === 'error' ? 'bg-red-500 text-white' : 'bg-gray-800 text-white'}`;
+      t.classList.remove('hidden');
+      setTimeout(() => t.classList.add('hidden'), 2800);
+    }
+  </script>
+</body>
+</html>
