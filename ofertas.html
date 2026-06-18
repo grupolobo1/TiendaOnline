@@ -298,61 +298,64 @@
       if (cantMin)   card.setAttribute('data-oferta-cantidad', cantMin);
 
       card.innerHTML = `
-        <div class="flex items-center gap-4 p-4 ${agotado ? 'opacity-50 pointer-events-none' : ''}">
+        <div class="${agotado ? 'opacity-50 pointer-events-none' : ''}">
 
-          <!-- Imagen -->
-          <div class="relative flex-shrink-0">
-            <img src="${imagen}" alt="${nombre}"
-              class="w-24 h-24 rounded-xl object-cover shadow-sm border border-gray-100"
-              onerror="this.src=''; this.className='w-24 h-24 rounded-xl bg-gray-100 flex items-center justify-center text-3xl'; this.textContent='🏷️';">
+          <!-- Fila superior: imagen + info -->
+          <div class="flex items-start gap-3 p-3 pb-2">
 
-            <!-- Badge % descuento -->
-            ${pctDesc ? `
-            <div class="badge-oferta absolute -top-2 -right-2 bg-red-500 text-white text-xs font-black px-2 py-0.5 rounded-full shadow-lg">
-              -${pctDesc}%
-            </div>` : ''}
-          </div>
-
-          <!-- Info -->
-          <div class="flex-grow min-w-0">
-            <div class="flex flex-wrap gap-1 mb-1">
-              <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">⭐ Oferta</span>
-              ${categoria ? `<span class="text-xs font-bold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500">${categoria}</span>` : ''}
-              ${agotado   ? `<span class="text-xs font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-600">❌ Agotado</span>` : ''}
-              ${pocoStock ? `<span class="text-xs font-bold px-2 py-0.5 rounded-full bg-orange-100 text-orange-600">⚠️ Solo ${stock}</span>` : ''}
+            <!-- Imagen -->
+            <div class="relative flex-shrink-0">
+              <img src="${imagen}" alt="${nombre}"
+                class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover shadow-sm border border-gray-100"
+                onerror="this.src=''; this.className='w-20 h-20 sm:w-24 sm:h-24 rounded-xl bg-gray-100 flex items-center justify-center text-3xl'; this.textContent='🏷️';">
+              ${pctDesc ? `
+              <div class="badge-oferta absolute -top-2 -right-2 bg-red-500 text-white text-xs font-black px-2 py-0.5 rounded-full shadow-lg">
+                -${pctDesc}%
+              </div>` : ''}
             </div>
 
-            <p class="font-black text-gray-800 text-sm leading-tight truncate">${nombre}</p>
+            <!-- Info -->
+            <div class="flex-grow min-w-0">
+              <div class="flex flex-wrap gap-1 mb-1">
+                <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">⭐ Oferta</span>
+                ${categoria ? `<span class="text-xs font-bold px-2 py-0.5 rounded-full bg-gray-100 text-gray-500">${categoria}</span>` : ''}
+                ${agotado   ? `<span class="text-xs font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-600">❌ Agotado</span>` : ''}
+                ${pocoStock ? `<span class="text-xs font-bold px-2 py-0.5 rounded-full bg-orange-100 text-orange-600">⚠️ Solo ${stock}</span>` : ''}
+              </div>
 
-            <!-- Precios -->
-            <div class="flex items-baseline gap-2 mt-1">
-              ${pOferta && pOferta < precio ? `
-                <span class="text-gray-400 text-xs line-through">$${precio.toFixed(2)}</span>
-                <span class="text-green-600 font-black text-lg">$${pOferta.toFixed(2)}</span>
-                ${cantMin ? `<span class="text-xs text-blue-500 font-semibold">desde ${cantMin} pzs</span>` : ''}
-              ` : `
-                <span class="text-green-600 font-black text-lg">$${precio.toFixed(2)}</span>
-              `}
+              <p class="font-black text-gray-800 text-sm leading-tight">${nombre}</p>
+
+              <!-- Precios -->
+              <div class="flex items-baseline gap-2 mt-1 flex-wrap">
+                ${pOferta && pOferta < precio ? `
+                  <span class="text-gray-400 text-xs line-through">$${precio.toFixed(2)}</span>
+                  <span class="text-green-600 font-black text-xl">$${pOferta.toFixed(2)}</span>
+                  ${cantMin ? `<span class="text-xs text-blue-500 font-semibold">desde ${cantMin} pzs</span>` : ''}
+                ` : `
+                  <span class="text-green-600 font-black text-xl">$${precio.toFixed(2)}</span>
+                `}
+              </div>
+
+              ${nota ? `<p class="text-gray-600 text-xs mt-1">${nota}</p>` : ''}
             </div>
-
-            ${nota ? `<p class="text-gray-700 text-xs mt-0.5 truncate">${nota}</p>` : ''}
           </div>
 
-          <!-- Controles cantidad + agregar -->
-          <div class="flex flex-col items-center gap-2 flex-shrink-0">
+          <!-- Fila inferior: cantidad + botón agregar (ancho completo) -->
+          <div class="flex items-center gap-2 px-3 pb-3">
             <div class="flex items-center border-2 border-gray-200 rounded-xl overflow-hidden">
               <button onclick="cambiarCantidad(this, -1)"
-                class="w-8 h-8 bg-gray-100 font-black text-gray-600 hover:bg-gray-200 transition text-lg leading-none">−</button>
+                class="w-10 h-10 bg-gray-100 font-black text-gray-600 hover:bg-gray-200 active:bg-gray-300 transition text-xl leading-none">−</button>
               <input type="number" value="1" min="1" ${stock > 0 ? `max="${stock}"` : ''}
-                class="quantity-to-add w-10 text-center font-bold text-sm border-0 focus:outline-none py-1">
+                class="quantity-to-add w-12 text-center font-bold text-base border-0 focus:outline-none py-2">
               <button onclick="cambiarCantidad(this, 1)"
-                class="w-8 h-8 bg-gray-100 font-black text-gray-600 hover:bg-gray-200 transition text-lg leading-none">+</button>
+                class="w-10 h-10 bg-gray-100 font-black text-gray-600 hover:bg-gray-200 active:bg-gray-300 transition text-xl leading-none">+</button>
             </div>
             <button onclick="agregarAlCarrito(this); animarBoton(this)"
-              class="bg-green-500 hover:bg-green-600 text-white font-black text-xs px-4 py-2 rounded-xl shadow transition active:scale-95 whitespace-nowrap">
-              🛒 Agregar
+              class="flex-1 bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-black text-sm py-2.5 rounded-xl shadow transition active:scale-95">
+              🛒 Agregar al carrito
             </button>
           </div>
+
         </div>
       `;
 
