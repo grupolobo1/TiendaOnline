@@ -6,36 +6,54 @@ const BASEROW_TOKEN    = 'sTPlXBmAyDa2aZS1x78J8oYnb9oGOMe8';
 const BASEROW_TABLE    = '1029851';
 const BASEROW_URL_BASE = `https://api.baserow.io/api/database/rows/table/${BASEROW_TABLE}/?user_field_names=true&size=100`;
 
+// 🔥 CACHE DESACTIVADO — Siempre consulta Baserow para precios frescos
+// Esto asegura que los clientes vean los cambios inmediatamente después de actualizar desde admin
 const CACHE_KEY    = 'baserow_precios';
 const CACHE_TS_KEY = 'baserow_precios_ts';
-const CACHE_TTL    = 0; // Siempre consulta a Baserow
+const CACHE_TTL    = 0; // 0 = siempre consulta a Baserow
+
+// 🔥 Flag para evitar múltiples consultas simultáneas
+let preciosCargando = false;
+let preciosCache = null;
 
 async function getPreciosDesdeBaserow() {
-  const ahora      = Date.now();
-  const tsGuardado = parseInt(localStorage.getItem(CACHE_TS_KEY) || '0', 10);
-  const cacheVivo  = (ahora - tsGuardado) < CACHE_TTL;
-
-  if (cacheVivo) {
-    try {
-      const raw = localStorage.getItem(CACHE_KEY);
-      if (raw) return JSON.parse(raw);
-    } catch {}
+  // Si ya hay una carga en progreso, esperar
+  if (preciosCargando) {
+    // Esperar hasta que termine la carga actual
+    let intentos = 0;
+    while (preciosCargando && intentos < 30) {
+      await new Promise(r => setTimeout(r, 100));
+      intentos++;
+    }
+    if (preciosCache) return preciosCache;
   }
+
+  preciosCargando = true;
 
   try {
     const lista = [];
     let url = BASEROW_URL_BASE;
     while (url) {
-      const res  = await fetch(url, { headers: { 'Authorization': `Token ${BASEROW_TOKEN}` } });
+      const res  = await fetch(url, { 
+        headers: { 'Authorization': `Token ${BASEROW_TOKEN}` },
+        // 🔥 Desactivar caché HTTP
+        cache: 'no-store'
+      });
       const data = await res.json();
       if (Array.isArray(data.results)) lista.push(...data.results);
       url = data.next ? data.next.replace('http://', 'https://') : null;
     }
-    localStorage.setItem(CACHE_KEY,    JSON.stringify(lista));
-    localStorage.setItem(CACHE_TS_KEY, String(ahora));
+    
+    // Guardar en caché local pero con timestamp para saber que es fresco
+    localStorage.setItem(CACHE_KEY, JSON.stringify(lista));
+    localStorage.setItem(CACHE_TS_KEY, String(Date.now()));
+    
+    preciosCache = lista;
+    preciosCargando = false;
     return lista;
   } catch (e) {
     console.warn('No se pudo conectar con Baserow, usando caché anterior o vacío.', e);
+    preciosCargando = false;
     try {
       const raw = localStorage.getItem(CACHE_KEY);
       if (raw) return JSON.parse(raw);
@@ -44,9 +62,19 @@ async function getPreciosDesdeBaserow() {
   }
 }
 
+// 🔥 Función para forzar recarga de precios (se llama al cargar la página)
+async function recargarPreciosFresh() {
+  // Limpiar caché local para forzar consulta fresca
+  localStorage.removeItem(CACHE_KEY);
+  localStorage.removeItem(CACHE_TS_KEY);
+  preciosCache = null;
+  return await getPreciosDesdeBaserow();
+}
+
 function limpiarCachePrecios() {
   localStorage.removeItem(CACHE_KEY);
   localStorage.removeItem(CACHE_TS_KEY);
+  preciosCache = null;
 }
 
 function encontrarFila(precios, id) {
@@ -67,6 +95,10 @@ function buildOfertasMap(precios) {
   });
   return map;
 }
+
+// ============================================================
+//  FUNCIONES DEL CARRITO (sin cambios)
+// ============================================================
 
 function getCartFromStorage() {
   try {
@@ -93,6 +125,7 @@ async function agregarAlCarrito(boton) {
 
   if (isNaN(cantidad) || cantidad < 1) { alert('Cantidad inválida.'); return; }
 
+  // 🔥 Siempre obtener precios frescos
   const precios = await getPreciosDesdeBaserow();
   const fila    = encontrarFila(precios, id);
 
@@ -245,6 +278,7 @@ async function dibujarCarritoCompleto() {
   carritoItemsDiv.innerHTML = '<p class="text-gray-400 text-sm text-center py-4">⏳ Cargando precios actualizados...</p>';
 
   const carrito = getCartFromStorage();
+  // 🔥 Siempre obtener precios frescos
   const precios = await getPreciosDesdeBaserow();
   const OFERTAS = buildOfertasMap(precios);
 
@@ -440,7 +474,8 @@ async function confirmarEnvio() {
 // -----------------------------------------------------------------------
 async function actualizarPreciosEnPagina() {
   try {
-    const precios = await getPreciosDesdeBaserow();
+    // 🔥 Siempre obtener precios frescos de Baserow
+    const precios = await recargarPreciosFresh();
     if (!precios || precios.length === 0) return;
 
     // 🔥 OBTENER TODOS LOS IDs VÁLIDOS DESDE BASEROW
@@ -745,7 +780,16 @@ async function insertarProductosDinamicos() {
 // INICIALIZACIÓN
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', async function () {
+  // 🔥 Limpiar caché al cargar la página para asegurar precios frescos
+  limpiarCachePrecios();
+  
   actualizarContadorUI();
   await insertarProductosDinamicos();
   await actualizarPreciosEnPagina();
 });
+
+// 🔥 Función para forzar recarga desde el admin (se puede llamar desde consola)
+window.recargarPreciosCliente = function() {
+  limpiarCachePrecios();
+  location.reload();
+};
