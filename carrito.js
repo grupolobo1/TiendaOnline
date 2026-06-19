@@ -6,54 +6,36 @@ const BASEROW_TOKEN    = 'sTPlXBmAyDa2aZS1x78J8oYnb9oGOMe8';
 const BASEROW_TABLE    = '1029851';
 const BASEROW_URL_BASE = `https://api.baserow.io/api/database/rows/table/${BASEROW_TABLE}/?user_field_names=true&size=100`;
 
-// 🔥 CACHE DESACTIVADO — Siempre consulta Baserow para precios frescos
-// Esto asegura que los clientes vean los cambios inmediatamente después de actualizar desde admin
 const CACHE_KEY    = 'baserow_precios';
 const CACHE_TS_KEY = 'baserow_precios_ts';
-const CACHE_TTL    = 0; // 0 = siempre consulta a Baserow
-
-// 🔥 Flag para evitar múltiples consultas simultáneas
-let preciosCargando = false;
-let preciosCache = null;
+const CACHE_TTL    = 0;
 
 async function getPreciosDesdeBaserow() {
-  // Si ya hay una carga en progreso, esperar
-  if (preciosCargando) {
-    // Esperar hasta que termine la carga actual
-    let intentos = 0;
-    while (preciosCargando && intentos < 30) {
-      await new Promise(r => setTimeout(r, 100));
-      intentos++;
-    }
-    if (preciosCache) return preciosCache;
-  }
+  const ahora      = Date.now();
+  const tsGuardado = parseInt(localStorage.getItem(CACHE_TS_KEY) || '0', 10);
+  const cacheVivo  = (ahora - tsGuardado) < CACHE_TTL;
 
-  preciosCargando = true;
+  if (cacheVivo) {
+    try {
+      const raw = localStorage.getItem(CACHE_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch {}
+  }
 
   try {
     const lista = [];
     let url = BASEROW_URL_BASE;
     while (url) {
-      const res  = await fetch(url, { 
-        headers: { 'Authorization': `Token ${BASEROW_TOKEN}` },
-        // 🔥 Desactivar caché HTTP
-        cache: 'no-store'
-      });
+      const res  = await fetch(url, { headers: { 'Authorization': `Token ${BASEROW_TOKEN}` } });
       const data = await res.json();
       if (Array.isArray(data.results)) lista.push(...data.results);
       url = data.next ? data.next.replace('http://', 'https://') : null;
     }
-    
-    // Guardar en caché local pero con timestamp para saber que es fresco
-    localStorage.setItem(CACHE_KEY, JSON.stringify(lista));
-    localStorage.setItem(CACHE_TS_KEY, String(Date.now()));
-    
-    preciosCache = lista;
-    preciosCargando = false;
+    localStorage.setItem(CACHE_KEY,    JSON.stringify(lista));
+    localStorage.setItem(CACHE_TS_KEY, String(ahora));
     return lista;
   } catch (e) {
     console.warn('No se pudo conectar con Baserow, usando caché anterior o vacío.', e);
-    preciosCargando = false;
     try {
       const raw = localStorage.getItem(CACHE_KEY);
       if (raw) return JSON.parse(raw);
@@ -62,19 +44,9 @@ async function getPreciosDesdeBaserow() {
   }
 }
 
-// 🔥 Función para forzar recarga de precios (se llama al cargar la página)
-async function recargarPreciosFresh() {
-  // Limpiar caché local para forzar consulta fresca
-  localStorage.removeItem(CACHE_KEY);
-  localStorage.removeItem(CACHE_TS_KEY);
-  preciosCache = null;
-  return await getPreciosDesdeBaserow();
-}
-
 function limpiarCachePrecios() {
   localStorage.removeItem(CACHE_KEY);
   localStorage.removeItem(CACHE_TS_KEY);
-  preciosCache = null;
 }
 
 function encontrarFila(precios, id) {
@@ -95,10 +67,6 @@ function buildOfertasMap(precios) {
   });
   return map;
 }
-
-// ============================================================
-//  FUNCIONES DEL CARRITO (sin cambios)
-// ============================================================
 
 function getCartFromStorage() {
   try {
@@ -125,7 +93,6 @@ async function agregarAlCarrito(boton) {
 
   if (isNaN(cantidad) || cantidad < 1) { alert('Cantidad inválida.'); return; }
 
-  // 🔥 Siempre obtener precios frescos
   const precios = await getPreciosDesdeBaserow();
   const fila    = encontrarFila(precios, id);
 
@@ -278,7 +245,6 @@ async function dibujarCarritoCompleto() {
   carritoItemsDiv.innerHTML = '<p class="text-gray-400 text-sm text-center py-4">⏳ Cargando precios actualizados...</p>';
 
   const carrito = getCartFromStorage();
-  // 🔥 Siempre obtener precios frescos
   const precios = await getPreciosDesdeBaserow();
   const OFERTAS = buildOfertasMap(precios);
 
@@ -474,8 +440,7 @@ async function confirmarEnvio() {
 // -----------------------------------------------------------------------
 async function actualizarPreciosEnPagina() {
   try {
-    // 🔥 Siempre obtener precios frescos de Baserow
-    const precios = await recargarPreciosFresh();
+    const precios = await getPreciosDesdeBaserow();
     if (!precios || precios.length === 0) return;
 
     // 🔥 OBTENER TODOS LOS IDs VÁLIDOS DESDE BASEROW
@@ -487,9 +452,7 @@ async function actualizarPreciosEnPagina() {
     // 🔥 ELIMINAR DEL HTML LOS PRODUCTOS QUE YA NO ESTÁN EN BASEROW
     document.querySelectorAll('[data-id]').forEach(function(el) {
       const id = el.dataset.id;
-      // Si el ID no está en Baserow, eliminar del HTML
       if (!idsValidos.has(id)) {
-        // Verificar que no sea el contenedor de la sección
         if (!el.closest('.space-y-4')) return;
         el.remove();
         console.log('Producto eliminado del HTML:', id);
@@ -518,11 +481,34 @@ async function actualizarPreciosEnPagina() {
         pNormal.textContent = '$' + precioNuevo.toFixed(2) + (sufijo ? ' ' + sufijo : '');
       }
 
+      // 🔥 ===== MOSTRAR OFERTA GRUPAL (SIEMPRE) =====
       if (ofertaNuevo && cantMinNueva) {
-        var pOferta = el.querySelector('p.text-xs.text-blue-600');
-        if (pOferta) {
-          pOferta.textContent = 'A partir de ' + cantMinNueva + ' a $' + ofertaNuevo.toFixed(2) + ' c/u';
+        var textoOferta = 'A partir de ' + cantMinNueva + ' a $' + ofertaNuevo.toFixed(2) + ' c/u';
+        var pOferta = el.querySelector('p.text-xs.text-blue-600, .oferta-grupal-texto');
+        
+        var infoDiv = el.querySelector('.flex-grow');
+        if (infoDiv) {
+          if (pOferta) {
+            pOferta.textContent = textoOferta;
+            pOferta.className = 'text-xs text-blue-600 font-medium italic oferta-grupal-texto';
+          } else {
+            // Crear el elemento si no existe
+            var nuevaOferta = document.createElement('p');
+            nuevaOferta.className = 'text-xs text-blue-600 font-medium italic oferta-grupal-texto';
+            nuevaOferta.textContent = textoOferta;
+            // Insertar después del precio
+            var precioElement = infoDiv.querySelector('p.text-sm.text-gray-600');
+            if (precioElement && precioElement.nextSibling) {
+              infoDiv.insertBefore(nuevaOferta, precioElement.nextSibling);
+            } else {
+              infoDiv.appendChild(nuevaOferta);
+            }
+          }
         }
+      } else {
+        // Si no hay oferta, eliminar el elemento de oferta si existe
+        var ofertaExistente = el.querySelector('.oferta-grupal-texto');
+        if (ofertaExistente) ofertaExistente.remove();
       }
 
       var stock      = parseInt(fila.stock) || 0;
@@ -699,7 +685,7 @@ function crearCardDinamica(prod) {
 
   if (oferta && cantMin) {
     var pOferta = document.createElement('p');
-    pOferta.className = 'text-xs text-blue-600';
+    pOferta.className = 'text-xs text-blue-600 font-medium italic oferta-grupal-texto';
     pOferta.textContent = 'A partir de ' + cantMin + ' a $' + oferta.toFixed(2) + ' c/u';
     info.appendChild(pOferta);
   }
@@ -780,16 +766,7 @@ async function insertarProductosDinamicos() {
 // INICIALIZACIÓN
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', async function () {
-  // 🔥 Limpiar caché al cargar la página para asegurar precios frescos
-  limpiarCachePrecios();
-  
   actualizarContadorUI();
   await insertarProductosDinamicos();
   await actualizarPreciosEnPagina();
 });
-
-// 🔥 Función para forzar recarga desde el admin (se puede llamar desde consola)
-window.recargarPreciosCliente = function() {
-  limpiarCachePrecios();
-  location.reload();
-};
