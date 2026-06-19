@@ -6,12 +6,104 @@
   <title>Ofertas - Catálogo</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Evita cualquier deslizamiento horizontal */
     html, body {
       max-width: 100%;
       overflow-x: hidden;
     }
+    @media (max-width: 640px) {
+      .flex.items-center.gap-4.py-3.border-b,
+      .py-4.border-b.px-2 {
+        flex-wrap: wrap !important;
+        padding: 12px 10px !important;
+        gap: 8px !important;
+      }
+      .flex.items-center.gap-4.py-3.border-b img,
+      .py-4.border-b.px-2 img {
+        width: 60px !important;
+        height: 60px !important;
+        flex-shrink: 0 !important;
+      }
+      .flex.items-center.gap-4.py-3.border-b .flex-grow,
+      .py-4.border-b.px-2 .flex-grow {
+        flex: 1 1 55% !important;
+        min-width: 120px !important;
+      }
+      .flex.items-center.gap-4.py-3.border-b .font-semibold,
+      .py-4.border-b.px-2 .font-bold {
+        font-size: 13px !important;
+        line-height: 1.2 !important;
+      }
+      .flex.items-center.gap-4.py-3.border-b .text-sm,
+      .py-4.border-b.px-2 .text-sm {
+        font-size: 12px !important;
+      }
+      .text-xs.text-blue-600 {
+        font-size: 10px !important;
+      }
+      .flex.items-center.gap-2 {
+        flex-wrap: wrap !important;
+        gap: 4px !important;
+        margin-top: 4px !important;
+      }
+      .flex.items-center.gap-2 input.quantity-to-add {
+        width: 44px !important;
+        font-size: 12px !important;
+        padding: 4px 2px !important;
+      }
+      .flex.items-center.gap-2 button {
+        font-size: 10px !important;
+        padding: 4px 8px !important;
+        white-space: nowrap !important;
+      }
+      .bg-blue-50\/50.p-2.rounded-lg,
+      .bg-orange-50\/50.p-2.rounded-lg {
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+        padding: 8px 10px !important;
+      }
+      .bg-blue-50\/50.p-2.rounded-lg p,
+      .bg-orange-50\/50.p-2.rounded-lg p {
+        font-size: 10px !important;
+        flex: 1 1 60% !important;
+      }
+      .bg-blue-50\/50.p-2.rounded-lg button,
+      .bg-orange-50\/50.p-2.rounded-lg button {
+        font-size: 9px !important;
+        padding: 4px 8px !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+      }
+      h2.text-2xl.font-bold { font-size: 20px !important; }
+      #buscadorProductos { font-size: 14px !important; padding: 8px 12px !important; }
+      a.mt-8.block.w-full { font-size: 13px !important; padding: 10px !important; }
+      header .text-\[1\.3rem\] { font-size: 1.1rem !important; }
+      header img { height: 60px !important; }
+      #boton-carrito { width: 50px !important; height: 50px !important; bottom: 12px !important; right: 12px !important; }
+      #boton-carrito span.text-3xl { font-size: 20px !important; }
+      #contador-carrito { width: 20px !important; height: 20px !important; font-size: 9px !important; }
+    }
+    @media (max-width: 400px) {
+      .flex.items-center.gap-4.py-3.border-b img,
+      .py-4.border-b.px-2 img {
+        width: 50px !important;
+        height: 50px !important;
+      }
+      .flex.items-center.gap-4.py-3.border-b .flex-grow,
+      .py-4.border-b.px-2 .flex-grow {
+        flex: 1 1 100% !important;
+        min-width: unset !important;
+      }
+      .flex.items-center.gap-2 { justify-content: flex-start !important; }
+      .bg-blue-50\/50.p-2.rounded-lg p,
+      .bg-orange-50\/50.p-2.rounded-lg p { flex: 1 1 100% !important; }
+      .bg-blue-50\/50.p-2.rounded-lg button,
+      .bg-orange-50\/50.p-2.rounded-lg button {
+        font-size: 8px !important;
+        padding: 3px 6px !important;
+      }
+    }
   </style>
+
 </head>
 <body class="bg-gray-100 pb-24">
 
