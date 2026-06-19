@@ -8,7 +8,7 @@ const BASEROW_URL_BASE = `https://api.baserow.io/api/database/rows/table/${BASER
 
 const CACHE_KEY    = 'baserow_precios';
 const CACHE_TS_KEY = 'baserow_precios_ts';
-const CACHE_TTL    = 0;
+const CACHE_TTL    = 0; // Siempre consulta a Baserow
 
 async function getPreciosDesdeBaserow() {
   const ahora      = Date.now();
@@ -452,7 +452,9 @@ async function actualizarPreciosEnPagina() {
     // 🔥 ELIMINAR DEL HTML LOS PRODUCTOS QUE YA NO ESTÁN EN BASEROW
     document.querySelectorAll('[data-id]').forEach(function(el) {
       const id = el.dataset.id;
+      // Si el ID no está en Baserow, eliminar del HTML
       if (!idsValidos.has(id)) {
+        // Verificar que no sea el contenedor de la sección
         if (!el.closest('.space-y-4')) return;
         el.remove();
         console.log('Producto eliminado del HTML:', id);
@@ -470,10 +472,29 @@ async function actualizarPreciosEnPagina() {
       var precioNuevo  = parseFloat(fila.precio);
       var ofertaNuevo  = parseFloat(fila.precio_oferta) || null;
       var cantMinNueva = parseInt(fila.cantidad_minima)  || null;
+      var nombreNuevo  = (fila.nombre || '').trim();
 
       if (!isNaN(precioNuevo))  el.dataset.precio         = precioNuevo;
+      if (nombreNuevo)          el.dataset.nombre         = nombreNuevo;
       if (ofertaNuevo)          el.dataset.ofertaPrecio   = ofertaNuevo;
       if (cantMinNueva)         el.dataset.ofertaCantidad = cantMinNueva;
+      if (!ofertaNuevo || !cantMinNueva) {
+        delete el.dataset.ofertaPrecio;
+        delete el.dataset.ofertaCantidad;
+      }
+
+      // 🔥 Nombre visible (el primer <p> en negritas dentro de la tarjeta)
+      var pNombre = el.querySelector('p.font-bold, p.font-semibold');
+      if (pNombre && nombreNuevo) pNombre.textContent = nombreNuevo;
+
+      // 🔥 Imagen (si se subió una nueva desde el admin)
+      if (fila.imagen_url) {
+        var imgTag = el.querySelector('img');
+        if (imgTag) {
+          imgTag.src = fila.imagen_url;
+          if (nombreNuevo) imgTag.alt = nombreNuevo;
+        }
+      }
 
       var pNormal = el.querySelector('p.text-sm.text-gray-600');
       if (pNormal && !isNaN(precioNuevo)) {
@@ -481,34 +502,25 @@ async function actualizarPreciosEnPagina() {
         pNormal.textContent = '$' + precioNuevo.toFixed(2) + (sufijo ? ' ' + sufijo : '');
       }
 
-      // 🔥 ===== MOSTRAR OFERTA GRUPAL (SIEMPRE) =====
       if (ofertaNuevo && cantMinNueva) {
-        var textoOferta = 'A partir de ' + cantMinNueva + ' a $' + ofertaNuevo.toFixed(2) + ' c/u';
-        var pOferta = el.querySelector('p.text-xs.text-blue-600, .oferta-grupal-texto');
-        
-        var infoDiv = el.querySelector('.flex-grow');
-        if (infoDiv) {
-          if (pOferta) {
-            pOferta.textContent = textoOferta;
-            pOferta.className = 'text-xs text-blue-600 font-medium italic oferta-grupal-texto';
+        var pOferta = el.querySelector('p.text-xs.text-blue-600');
+        if (pOferta) {
+          // Conserva el estilo de texto que ya tenía la tarjeta (uno de los dos formatos usados en el sitio)
+          if (/piezas:/.test(pOferta.textContent)) {
+            pOferta.textContent = cantMinNueva + '+ piezas: $' + ofertaNuevo.toFixed(2) + ' c/u';
           } else {
-            // Crear el elemento si no existe
-            var nuevaOferta = document.createElement('p');
-            nuevaOferta.className = 'text-xs text-blue-600 font-medium italic oferta-grupal-texto';
-            nuevaOferta.textContent = textoOferta;
-            // Insertar después del precio
-            var precioElement = infoDiv.querySelector('p.text-sm.text-gray-600');
-            if (precioElement && precioElement.nextSibling) {
-              infoDiv.insertBefore(nuevaOferta, precioElement.nextSibling);
-            } else {
-              infoDiv.appendChild(nuevaOferta);
-            }
+            pOferta.textContent = 'A partir de ' + cantMinNueva + ' a $' + ofertaNuevo.toFixed(2) + ' c/u';
           }
+        } else if (pNormal) {
+          // No existía párrafo de oferta -> se crea uno nuevo
+          var nuevoOferta = document.createElement('p');
+          nuevoOferta.className = 'text-xs text-blue-600 font-medium italic';
+          nuevoOferta.textContent = cantMinNueva + '+ piezas: $' + ofertaNuevo.toFixed(2) + ' c/u';
+          pNormal.insertAdjacentElement('afterend', nuevoOferta);
         }
       } else {
-        // Si no hay oferta, eliminar el elemento de oferta si existe
-        var ofertaExistente = el.querySelector('.oferta-grupal-texto');
-        if (ofertaExistente) ofertaExistente.remove();
+        var pOfertaQuitar = el.querySelector('p.text-xs.text-blue-600');
+        if (pOfertaQuitar) pOfertaQuitar.style.display = 'none';
       }
 
       var stock      = parseInt(fila.stock) || 0;
@@ -685,7 +697,7 @@ function crearCardDinamica(prod) {
 
   if (oferta && cantMin) {
     var pOferta = document.createElement('p');
-    pOferta.className = 'text-xs text-blue-600 font-medium italic oferta-grupal-texto';
+    pOferta.className = 'text-xs text-blue-600';
     pOferta.textContent = 'A partir de ' + cantMin + ' a $' + oferta.toFixed(2) + ' c/u';
     info.appendChild(pOferta);
   }
